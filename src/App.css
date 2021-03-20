@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+
+:root {
+    --padding-container: 20px 0;
+    --max-width-container: 1500px;
+}
+
+body, html {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='2048' height='1080' preserveAspectRatio='none' viewBox='0 0 2048 1080'%3e%3cg mask='url(%26quot%3b%23SvgjsMask3995%26quot%3b)' fill='none'%3e%3crect width='2048' height='1080' x='0' y='0' fill='url(%23SvgjsLinearGradient3996)'%3e%3c/rect%3e%3cpath d='M2048 0L1804.85 0L2048 2.28z' fill='rgba(255%2c 255%2c 255%2c .1)'%3e%3c/path%3e%3cpath d='M1804.85 0L2048 2.28L2048 267.21999999999997L1187.3 0z' fill='rgba(255%2c 255%2c 255%2c .075)'%3e%3c/path%3e%3cpath d='M1187.3000000000002 0L2048 267.21999999999997L2048 336.96999999999997L849.6200000000001 0z' fill='rgba(255%2c 255%2c 255%2c .05)'%3e%3c/path%3e%3cpath d='M849.6200000000001 0L2048 336.96999999999997L2048 524.5999999999999L840.8100000000002 0z' fill='rgba(255%2c 255%2c 255%2c .025)'%3e%3c/path%3e%3cpath d='M0 1080L505.15 1080L0 1025.4z' fill='rgba(0%2c 0%2c 0%2c .1)'%3e%3c/path%3e%3cpath d='M0 1025.4L505.15 1080L1026.73 1080L0 751.74z' fill='rgba(0%2c 0%2c 0%2c .075)'%3e%3c/path%3e%3cpath d='M0 751.74L1026.73 1080L1086.06 1080L0 378.97z' fill='rgba(0%2c 0%2c 0%2c .05)'%3e%3c/path%3e%3cpath d='M0 378.97L1086.06 1080L1411.1399999999999 1080L0 231.44000000000003z' fill='rgba(0%2c 0%2c 0%2c .025)'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask3995'%3e%3crect width='2048' height='1080' fill='white'%3e%3c/rect%3e%3c/mask%3e%3clinearGradient x1='0%25' y1='50%25' x2='100%25' y2='50%25' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient3996'%3e%3cstop stop-color='rgba(255%2c 237%2c 133%2c 1)' offset='0'%3e%3c/stop%3e%3cstop stop-color='rgba(250%2c 204%2c 124%2c 1)' offset='1'%3e%3c/stop%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e");
+    margin: 0;
+    
+}
+
+.App {
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Este es el que nos alinea el contenido en la misma linea */
+.container {
+    margin: auto;
+    overflow: hidden;
+    max-width: var(--max-width-container); 
+    padding: var(--padding-container); 
+    overflow: auto;
+}
+
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+
+  /* Our sidebar item styling */
+  text-decoration: none;
+  margin-bottom: 10px;
+  color: #d1d1d1;
+  transition: color 0.2s;
+}
+
+/* Change color on hover */
+.bm-item:hover {
+  color: white;
+}
+
+/* The rest copied directly from react-burger-menu docs */
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: rgb(59, 80, 74);
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background:rgb(59, 80, 74);
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill:rgb(59, 80, 74);
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgb(59, 80, 74);
+}
