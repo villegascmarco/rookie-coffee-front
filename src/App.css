@@ -90,3 +90,8 @@ body, html {
 .bm-overlay {
   background: rgb(59, 80, 74);
 }
+
+.scroll {
+  overflow-x: hidden; 
+  overflow-y: hidden; 
+}

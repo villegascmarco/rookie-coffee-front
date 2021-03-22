@@ -14,11 +14,11 @@ export default (props) => {
         Venta
       </a>
 
-      <a className="menu-item" href="/Producto">
+      <a className="menu-item" href="/Productos">
         Producto
       </a>
 
-      <a className="menu-item" href="/Ingrediente">
+      <a className="menu-item" href="/Ingredientes">
         Ingrediente
       </a>
 

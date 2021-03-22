@@ -2,6 +2,11 @@ import React from 'react'
 import Index from './componentes/Index/Index.jsx'
 import SideBar from './componentes/Hamburguesa/sidebar.jsx'
 import Login from './componentes/Login/Login.jsx'
+import Productos from './componentes/Productos/Productos.jsx'
+import ContenedorIngrediente from './componentes/Ingredientes/ContenedorIngrediente.jsx'
+
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/js/dist/modal'
 import './App.css'
 import {
   BrowserRouter as Router,
@@ -24,10 +29,10 @@ function App() {
             <Login />
           </Route>
           <Route path="/Productos">
-            
+            <Productos />
           </Route>
           <Route path="/Ingredientes">
-            
+            <ContenedorIngrediente />
           </Route>
           <Route path="/Empleados">
             
