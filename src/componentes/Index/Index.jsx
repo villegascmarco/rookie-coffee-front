@@ -20,7 +20,7 @@ const Index = () => {
       <p className="about">
         Bienvenido al sistema de Rookie coffe, en este podras llevar a cabo
         diferentes procesos, como la venta de productos, registro en inventario
-        actualización de precios, entre muchas otras mas. ¡Disfruta del sistema!
+        actualización de precios, entre muchas cosas mas. <br/> <br/><strong> ¡Disfruta del sistema!</strong>
       </p>
 
       <div className="cta_container">

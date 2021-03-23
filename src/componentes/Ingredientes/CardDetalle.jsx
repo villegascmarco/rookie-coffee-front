@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 
-const CardDetalle = (props) => {
+const CardDetalle = ({ingrediente, setDisplay}) => {
   const [modoEdicion, setModoedicion] = useState(false);
   const [id, setId] = useState(0);
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState(0);
 
   useEffect(() => {
-    if (props.ingrediente.id != null || props.ingrediente.id != undefined) {
-      setId(props.ingrediente.id);
-      setNombre(props.ingrediente.nombre);
-      setCantidad(props.ingrediente.cantidad);
+    if (ingrediente.id != null || ingrediente.id != undefined) {
+      setId(ingrediente.id);
+      setNombre(ingrediente.nombre);
+      setCantidad(ingrediente.cantidad);
     } else {
       console.log("No hay datos en el ingrediente");
     }
-  }, [props]);
+  }, [ingrediente]);
 
   const eliminarIngrediente = (id) => {
     // Llamar a la api de eliminar
-    window.location.reload();
+    setDisplay(false)
   };
 
   const modificarIngrediente = () => {
@@ -28,7 +28,7 @@ const CardDetalle = (props) => {
       cantidad: cantidad,
     };
 
-    window.location.reload();
+    setDisplay(false)
   };
 
   return (

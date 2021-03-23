@@ -22,6 +22,11 @@ const ContenedorCards = () => {
     obtenerIngredientes();
   }, []);
 
+  useEffect(() => {
+    obtenerIngredientes();
+    console.log("Se actuliazo la tabla")
+  }, [display]);
+
   return (
 
     <div className="container mt-5 scroll">
@@ -69,7 +74,10 @@ const ContenedorCards = () => {
           </div>
         </div>
         <div className="col-4 " style={{ display: display ? "block" : "none" }}>
-          <CardDetalle ingrediente={ingrediente} />
+          <CardDetalle 
+          ingrediente={ingrediente} 
+          display={display}
+          setDisplay={setDisplay}/>
         </div>
       </div>
     </div>
