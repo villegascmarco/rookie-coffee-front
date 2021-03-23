@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ingredientesData from "../../sample/ingredientes.json";
 import TituloPagina from '../TituloPagina/TituloPagina.jsx'
+import AgregarIngrediente from '../Ingredientes/AgregarIngrediente.jsx'
 import '../estilos/ContenedorIngrediente.css'
 
 import CardDetalle from "./CardDetalle.jsx";
@@ -26,6 +27,15 @@ const ContenedorCards = () => {
 
     <div className="container mt-5 scroll">
       <TituloPagina titulo="Ingredientes" />
+      
+        <div className="row">
+          <div className="col-10"></div>
+          <div className="col-2">
+             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#agregar" value="true">Agregar</button>
+          </div>
+        </div>
+        <br />
+          
       <div className="row">
         <div className={display ? "col-8" : "col-12"}>
           <div>
@@ -72,7 +82,12 @@ const ContenedorCards = () => {
           <CardDetalle ingrediente={ingrediente} />
         </div>
       </div>
+
+      <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-hidden="true">
+                      <AgregarIngrediente />
+         </div>
     </div>
+    
   );
 };
 export default ContenedorCards;
