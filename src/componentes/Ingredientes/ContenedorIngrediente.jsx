@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ingredientesData from "../../sample/ingredientes.json";
 import TituloPagina from '../TituloPagina/TituloPagina.jsx'
 import AgregarIngrediente from '../Ingredientes/AgregarIngrediente.jsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../estilos/ContenedorIngrediente.css'
 
 import CardDetalle from "./CardDetalle.jsx";
@@ -11,6 +12,7 @@ const ContenedorCards = () => {
   const [ingrediente, setIngrediente] = useState({});
   const [display, setDisplay] = useState(false);
   const [busqueda, setBusqueda] = useState('');
+
 
   const obtenerIngredientes = () => {
     setIngredientes(ingredientesData);
@@ -45,6 +47,11 @@ const filtrarElementos=()=>{
     obtenerIngredientes();
   }, []);
 
+  useEffect(() => {
+    obtenerIngredientes();
+    console.log("Se actuliazo la tabla")
+  }, [display]);
+
   return (
 
     <div className="container mt-5 scroll">
@@ -61,13 +68,16 @@ const filtrarElementos=()=>{
           <div className="col-5">
           </div>
           <div className="col-2">
-             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#agregar" value="true">Agregar</button>
+             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#agregar" value="true">
+               Agregar
+               <i class="fa fa-plus-square ml-2"></i>
+               </button>
           </div>
         </div>
         <br />
           
       <div className="row">
-        <div className={display ? "col-8" : "col-12"}>
+        <div className={display ? "col-8 tabla_ts" : "col-12 tabla_ts"}>
           <div>
             <div className="card">
               <div className="card-header">Tabla de ingredientes</div>
@@ -97,6 +107,7 @@ const filtrarElementos=()=>{
                               }}
                             >
                               Detalle
+                              <i class="fa fa-eye ml-2"></i>
                             </button>
                           </td>
                         </tr>
@@ -109,7 +120,10 @@ const filtrarElementos=()=>{
           </div>
         </div>
         <div className="col-4 " style={{ display: display ? "block" : "none" }}>
-          <CardDetalle ingrediente={ingrediente} />
+          <CardDetalle 
+          ingrediente={ingrediente} 
+          display={display}
+          setDisplay={setDisplay}/>
         </div>
       </div>
 

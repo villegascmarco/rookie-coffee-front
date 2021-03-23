@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from "react";
+import '../estilos/CardDetalle.css'
 
-const CardDetalle = (props) => {
+const CardDetalle = ({ingrediente, setDisplay}) => {
   const [modoEdicion, setModoedicion] = useState(false);
   const [id, setId] = useState(0);
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState(0);
 
   useEffect(() => {
-    if (props.ingrediente.id != null || props.ingrediente.id != undefined) {
-      setId(props.ingrediente.id);
-      setNombre(props.ingrediente.nombre);
-      setCantidad(props.ingrediente.cantidad);
+    if (ingrediente.id != null || ingrediente.id != undefined) {
+      setId(ingrediente.id);
+      setNombre(ingrediente.nombre);
+      setCantidad(ingrediente.cantidad);
     } else {
       console.log("No hay datos en el ingrediente");
     }
-  }, [props]);
+  }, [ingrediente]);
 
   const eliminarIngrediente = (id) => {
     // Llamar a la api de eliminar
-    window.location.reload();
+    setDisplay(false)
   };
 
   const modificarIngrediente = () => {
@@ -28,12 +29,14 @@ const CardDetalle = (props) => {
       cantidad: cantidad,
     };
 
-    window.location.reload();
+    console.log(ingrediente)
+
+    setDisplay(false)
   };
 
   return (
     <div>
-      <div className="card">
+      <div className="card card_ts">
         <div className="card-header">Detalle</div>
         <div class="card-body ">
           {/*  INICIA INPUT DE CLAVE  */}
@@ -93,9 +96,10 @@ const CardDetalle = (props) => {
               <button
                 data-toggle="modal"
                 data-target="#modificarModal"
-                className="btn btn-success"
+                className="btn btn-warning text-light"
               >
                 Modificar
+                <i class="fa fa-edit ml-2"></i>
               </button>
             </div>
             <div className="col-md-6 col-sm-12">
@@ -106,6 +110,7 @@ const CardDetalle = (props) => {
                 value="true"
               >
                 Eliminar
+                <i class="fa fa-minus-circle ml-2"></i>
               </button>
             </div>
           </div>
@@ -145,9 +150,10 @@ const CardDetalle = (props) => {
                       eliminarIngrediente(id);
                     }}
                     data-dismiss="modal"
-                    class="btn btn-primary"
+                    className="btn btn-danger"
                   >
                     Eliminar
+                    <i class="fa fa-minus-circle ml-2"></i>
                   </button>
                 </div>
               </div>
@@ -190,9 +196,10 @@ const CardDetalle = (props) => {
                     onClick={() => {
                       modificarIngrediente();
                     }}
-                    class="btn btn-primary"
+                    class="btn btn-warning"
                   >
                     Modificar
+                    <i class="fa fa-edit ml-2"></i>
                   </button>
                 </div>
               </div>

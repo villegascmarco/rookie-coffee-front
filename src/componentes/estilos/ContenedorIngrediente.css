@@ -2,3 +2,7 @@
     background:rgb(59, 80, 74);
     color: white;
 }
+
+.tabla_ts {
+    transition: 0.5s;
+}
