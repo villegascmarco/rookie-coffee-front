@@ -10,6 +10,7 @@ const ContenedorCards = () => {
   const [ingredientes, setIngredientes] = useState([]);
   const [ingrediente, setIngrediente] = useState({});
   const [display, setDisplay] = useState(false);
+  const [busqueda, setBusqueda] = useState('');
 
   const obtenerIngredientes = () => {
     setIngredientes(ingredientesData);
@@ -18,6 +19,27 @@ const ContenedorCards = () => {
   const seleccionarIngrediente = (ingrediente) => {
     setIngrediente(ingrediente);
   };
+  
+  const onChange= (e) =>  { 
+    e.persist();
+    setBusqueda({
+        ...busqueda,
+        [e.target.name] : e.target.value
+       // unidades: {id: e.target.value}
+    })
+    filtrarElementos();
+}
+const filtrarElementos=()=>{
+  var search=ingredientes.filter(item=>{
+    if(item.cantidad.toString().includes(busqueda) ||
+    item.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").includes(busqueda) ||
+    item.unidad.toLowerCase().includes(busqueda)
+    ){
+      return item;
+    }
+  });
+  setIngredientes({ingredientes: search});
+}
 
   useEffect(() => {
     obtenerIngredientes();
@@ -29,7 +51,15 @@ const ContenedorCards = () => {
       <TituloPagina titulo="Ingredientes" />
       
         <div className="row">
-          <div className="col-10"></div>
+          <div className="col-5">
+            <input type="text"
+                    name="busqueda" 
+                    class="form-control " 
+                    placeholder="Busqueda"    
+                    onChange = {onChange}/>
+          </div>
+          <div className="col-5">
+          </div>
           <div className="col-2">
              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#agregar" value="true">Agregar</button>
           </div>
