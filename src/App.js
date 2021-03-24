@@ -4,6 +4,7 @@ import SideBar from './componentes/Hamburguesa/sidebar.jsx'
 import Login from './componentes/Login/Login.jsx'
 import Productos from './componentes/Productos/Productos.jsx'
 import ContenedorIngrediente from './componentes/Ingredientes/ContenedorIngrediente.jsx'
+import ContenedorUsuario from './componentes/Usuario/ContenedorUsuario.jsx'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/js/dist/modal'
@@ -36,7 +37,7 @@ function App() {
             <ContenedorIngrediente />
           </Route>
           <Route path="/Empleados">
-            
+            <ContenedorUsuario />
           </Route>
           <Route exact path="/">
             <Index />

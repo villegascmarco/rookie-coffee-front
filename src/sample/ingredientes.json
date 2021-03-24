@@ -4,34 +4,34 @@
         "nombre": "expreso",
         "cantidad": 40,
         "unidad": "g",
-        "estatus": false
+        "estatus": "Activo"
     },
     {
         "id":1,
         "nombre": "Crema",
         "cantidad": 80000,
         "unidad": "l",
-        "estatus": false
+        "estatus": "Inactivo"
     },
     {
         "id":2,
         "nombre": "capuccino",
         "cantidad": 40,
         "unidad": "g",
-        "estatus": false
+        "estatus": "Inactivo"
     },
     {
         "id":3,
         "nombre": "veracruz",
         "cantidad": 40,
         "unidad": "g",
-        "estatus": false
+        "estatus": "Activo"
     },
     {
         "id":4,
         "nombre": "colombiano",
         "cantidad": 40,
         "unidad": "g",
-        "estatus": false
+        "estatus": "Activo"
     }
 ]

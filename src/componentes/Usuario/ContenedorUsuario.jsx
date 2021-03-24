@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import ingredientesData from "../../sample/ingredientes.json";
+import UsuarioData from "../../sample/Usuario.json";
 import TituloPagina from "../TituloPagina/TituloPagina.jsx";
-import AgregarIngrediente from "../Ingredientes/AgregarIngrediente.jsx";
+import AgregarUsuario from "./AgregarUsuario.jsx";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
-
-import "../estilos/ContenedorIngrediente.css";
+import "../estilos/ContenedorUsuario.css";
 
 import CardDetalle from "./CardDetalle.jsx";
 
 const ContenedorCards = () => {
-  const [ingredientes, setIngredientes] = useState([]);
-  const [ingrediente, setIngrediente] = useState({});
+  const [usuarios, setUsuarios] = useState([]);
+  const [usuario, setUsuario] = useState({});
   const [display, setDisplay] = useState(false);
 
   const [state, setState] = useState({
@@ -22,42 +21,45 @@ const ContenedorCards = () => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-  const obtenerIngredientes = () => {
-    setIngredientes(ingredientesData);
-  };
-
-  const seleccionarIngrediente = (ingrediente) => {
-    setIngrediente(ingrediente);
+  const obtenerUsuarios = () => {
+    setUsuarios(UsuarioData);
   };
 
   const consultarInactivos = () => {
-    
     if (state.estado) {
-      let ingredienteFiltrados = ingredientesData.filter((ingrediente) =>
-      ingrediente.estatus.includes("Inactivo")
+      let usuariosFiltrados = UsuarioData.filter((usuario) =>
+        usuario.estatus.includes("Inactivo")
       );
-      setIngredientes(ingredienteFiltrados);
+      setUsuarios(usuariosFiltrados);
     } else {
-      let ingredienteFiltradosAC = ingredientesData.filter((ingrediente) =>
-      ingrediente.estatus.includes("Activo")
+      let usuariosFiltradosAC = UsuarioData.filter((usuario) =>
+        usuario.estatus.includes("Activo")
       );
-      setIngredientes(ingredienteFiltradosAC);
+      setUsuarios(usuariosFiltradosAC);
     }
   };
 
+  const seleccionarUsuario = (usuario) => {
+    setUsuario(usuario);
+  };
+
   useEffect(() => {
-    obtenerIngredientes();
+    obtenerUsuarios();
   }, []);
 
   useEffect(() => {
     consultarInactivos();
-  }, [display, state.estado]);
+  }, [display]);
 
+  useEffect(() => {
+    consultarInactivos();
+  }, [state.estado]);
 
   return (
     <div className="container mt-5 scroll">
-      <TituloPagina titulo="Ingredientes" />
+      <TituloPagina titulo="Empleados" />
 
+      {/* BOTON DE AGREGAR */}
       <div className="row">
         <div className="col-10"></div>
         <div className="col-2">
@@ -73,13 +75,14 @@ const ContenedorCards = () => {
           </button>
         </div>
       </div>
+
       <br />
 
       <div className="row">
         <div className={display ? "col-8 tabla_ts" : "col-12 tabla_ts"}>
           <div>
             <div className="card">
-              <div className="card-header">Tabla de ingredientes</div>
+              <div className="card-header">Tabla de usuarios</div>
               {/* SWITCH MOSTRAR INACTIVOS */}
               <div className="ml-2 mt-3">
                 <FormControlLabel
@@ -97,30 +100,32 @@ const ContenedorCards = () => {
               <div class="card-body">
                 <div class="table-responsive">
                   <table className="table  card-table ">
-                    <thead className="table_ingredientes">
+                    <thead className="table_usuario">
                       <tr>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Cantidad</th>
-                        <th scope="col">Unidad</th>
+                        <th scope="col">Apellidos</th>
+                        <th scope="col">Usuario</th>
                         <th scope="col">Estado</th>
                         <th scope="col"></th>
                       </tr>
                     </thead>
                     <tbody>
-                      {ingredientes.map((item) => (
-                        <tr key={item.id}
-                        className={
-                          item.estatus == "Inactivo" ? "text-black-50" : null
-                        }>
+                      {usuarios.map((item) => (
+                        <tr
+                          key={item.id}
+                          className={
+                            item.estatus == "Inactivo" ? "text-black-50" : null
+                          }
+                        >
                           <td>{item.nombre}</td>
-                          <td>{item.cantidad}</td>
-                          <td>{item.unidad}</td>
+                          <td>{`${item.apellido_1} ${item.apellido_2} `}</td>
+                          <td>{item.nombre_acceso}</td>
                           <td>{item.estatus}</td>
                           <td>
                             <button
                               className="btn btn-light"
                               onClick={() => {
-                                seleccionarIngrediente(item);
+                                seleccionarUsuario(item);
                                 setDisplay(true);
                               }}
                             >
@@ -139,7 +144,7 @@ const ContenedorCards = () => {
         </div>
         <div className="col-4 " style={{ display: display ? "block" : "none" }}>
           <CardDetalle
-            ingrediente={ingrediente}
+            usuario={usuario}
             display={display}
             setDisplay={setDisplay}
           />
@@ -153,7 +158,7 @@ const ContenedorCards = () => {
         role="dialog"
         aria-hidden="true"
       >
-        <AgregarIngrediente />
+        <AgregarUsuario />
       </div>
     </div>
   );
