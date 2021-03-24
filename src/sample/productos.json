@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "descripcion": "Cafe Amargo soluble",
+        "estatus": "Activo",
+        "fecha_registro": "22/03/2021  14:29:44",
+        "nombre": "Cafe Americano sin Azucar",
+        "precio": 20.0,
+        "usuario": 1
+    },
+    {
+        "id": 2,
+        "descripcion": "Cafe Amargo soluble",
+        "estatus": "Activo",
+        "fecha_registro": "22/03/2021  14:29:44",
+        "nombre": "Cafe Americano sin Azucar",
+        "precio": 20.0,
+        "usuario": 1
+    },
+    {
+        "id": 3,
+        "descripcion": "Cafe Amargo soluble",
+        "estatus": "Inactivo",
+        "fecha_registro": "22/03/2021  14:29:44",
+        "nombre": "Cafe Americano sin Azucar",
+        "precio": 20.0,
+        "usuario": 1
+    },
+    {
+        "id": 4,
+        "descripcion": "Cafe Amargo soluble",
+        "estatus": "Activo",
+        "fecha_registro": "22/03/2021  14:29:44",
+        "nombre": "Cafe Americano sin Azucar",
+        "precio": 20.0,
+        "usuario": 1
+    },
+    {
+        "id": 5,
+        "descripcion": "Cafe Amargo soluble",
+        "estatus": "Activo",
+        "fecha_registro": "22/03/2021  14:29:44",
+        "nombre": "Cafe Americano sin Azucar",
+        "precio": 20.0,
+        "usuario": 1
+    }
+]

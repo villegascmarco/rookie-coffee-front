@@ -12,37 +12,31 @@ const ContenedorCards = () => {
   const [ingrediente, setIngrediente] = useState({});
   const [display, setDisplay] = useState(false);
   const [busqueda, setBusqueda] = useState('');
+  const [ingredientBackup, setIngredienteBackup] = useState([]);
 
 
   const obtenerIngredientes = () => {
     setIngredientes(ingredientesData);
+    setIngredienteBackup(ingredientesData);
   };
 
   const seleccionarIngrediente = (ingrediente) => {
     setIngrediente(ingrediente);
   };
-  
-  const onChange= (e) =>  { 
-    e.persist();
-    setBusqueda({
-        ...busqueda,
-        [e.target.name] : e.target.value
-       // unidades: {id: e.target.value}
-    })
-    filtrarElementos();
-}
-const filtrarElementos=()=>{
-  var search=ingredientes.filter(item=>{
-    if(item.cantidad.toString().includes(busqueda) ||
-    item.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").includes(busqueda) ||
-    item.unidad.toLowerCase().includes(busqueda)
-    ){
-      return item;
+  const filtrarElementos=(texto)=>{
+    let search=ingredientes.filter(ingrediente => ingrediente.nombre.toLowerCase().includes(texto)  ||  
+     ingrediente.cantidad.toString().includes(texto) ||   ingrediente.unidad.toLowerCase().includes(texto));
+    
+    console.log(texto)
+    if(texto == ''){
+      setIngredientes(ingredientBackup);
+    }else{
+      
+      setIngredientes(search);
     }
-  });
-  setIngredientes({ingredientes: search});
-}
-
+    
+    
+  }
   useEffect(() => {
     obtenerIngredientes();
   }, []);
@@ -62,8 +56,10 @@ const filtrarElementos=()=>{
             <input type="text"
                     name="busqueda" 
                     class="form-control " 
-                    placeholder="Busqueda"    
-                    onChange = {onChange}/>
+                    placeholder="Busqueda"  
+                    onChange={(e) => {
+                       filtrarElementos(e.target.value);
+                    }}/>
           </div>
           <div className="col-5">
           </div>
@@ -104,8 +100,7 @@ const filtrarElementos=()=>{
                               onClick={() => {
                                 seleccionarIngrediente(item);
                                 setDisplay(true);
-                              }}
-                            >
+                              }}>
                               Detalle
                               <i class="fa fa-eye ml-2"></i>
                             </button>

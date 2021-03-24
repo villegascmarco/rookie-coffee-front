@@ -2,7 +2,7 @@ import React from 'react'
 import Index from './componentes/Index/Index.jsx'
 import SideBar from './componentes/Hamburguesa/sidebar.jsx'
 import Login from './componentes/Login/Login.jsx'
-import Productos from './componentes/Productos/Productos.jsx'
+import ContenedorProducto from './componentes/Productos/ContenedorProducto.jsx'
 import ContenedorIngrediente from './componentes/Ingredientes/ContenedorIngrediente.jsx'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -30,7 +30,7 @@ function App() {
             <Login />
           </Route>
           <Route path="/Productos">
-            <Productos />
+            <ContenedorProducto />
           </Route>
           <Route path="/Ingredientes">
             <ContenedorIngrediente />
