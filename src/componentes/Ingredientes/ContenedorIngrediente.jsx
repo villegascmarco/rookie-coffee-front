@@ -13,6 +13,8 @@ const ContenedorCards = () => {
   const [ingredientes, setIngredientes] = useState([]);
   const [ingrediente, setIngrediente] = useState({});
   const [display, setDisplay] = useState(false);
+  const [busqueda, setBusqueda] = useState('');
+  const [ingredientBackup, setIngredienteBackup] = useState([]);
 
   const [state, setState] = useState({
     estado: false,
@@ -24,11 +26,13 @@ const ContenedorCards = () => {
 
   const obtenerIngredientes = () => {
     setIngredientes(ingredientesData);
+    setIngredienteBackup(ingredientesData);
   };
 
   const seleccionarIngrediente = (ingrediente) => {
     setIngrediente(ingrediente);
   };
+
 
   const consultarInactivos = () => {
     
@@ -45,6 +49,22 @@ const ContenedorCards = () => {
     }
   };
 
+
+  const filtrarElementos=(texto)=>{
+    let search=ingredientes.filter(ingrediente => ingrediente.nombre.toLowerCase().includes(texto)  ||  
+     ingrediente.cantidad.toString().includes(texto) ||   ingrediente.unidad.toLowerCase().includes(texto));
+    
+    console.log(texto)
+    if(texto == ''){
+      setIngredientes(ingredientBackup);
+    }else{
+      
+      setIngredientes(search);
+    }
+    
+    
+  }
+
   useEffect(() => {
     obtenerIngredientes();
   }, []);
@@ -57,22 +77,27 @@ const ContenedorCards = () => {
   return (
     <div className="container mt-5 scroll">
       <TituloPagina titulo="Ingredientes" />
+        <div className="row">
+          <div className="col-5">
+            <input type="text"
+                    name="busqueda" 
+                    class="form-control " 
+                    placeholder="Busqueda"  
+                    onChange={(e) => {
+                       filtrarElementos(e.target.value);
+                    }}/>
+          </div>
+          <div className="col-5">
+          </div>
+          <div className="col-2">
+             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#agregar" value="true">
+               Agregar
+               <i class="fa fa-plus-square ml-2"></i>
+               </button>
+          </div>
 
-      <div className="row">
-        <div className="col-10"></div>
-        <div className="col-2">
-          <button
-            type="button"
-            class="btn btn-success"
-            data-toggle="modal"
-            data-target="#agregar"
-            value="true"
-          >
-            Agregar
-            <i class="fa fa-plus-square ml-2"></i>
-          </button>
         </div>
-      </div>
+
       <br />
 
       <div className="row">
@@ -122,8 +147,7 @@ const ContenedorCards = () => {
                               onClick={() => {
                                 seleccionarIngrediente(item);
                                 setDisplay(true);
-                              }}
-                            >
+                              }}>
                               Detalle
                               <i class="fa fa-eye ml-2"></i>
                             </button>
