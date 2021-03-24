@@ -1,7 +1,7 @@
 [
     {
         "id":0,
-        "nombre": "expreso",
+        "nombre": "Expreso",
         "cantidad": 40,
         "unidad": "g",
         "estatus": "Activo"

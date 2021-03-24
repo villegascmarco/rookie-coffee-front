@@ -13,8 +13,6 @@ const ContenedorCards = () => {
   const [ingredientes, setIngredientes] = useState([]);
   const [ingrediente, setIngrediente] = useState({});
   const [display, setDisplay] = useState(false);
-  const [busqueda, setBusqueda] = useState('');
-  const [ingredientBackup, setIngredienteBackup] = useState([]);
 
   const [state, setState] = useState({
     estado: false,
@@ -26,44 +24,42 @@ const ContenedorCards = () => {
 
   const obtenerIngredientes = () => {
     setIngredientes(ingredientesData);
-    setIngredienteBackup(ingredientesData);
   };
 
   const seleccionarIngrediente = (ingrediente) => {
     setIngrediente(ingrediente);
   };
 
-
   const consultarInactivos = () => {
-    
     if (state.estado) {
       let ingredienteFiltrados = ingredientesData.filter((ingrediente) =>
-      ingrediente.estatus.includes("Inactivo")
+        ingrediente.estatus.includes("Inactivo")
       );
       setIngredientes(ingredienteFiltrados);
     } else {
       let ingredienteFiltradosAC = ingredientesData.filter((ingrediente) =>
-      ingrediente.estatus.includes("Activo")
+        ingrediente.estatus.includes("Activo")
       );
       setIngredientes(ingredienteFiltradosAC);
     }
   };
 
+  const filtrarElementos = (texto) => {
+    texto= texto.toLowerCase()
+    let search = ingredientes.filter(
+      (ingrediente) =>
+        ingrediente.nombre.toLowerCase().includes(texto) ||
+        ingrediente.cantidad.toString().includes(texto) ||
+        ingrediente.unidad.toLowerCase().includes(texto)
+    );
 
-  const filtrarElementos=(texto)=>{
-    let search=ingredientes.filter(ingrediente => ingrediente.nombre.toLowerCase().includes(texto)  ||  
-     ingrediente.cantidad.toString().includes(texto) ||   ingrediente.unidad.toLowerCase().includes(texto));
-    
-    console.log(texto)
-    if(texto == ''){
-      setIngredientes(ingredientBackup);
-    }else{
-      
+    console.log(texto);
+    if (texto == "") {
+      consultarInactivos();
+    } else {
       setIngredientes(search);
     }
-    
-    
-  }
+  };
 
   useEffect(() => {
     obtenerIngredientes();
@@ -73,30 +69,24 @@ const ContenedorCards = () => {
     consultarInactivos();
   }, [display, state.estado]);
 
-
   return (
     <div className="container mt-5 scroll">
       <TituloPagina titulo="Ingredientes" />
-        <div className="row">
-          <div className="col-5">
-            <input type="text"
-                    name="busqueda" 
-                    class="form-control " 
-                    placeholder="Busqueda"  
-                    onChange={(e) => {
-                       filtrarElementos(e.target.value);
-                    }}/>
-          </div>
-          <div className="col-5">
-          </div>
-          <div className="col-2">
-             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#agregar" value="true">
-               Agregar
-               <i class="fa fa-plus-square ml-2"></i>
-               </button>
-          </div>
-
+      <div className="row">
+        <div className="col-10"></div>
+        <div className="col-2">
+          <button
+            type="button"
+            class="btn btn-success"
+            data-toggle="modal"
+            data-target="#agregar"
+            value="true"
+          >
+            Agregar
+            <i class="fa fa-plus-square ml-2"></i>
+          </button>
         </div>
+      </div>
 
       <br />
 
@@ -106,18 +96,36 @@ const ContenedorCards = () => {
             <div className="card">
               <div className="card-header">Tabla de ingredientes</div>
               {/* SWITCH MOSTRAR INACTIVOS */}
-              <div className="ml-2 mt-3">
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={state.estado}
-                      onChange={handleChange}
-                      name="estado"
+
+              <div className="row">
+                <div className="col-6">
+                  <div className="ml-2 mt-3">
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={state.estado}
+                          onChange={handleChange}
+                          name="estado"
+                        />
+                      }
+                      label="Mostar inactivos"
+                      labelPlacement="start"
                     />
-                  }
-                  label="Mostar inactivos"
-                  labelPlacement="start"
-                />
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="d-flex flex-row-reverse mr-4">
+                  <input
+                    type="text"
+                    name="busqueda"
+                    className="form-control mt-3 col-6"
+                    placeholder="Busqueda"
+                    onChange={(e) => {
+                      filtrarElementos(e.target.value);
+                    }}
+                  />
+                  </div>
+                </div>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -133,10 +141,12 @@ const ContenedorCards = () => {
                     </thead>
                     <tbody>
                       {ingredientes.map((item) => (
-                        <tr key={item.id}
-                        className={
-                          item.estatus == "Inactivo" ? "text-black-50" : null
-                        }>
+                        <tr
+                          key={item.id}
+                          className={
+                            item.estatus == "Inactivo" ? "text-black-50" : null
+                          }
+                        >
                           <td>{item.nombre}</td>
                           <td>{item.cantidad}</td>
                           <td>{item.unidad}</td>
@@ -147,7 +157,8 @@ const ContenedorCards = () => {
                               onClick={() => {
                                 seleccionarIngrediente(item);
                                 setDisplay(true);
-                              }}>
+                              }}
+                            >
                               Detalle
                               <i class="fa fa-eye ml-2"></i>
                             </button>

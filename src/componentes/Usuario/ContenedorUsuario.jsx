@@ -39,6 +39,22 @@ const ContenedorCards = () => {
     }
   };
 
+  const filtrarElementos = (texto) => {
+    texto = texto.toLowerCase();
+    let search = usuarios.filter(
+      (usuario) =>
+        usuario.nombre.toLowerCase().includes(texto) ||
+        usuario.apellido_1.toLowerCase().includes(texto) ||
+        usuario.nombre_acceso.toLowerCase().includes(texto)
+    );
+
+    if (texto == "") {
+      consultarInactivos();
+    } else {
+      setUsuarios(search);
+    }
+  };
+
   const seleccionarUsuario = (usuario) => {
     setUsuario(usuario);
   };
@@ -84,18 +100,36 @@ const ContenedorCards = () => {
             <div className="card">
               <div className="card-header">Tabla de usuarios</div>
               {/* SWITCH MOSTRAR INACTIVOS */}
-              <div className="ml-2 mt-3">
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={state.estado}
-                      onChange={handleChange}
-                      name="estado"
+
+              <div className="row">
+                <div className="col-6">
+                  <div className="ml-2 mt-3">
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={state.estado}
+                          onChange={handleChange}
+                          name="estado"
+                        />
+                      }
+                      label="Mostar inactivos"
+                      labelPlacement="start"
                     />
-                  }
-                  label="Mostar inactivos"
-                  labelPlacement="start"
-                />
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="d-flex flex-row-reverse mr-4">
+                    <input
+                      type="text"
+                      name="busqueda"
+                      className="form-control mt-3 col-6"
+                      placeholder="Busqueda"
+                      onChange={(e) => {
+                        filtrarElementos(e.target.value);
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
