@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import Usuario from "../../Peticiones/api_usuarios";
 import "../estilos/CardDetalle.css";
 
-const CardDetalle = ({ usuario, setDisplay }) => {
+const CardDetalle = ({ usuario, setDisplay, token }) => {
   const [id, setId] = useState(0);
   const [nombre, setNombre] = useState("");
   const [apellido1, setApellido1] = useState("");
@@ -13,8 +14,8 @@ const CardDetalle = ({ usuario, setDisplay }) => {
   const [rolUsuario, setRolUsuario] = useState("");
 
   useEffect(() => {
-    if (usuario.id != null || usuario.id != undefined) {
-      setId(usuario.id);
+    if (usuario._id != null || usuario._id != undefined) {
+      setId(usuario._id);
       setNombre(usuario.nombre);
       setApellido1(usuario.apellido_1);
       setApellido2(usuario.apellido_2);
@@ -28,12 +29,18 @@ const CardDetalle = ({ usuario, setDisplay }) => {
     }
   }, [usuario]);
 
-  const eliminarUsuario = (id) => {
-    // Llamar a la api de eliminar
+  const eliminarUsuario = async (id) => {
+    let response = await Usuario.eliminarUsuario(id, token);
     setDisplay(false);
   };
 
-  const modificarUsuario = () => {
+  const activarUsuario = async (id) => {
+    let response = await Usuario.activarUsuario(id, token);
+    setDisplay(false);
+  };
+
+  const modificarUsuario = async() => {
+    debugger
     let usuario = {
       id: id,
       nombre: nombre,
@@ -42,11 +49,10 @@ const CardDetalle = ({ usuario, setDisplay }) => {
       rfc: rfc,
       nombre_acceso: nombreAcceso,
       contrasena: constraseña,
-      estatus: estatus,
+      rol_usuario: rolUsuario
     };
 
-    console.log(usuario);
-
+    let response = await Usuario.modificarUsuario(usuario, token)
     setDisplay(false);
   };
 
@@ -127,7 +133,7 @@ const CardDetalle = ({ usuario, setDisplay }) => {
 
           <div className="form-group">
             <label>RFC</label>
-
+            <br />
             <input
               type="text"
               onChange={(e) => {
@@ -149,7 +155,7 @@ const CardDetalle = ({ usuario, setDisplay }) => {
             <input
               type="text"
               onChange={(e) => {
-                setRfc(e.target.value);
+                setNombreAcceso(e.target.value);
               }}
               id="usuario"
               class="form-control "
@@ -175,25 +181,6 @@ const CardDetalle = ({ usuario, setDisplay }) => {
               min="0"
               value={constraseña}
             />
-          </div>
-
-          {/*  INICIA INPUT DE ESTATUS  */}
-
-          <div className="form-group">
-            <label>Estado</label>
-
-            <select
-              name="estado"
-              class="form-control"
-              value={estatus}
-              onChange={(e) => {
-                setEstatus(e.target.value);
-              }}
-            >
-              <option>Elegir...</option>
-              <option value="Activo">Activo</option>
-              <option value="Inactivo">Inactivo</option>
-            </select>
           </div>
 
           {/*  INICIA INPUT DE ROL USUARIO  */}
@@ -230,12 +217,14 @@ const CardDetalle = ({ usuario, setDisplay }) => {
             </div>
             <div className="col-md-6 col-sm-12">
               <button
-                className="btn btn-danger"
+                className={estatus == "Activo" ? "btn btn-danger" : "btn btn-success"}
                 data-toggle="modal"
-                data-target="#eliminarModal"
+                data-target={
+                  estatus == "Activo" ? "#eliminarModal" : "#activarModal"
+                }
                 value="true"
               >
-                Eliminar
+                {estatus == "Activo" ? "Eliminar" : "Activar"}
                 <i class="fa fa-minus-circle ml-2"></i>
               </button>
             </div>
@@ -279,6 +268,50 @@ const CardDetalle = ({ usuario, setDisplay }) => {
                     className="btn btn-danger"
                   >
                     Eliminar
+                    <i class="fa fa-minus-circle ml-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="modal fade"
+            id="activarModal"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4> ¿Desea confirmar la Activacion?</h4>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      activarUsuario(id);
+                    }}
+                    data-dismiss="modal"
+                    className="btn btn-success"
+                  >
+                    Activar
                     <i class="fa fa-minus-circle ml-2"></i>
                   </button>
                 </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import UsuarioData from "../../sample/Usuario.json";
+import getUsuarios from "../../Peticiones/api_usuarios";
 import TituloPagina from "../TituloPagina/TituloPagina.jsx";
 import AgregarUsuario from "./AgregarUsuario.jsx";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -8,11 +8,13 @@ import "../estilos/ContenedorUsuario.css";
 
 import CardDetalle from "./CardDetalle.jsx";
 
-const ContenedorCards = () => {
+const ContenedorCardsUsuario = ({ tokenP }) => {
   const [usuarios, setUsuarios] = useState([]);
   const [usuario, setUsuario] = useState({});
   const [display, setDisplay] = useState(false);
+  const [agregado, setAgregado] = useState(false);
 
+  
   const [state, setState] = useState({
     estado: false,
   });
@@ -21,22 +23,9 @@ const ContenedorCards = () => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-  const obtenerUsuarios = () => {
-    setUsuarios(UsuarioData);
-  };
-
-  const consultarInactivos = () => {
-    if (state.estado) {
-      let usuariosFiltrados = UsuarioData.filter((usuario) =>
-        usuario.estatus.includes("Inactivo")
-      );
-      setUsuarios(usuariosFiltrados);
-    } else {
-      let usuariosFiltradosAC = UsuarioData.filter((usuario) =>
-        usuario.estatus.includes("Activo")
-      );
-      setUsuarios(usuariosFiltradosAC);
-    }
+  const obtenerUsuarios = async (token) => {
+    let response = await getUsuarios.mostrarUsuarios(token);
+    setUsuarios(response);
   };
 
   const filtrarElementos = (texto) => {
@@ -49,7 +38,7 @@ const ContenedorCards = () => {
     );
 
     if (texto == "") {
-      consultarInactivos();
+      obtenerUsuarios(tokenP);
     } else {
       setUsuarios(search);
     }
@@ -60,16 +49,9 @@ const ContenedorCards = () => {
   };
 
   useEffect(() => {
-    obtenerUsuarios();
-  }, []);
-
-  useEffect(() => {
-    consultarInactivos();
-  }, [display]);
-
-  useEffect(() => {
-    consultarInactivos();
-  }, [state.estado]);
+    obtenerUsuarios(tokenP);
+    setAgregado(false)
+  }, [state.estado, display, agregado]);
 
   return (
     <div className="container mt-5 scroll">
@@ -144,31 +126,39 @@ const ContenedorCards = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {usuarios.map((item) => (
-                        <tr
-                          key={item.id}
-                          className={
-                            item.estatus == "Inactivo" ? "text-black-50" : null
-                          }
-                        >
-                          <td>{item.nombre}</td>
-                          <td>{`${item.apellido_1} ${item.apellido_2} `}</td>
-                          <td>{item.nombre_acceso}</td>
-                          <td>{item.estatus}</td>
-                          <td>
-                            <button
-                              className="btn btn-light"
-                              onClick={() => {
-                                seleccionarUsuario(item);
-                                setDisplay(true);
-                              }}
-                            >
-                              Detalle
-                              <i class="fa fa-eye ml-2"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
+                      {usuarios
+                        .filter((item) =>
+                          state.estado == true
+                            ? item.estatus == "Inactivo"
+                            : item.estatus == "Activo"
+                        )
+                        .map((item) => (
+                          <tr
+                            key={item.id}
+                            className={
+                              item.estatus == "Inactivo"
+                                ? "text-black-50"
+                                : null
+                            }
+                          >
+                            <td>{item.nombre}</td>
+                            <td>{`${item.apellido_1} ${item.apellido_2} `}</td>
+                            <td>{item.nombre_acceso}</td>
+                            <td>{item.estatus}</td>
+                            <td>
+                              <button
+                                className="btn btn-light"
+                                onClick={() => {
+                                  seleccionarUsuario(item);
+                                  setDisplay(true);
+                                }}
+                              >
+                                Detalle
+                                <i class="fa fa-eye ml-2"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>
@@ -178,6 +168,7 @@ const ContenedorCards = () => {
         </div>
         <div className="col-4 " style={{ display: display ? "block" : "none" }}>
           <CardDetalle
+            token={tokenP}
             usuario={usuario}
             display={display}
             setDisplay={setDisplay}
@@ -192,9 +183,12 @@ const ContenedorCards = () => {
         role="dialog"
         aria-hidden="true"
       >
-        <AgregarUsuario />
+        <AgregarUsuario 
+          token={tokenP} 
+          setAgregado={setAgregado}
+        />
       </div>
     </div>
   );
 };
-export default ContenedorCards;
+export default ContenedorCardsUsuario;

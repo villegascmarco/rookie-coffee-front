@@ -10,10 +10,10 @@
     },
     {
         "id": 2,
-        "descripcion": "Cafe Amargo soluble",
+        "descripcion": "Cafe Expresso",
         "estatus": "Activo",
         "fecha_registro": "22/03/2021  14:29:44",
-        "nombre": "Cafe Americano sin Azucar",
+        "nombre": "Cafe Expresso con crema s/n azucar",
         "precio": 20.0,
         "usuario": 1
     },

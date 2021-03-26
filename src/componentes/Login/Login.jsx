@@ -1,19 +1,27 @@
 import React, { useState } from "react";
+import { Route, Redirect } from "react-router-dom";
 import "../estilos/Login.css";
 import User from '../../res/user.png'
+import Usuario from "../../Peticiones/api_usuarios";
+import { useHistory } from 'react-router-dom'
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
 
-  const Login = (e) => {
+  const history = useHistory();
+
+
+
+  const Login = async(e) => {
+    debugger
     e.preventDefault()
-    if(!password) {
-        setError(true)
+    let response = await Usuario.hacerLogin(user, password)
+    if(response != null || response != undefined) {
+      history.push(`/Venta`);
+      window.location.reload(); 
     }
-
-
   };
 
   return (
@@ -32,14 +40,14 @@ const Login = () => {
 
         <form onSubmit={Login}>
           <input
-            type="email"
+            type="text"
             id="login"
             class="fadeIn second"
             name="login"
-            placeholder="Correo electronico"
+            placeholder="Usuario de inicio"
             required
             onChange={(e) => {
-                setEmail(e.target.value)
+                setUser(e.target.value)
             }}
           />
           <input
@@ -53,7 +61,7 @@ const Login = () => {
                 setPassword(e.target.value)
             }}
           />
-          <input type="submit" class="fadeIn fourth" value="Iniciar sesión" />
+          <input type="submit" class="fadeIn fourth"  value="Iniciar sesión" />
         </form>
 
         <div id="formFooter">
