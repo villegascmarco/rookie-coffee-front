@@ -11,7 +11,6 @@ const ContenedorCards = () => {
   const [ingredientes, setIngredientes] = useState([]);
   const [ingrediente, setIngrediente] = useState({});
   const [display, setDisplay] = useState(false);
-  const [busqueda, setBusqueda] = useState('');
   const [ingredientBackup, setIngredienteBackup] = useState([]);
 
 
@@ -27,7 +26,6 @@ const ContenedorCards = () => {
     let search=ingredientes.filter(ingrediente => ingrediente.nombre.toLowerCase().includes(texto)  ||  
      ingrediente.cantidad.toString().includes(texto) ||   ingrediente.unidad.toLowerCase().includes(texto));
     
-    console.log(texto)
     if(texto == ''){
       setIngredientes(ingredientBackup);
     }else{
@@ -36,7 +34,7 @@ const ContenedorCards = () => {
     }
     
     
-  }
+  };
   useEffect(() => {
     obtenerIngredientes();
   }, []);

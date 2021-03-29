@@ -6,6 +6,8 @@ const AgregarProducto = () => {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [precio, setPrecio] = useState(0);
+  const [cantidad, setCantidad] = useState(0);
+  const [ingrediente, setIngrediente] = useState([]);
   
 
   const agregar = (e) => {
@@ -38,6 +40,7 @@ const AgregarProducto = () => {
             </button>
           </div>
           <div className="modal-body">
+            <div className="row">
             <div class="form-group col-md-12">
               <label>Nombre del producto</label>
               <input
@@ -49,6 +52,8 @@ const AgregarProducto = () => {
                 }}
               />
             </div>
+            </div>
+            <div className="row">
             <div class="form-group col-md-12">
               <label>Precio</label>
               <input
@@ -61,7 +66,8 @@ const AgregarProducto = () => {
                 min="0"
               />
             </div>
-
+            </div>
+            <div className="row">
             <div class="form-group col-md-12">
               <label>Pequeña descripción del nuevo producto</label>
               <input
@@ -74,22 +80,53 @@ const AgregarProducto = () => {
                 min="0"
               />
             </div>
-                {/*  INICIA INPUT DE CLAVE  
+            </div>
+            <div className="row">
             <div class="form-group col-md-6">
               <label>Ingrediente</label>
               <select
                 name="unidades"
-                class="form-control"
+                className="form-control"
                 data-id="ingrediente"
                 data-nested="nested"
                 onChange={(e) => {
-                  setUnidad(e.target.value);
+                  setIngrediente(e.target.value);
                 }}
               >
                 <option selected>Elegir...</option>
-                <option value="g">Gramos</option>
+                <option value="g">Crema</option>
               </select>
-            </div>*/}
+              
+            </div>
+            </div>
+            
+            <label >Cantidad</label>
+            <div class="form-inline">
+            <input
+                type="number"
+                name="cantidad"
+                className="form-control  mr-sm-2"
+                onChange={(e) => {
+                  setCantidad(e.target.value)
+                }}
+                min="0"
+              />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-plus"></i></button>
+           </div>
+            <br />
+           <div className="table-responsive">
+           <table className="table">
+             <thead className="table_ingredientes">
+               <th>Nombre</th>
+               <th>Cant. Uso</th>
+             </thead>
+             <tbody>
+               <td></td>
+
+             </tbody>
+          </table>
+           </div>
+            
           </div>
           <div class="modal-footer">
             <button
@@ -99,7 +136,7 @@ const AgregarProducto = () => {
             >
               Cancelar
             </button>
-            <button type="submit" class="btn btn-success" onClick={() => {
+            <button type="submit" className="btn btn-success" onClick={() => {
                       agrearProducto();
                     }}>
               Agregar <i class="fa fa-plus-square ml-2"></i>

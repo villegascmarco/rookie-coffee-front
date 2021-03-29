@@ -9,7 +9,7 @@ const CardDetalleP = ({producto, setDisplay}) => {
   const [estatus, setEstatus] = useState("");
   const [fecha_registro, setFecha_registro] = useState("");
   const [precio, setPrecio] = useState(0);
-  const [usuario, setUsuario] = useState(0);
+  const [ingredientes, setIngredientes] = useState([])
 
   useEffect(() => {
     if (producto.id !== null || producto.id !==undefined) {
@@ -19,7 +19,7 @@ const CardDetalleP = ({producto, setDisplay}) => {
       setEstatus(producto.estatus);
       setFecha_registro(producto.fecha_registro);
       setPrecio(producto.precio);
-      setUsuario(producto.usuario);
+      setIngredientes(producto.ingredientes);
     } else {
       console.log("No hay datos en el producto");
     }
@@ -144,19 +144,57 @@ const CardDetalleP = ({producto, setDisplay}) => {
           </div>
 
           {/*  INICIA select  DE ingredientes  */}
-          <div className="form-group">
-            <label>Ingredientes</label>
-            <select
-              name="estatus"
-              class="form-control"
+          <div className="row">
+            <div class="form-group col-md-6">
+              <label>Ingrediente</label>
+              <select
+                name="unidades"
+                className="form-control"
+                data-id="ingrediente"
+                data-nested="nested"
+                onChange={(e) => {
+                 
+                }}
+              >
+                <option selected>Elegir...</option>
+                <option value="g">Crema</option>
+              </select>
               
-            >
-              <option>Elegir...</option>
-              <option >Leche</option>
-              <option >Cafe seco</option>
-            </select>
-            <button className="btn btn-primary">Agregar</button>
-          </div>
+            </div>
+            </div>
+
+          <label >Cantidad</label>
+            <div class="form-inline">
+            <input
+                type="number"
+                name="cantidad"
+                className="form-control  mr-sm-2"
+                onChange={(e) => {
+                  
+                }}
+                min="0"
+              />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-plus"></i></button>
+           </div>
+            <br />
+           <div className="table-responsive">
+           <table className="table">
+             <thead className="table_ingredientes">
+               <th>Nombre</th>
+               <th>Cant. Uso</th>
+               <th></th>
+             </thead>
+             <tbody>
+            {ingredientes.map((item) => (<tr>
+              <td>{item.nombre}</td>
+              <td>{item.cantidadU}</td>
+              <td><button className="btn btn-light">Detalle</button></td>
+
+            </tr>))}
+
+             </tbody>
+          </table>
+           </div>
 
           {/* INICIA BOTONES  */}
 
