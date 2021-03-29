@@ -1,0 +1,34 @@
+[{
+        "id": 1,
+        "nombre": "Marco",
+        "apellido_1": "Villegas",
+        "apellido_2": "Cervantes",
+        "rfc": "VICI990407DW0",
+        "nombre_acceso": "marcoSexMachine69",
+        "contrasena": "admin",
+        "estatus": "Inactivo",
+        "rol_usuario": 1
+    },
+    {
+        "id": 2,
+        "nombre": "Pablito",
+        "apellido_1": "Hernandez",
+        "apellido_2": "Castillo",
+        "rfc": "HECPXXXXXXU13",
+        "nombre_acceso": "pabloUser69",
+        "contrasena": "user",
+        "estatus": "Activo",
+        "rol_usuario": 2
+    },
+    {
+        "id": 3,
+        "apellido_1": "Candelario",
+        "apellido_2": "Hermosillo",
+        "contrasena": "123",
+        "estatus": "Activo",
+        "nombre": "Cande",
+        "nombre_acceso": "CandeCandelario",
+        "rfc": "CAHCXXXXXXGD1",
+        "rol_usuario": 2
+    }
+]

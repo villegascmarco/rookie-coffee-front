@@ -6,12 +6,14 @@ const CardDetalle = ({ingrediente, setDisplay}) => {
   const [id, setId] = useState(0);
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState(0);
+  const [estatus, setEstatus] = useState("");
 
   useEffect(() => {
     if (ingrediente.id != null || ingrediente.id != undefined) {
       setId(ingrediente.id);
       setNombre(ingrediente.nombre);
       setCantidad(ingrediente.cantidad);
+      setEstatus(ingrediente.estatus)
     } else {
       console.log("No hay datos en el ingrediente");
     }
@@ -88,6 +90,26 @@ const CardDetalle = ({ingrediente, setDisplay}) => {
               value={cantidad}
             />
           </div>
+
+                    {/*  INICIA INPUT DE ESTATUS  */}
+
+                    <div className="form-group">
+            <label>Estado</label>
+
+            <select
+              name="estado"
+              class="form-control"
+              value={estatus}
+              onChange={(e) => {
+                setEstatus(e.target.value);
+              }}
+            >
+              <option>Elegir...</option>
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
+
 
           {/* INICIA BOTONES  */}
 

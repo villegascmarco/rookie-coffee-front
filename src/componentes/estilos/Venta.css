@@ -1,0 +1,16 @@
+.seccion {
+    font-size: 40px;
+}
+
+.titulo_seccion {
+    font-size: 80px;
+}
+
+.productos_container {
+    display: grid;
+    gap: 100px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+
