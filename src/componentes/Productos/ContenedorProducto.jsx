@@ -9,13 +9,31 @@ const ContenedorProducto = () => {
     const [productos, setProductos] = useState([]);
     const [producto, setProducto] = useState({});
     const [display, setDisplay] = useState(false);
+    const [productoBackup, setProductoBackup] = useState([]);
 
 
     const obtenerProductos = () => {
         setProductos(productosData);
+        setProductoBackup(productosData)
       };
     const seleccionaProducto = (producto) => {
         setProducto(producto);
+      };
+
+      
+
+      const filtrarElementos=(texto)=>{
+        let search=productos.filter(producto => producto.nombre.toLowerCase().includes(texto)  ||  
+        producto.precio.toString().includes(texto) ||   producto.fecha_registro.includes(texto));
+        
+        if(texto === ''){
+          setProductos(productoBackup);
+        }else{
+          
+          setProductos(search);
+        }
+        
+        
       };
     
       useEffect(() => {
@@ -33,9 +51,15 @@ const ContenedorProducto = () => {
           <TituloPagina titulo="Productos" />
           
             <div className="row">
-              <div className="col-5">
-              
-              </div>
+            <div className="col-5">
+            <input type="text"
+                    name="busqueda" 
+                    class="form-control " 
+                    placeholder="Busqueda"  
+                    onChange={(e) => {
+                       filtrarElementos(e.target.value);
+                    }}/>
+          </div>
               <div className="col-5">
               </div>
               <div className="col-2">

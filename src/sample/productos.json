@@ -1,12 +1,24 @@
 [
     {
         "id": 1,
-        "descripcion": "Cafe Amargo soluble",
+        "descripcion": "Cafe capuccino",
         "estatus": "Activo",
         "fecha_registro": "22/03/2021  14:29:44",
-        "nombre": "Cafe Americano sin Azucar",
+        "nombre": "Cafe capuccino",
         "precio": 20.0,
-        "usuario": 1
+        "usuario": 1,
+        "ingredientes":[
+            {"id":1,
+            "nombre": "cafe molido",
+            "cantidadU": 20},
+            {"id":2,
+            "nombre": "leche",
+            "cantidadU": 125},
+            {"id":3,
+            "nombre": "nata de montar",
+            "cantidadU": 25}
+            
+        ]
     },
     {
         "id": 2,
@@ -15,7 +27,20 @@
         "fecha_registro": "22/03/2021  14:29:44",
         "nombre": "Cafe Expresso con crema s/n azucar",
         "precio": 20.0,
-        "usuario": 1
+        "usuario": 1,
+        "ingredientes":[
+            {"id":4,
+            "nombre": "cafe molido",
+            "cantidadU": 125},
+            {"id":5,
+            "nombre": "agua",
+            "cantidadU": 100},
+            {"id":5,
+            "nombre": "azucar",
+            "cantidadU": 20}
+            
+        ]
+        
     },
     {
         "id": 3,
@@ -24,16 +49,34 @@
         "fecha_registro": "22/03/2021  14:29:44",
         "nombre": "Cafe Americano sin Azucar",
         "precio": 20.0,
-        "usuario": 1
+        "usuario": 1,
+        "ingredientes":[
+            {"id":1,
+            "nombre": "crema",
+            "cantidadU": 800},
+            {"id":2,
+                "nombre": "cafe en grano amargo",
+                "cantidadU": 10}
+            
+        ]
     },
     {
         "id": 4,
         "descripcion": "Cafe Amargo soluble",
         "estatus": "Activo",
-        "fecha_registro": "22/03/2021  14:29:44",
+        "fecha_registro": "22/04/2021  14:29:44",
         "nombre": "Cafe Americano sin Azucar",
         "precio": 20.0,
-        "usuario": 1
+        "usuario": 1,
+        "ingredientes":[
+            {"id":1,
+            "nombre": "crema",
+            "cantidadU": 800},
+            {"id":2,
+                "nombre": "cafe en grano amargo",
+                "cantidadU": 10}
+            
+        ]
     },
     {
         "id": 5,
@@ -42,6 +85,15 @@
         "fecha_registro": "22/03/2021  14:29:44",
         "nombre": "Cafe Americano sin Azucar",
         "precio": 20.0,
-        "usuario": 1
+        "usuario": 1,
+        "ingredientes":[
+            {"id":1,
+            "nombre": "crema",
+            "cantidadU": 800},
+            {"id":2,
+                "nombre": "cafe en grano amargo",
+                "cantidadU": 10}
+            
+        ]
     }
 ]
