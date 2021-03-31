@@ -6,10 +6,14 @@ import ContenedorProducto from './componentes/Productos/ContenedorProducto.jsx'
 import ContenedorIngrediente from './componentes/Ingredientes/ContenedorIngrediente.jsx'
 import ContenedorCardsUsuario from './componentes/Usuario/ContenedorUsuario.jsx'
 import Venta from './componentes/Venta/Venta.jsx'
+import ContenedorRoles from './componentes/RolesUsuarios/ContenedorRoles.jsx'
+import Permiso from './componentes/Errores/Permiso.jsx'
 
 
 //Rutas privadas
 import PrivateRoute from './componentes/RutasPrivadas/PrivateRoute.jsx'
+import PrivateRouteLogin from './componentes/RutasPrivadas/PrivateRouteLogin.jsx'
+import PrivateRouteAdmin from './componentes/RutasPrivadas/PrivateRouteAdmin.jsx'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/js/dist/modal'
@@ -44,20 +48,23 @@ function App() {
       <Router>
       <Switch>
           <PrivateRoute path="/Venta" component={Venta} />
-          <Route path="/Login">
-            <Login />
-          </Route>
-          <Route path="/Productos">
-            <ContenedorProducto />
-          </Route>
-          <Route path="/Ingredientes">
-            <ContenedorIngrediente />
-          </Route>
-          <Route path="/Empleados">
-            <Route exact path="/Empleados" component={() => <ContenedorCardsUsuario  tokenP={token} />} />
-          </Route>
+
+          <PrivateRouteLogin path="/Login" component={Login} />
+
+          <PrivateRouteAdmin path="/Productos" component={ContenedorProducto} />
+          
+          <PrivateRouteAdmin path="/Ingredientes" component={ContenedorIngrediente} />
+          
+          <PrivateRouteAdmin path="/Roles" component={ContenedorRoles} tokenP={token} />
+
+          <PrivateRouteAdmin path="/Empleados" component={ContenedorCardsUsuario} tokenP={token} />
+
           <Route exact path="/">
             <Index />
+          </Route>
+
+          <Route exact path="/Permiso">
+            <Permiso />
           </Route>
         </Switch>
       </Router>

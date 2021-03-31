@@ -1,4 +1,3 @@
-import axios from 'axios';
 export default class getUsuarios {
     constructor() {
 
@@ -104,6 +103,7 @@ export default class getUsuarios {
             }
         });
         localStorage.setItem("token", response.token);
+        localStorage.setItem("rol", "admin");
         return response
     }
 

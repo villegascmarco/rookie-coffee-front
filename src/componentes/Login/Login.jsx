@@ -15,7 +15,7 @@ const Login = () => {
 
 
   const Login = async(e) => {
-    debugger
+    
     e.preventDefault()
     let response = await Usuario.hacerLogin(user, password)
     if(response != null || response != undefined) {

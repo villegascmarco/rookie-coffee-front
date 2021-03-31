@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Usuario from '../../Peticiones/api_usuarios'
 
-const AgregarIngrediente = ({token, setAgregado}) => {
+const AgregarUsuario = ({token, setAgregado}) => {
   //States del usuario
   const [nombre, setNombre] = useState("");
   const [apellido1, setApellido1] = useState("");
@@ -15,7 +15,7 @@ const AgregarIngrediente = ({token, setAgregado}) => {
     e.preventDefault();
   };
 
-  const agregarIngrediente = async() => {
+  const agregarUsuario = async() => {
     let usuario = {
       nombre: nombre,
       apellido_1: apellido1,
@@ -166,7 +166,7 @@ const AgregarIngrediente = ({token, setAgregado}) => {
               class="btn btn-success"
               data-dismiss="modal"
               onClick={() => {
-                agregarIngrediente();
+                agregarUsuario();
               }}
             >
               Agregar <i class="fa fa-plus-square ml-2"></i>
@@ -177,4 +177,4 @@ const AgregarIngrediente = ({token, setAgregado}) => {
     </div>
   );
 };
-export default AgregarIngrediente;
+export default AgregarUsuario;
