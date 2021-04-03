@@ -185,12 +185,14 @@ const CardDetalleP = ({producto, setDisplay}) => {
                <th></th>
              </thead>
              <tbody>
-            {ingredientes.map((item) => (<tr>
+              {/* INICIA BOTONES 
+             {ingredientes.map((item) => (<tr>
               <td>{item.nombre}</td>
               <td>{item.cantidadU}</td>
-              <td><button className="btn btn-light">Detalle</button></td>
 
-            </tr>))}
+            </tr>))} */}
+               
+            
 
              </tbody>
           </table>

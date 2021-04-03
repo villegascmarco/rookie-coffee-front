@@ -9,9 +9,6 @@ const AgregarIngrediente = () => {
   const [descripcion, setDescripcion] = useState("")
   
 
-  const agregar = (e) => {
-    e.preventDefault();
-  };
 
   const agregarIngrediente = (e) => {
       let ingrediente = {
@@ -21,12 +18,10 @@ const AgregarIngrediente = () => {
         descripcion: descripcion,
         fecha_registro: ""
       }
-      console.log(ingrediente)
   };
 
   return (
     <div class="modal-dialog">
-      <form onSubmit={agregar}>
         <div class="modal-content">
           <div class="modal-header">
             <h4>Agregar Ingrediente</h4>
@@ -108,7 +103,6 @@ const AgregarIngrediente = () => {
             </button>
           </div>
         </div>
-      </form>
     </div>
   );
 };

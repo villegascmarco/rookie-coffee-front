@@ -47,11 +47,10 @@ function App() {
           <Route path="/Login">
             <Login />
           </Route>
-          <Route path="/Productos">
+          <Route path="/Productos" >
             <ContenedorProducto />
           </Route>
-          <Route path="/Ingredientes">
-            <ContenedorIngrediente />
+          <Route path="/Ingredientes"  component={() => <ContenedorIngrediente  tokenP={token} />}>
           </Route>
           <Route path="/Empleados">
             <Route exact path="/Empleados" component={() => <ContenedorCardsUsuario  tokenP={token} />} />
@@ -59,6 +58,7 @@ function App() {
           <Route exact path="/">
             <Index />
           </Route>
+         
         </Switch>
       </Router>
     </div>

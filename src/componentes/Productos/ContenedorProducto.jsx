@@ -3,13 +3,25 @@ import productosData from "../../sample/productos.json";
 import TituloPagina from '../TituloPagina/TituloPagina.jsx'
 import CardDetalleP from './CardDetalleP.jsx'
 import AgregarProducto from './AgregarProducto.jsx'
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 import '../estilos/ContenedorIngrediente.css'
+
 
 const ContenedorProducto = () => {
     const [productos, setProductos] = useState([]);
     const [producto, setProducto] = useState({});
     const [display, setDisplay] = useState(false);
     const [productoBackup, setProductoBackup] = useState([]);
+
+    const [state, setState] = useState({
+      estado: false,
+    });
+
+    const handleChange = (event) => {
+      setState({ ...state, [event.target.name]: event.target.checked });
+    };
+    
 
 
     const obtenerProductos = () => {
@@ -26,23 +38,36 @@ const ContenedorProducto = () => {
         let search=productos.filter(producto => producto.nombre.toLowerCase().includes(texto)  ||  
         producto.precio.toString().includes(texto) ||   producto.fecha_registro.includes(texto));
         
-        if(texto === ''){
-          setProductos(productoBackup);
-        }else{
-          
+        if (texto == "") {
+          consultarInactivos();
+        } else {
           setProductos(search);
         }
-        
-        
+      };
+
+      const consultarInactivos = () => {
+        if (state.estado) {
+          let productosFiltrados = productosData.filter((producto) =>
+          producto.estatus.includes("Inactivo")
+          );
+          setProductos(productosFiltrados);
+        } else {
+          let productoFiltradosAC = productosData.filter((producto) =>
+          producto.estatus.includes("Activo")
+          );
+          setProductos(productoFiltradosAC);
+        }
       };
     
       useEffect(() => {
         obtenerProductos();
       }, []);
     
+       
+
       useEffect(() => {
-        obtenerProductos();
-      }, [display]);   
+        consultarInactivos();
+      }, [display, state.estado]);
 
 
     
@@ -51,14 +76,9 @@ const ContenedorProducto = () => {
           <TituloPagina titulo="Productos" />
           
             <div className="row">
+
             <div className="col-5">
-            <input type="text"
-                    name="busqueda" 
-                    class="form-control " 
-                    placeholder="Busqueda"  
-                    onChange={(e) => {
-                       filtrarElementos(e.target.value);
-                    }}/>
+           
           </div>
               <div className="col-5">
               </div>
@@ -76,6 +96,36 @@ const ContenedorProducto = () => {
               <div>
                 <div className="card">
                   <div className="card-header">Tabla de Productos</div>
+                  <div className="row">
+                <div className="col-6">
+                  <div className="ml-2 mt-3">
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={state.estado}
+                          onChange={handleChange}
+                          name="estado"
+                        />
+                      }
+                      label="Mostar inactivos"
+                      labelPlacement="start"
+                    />
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="d-flex flex-row-reverse mr-4">
+                  <input
+                    type="text"
+                    name="busqueda"
+                    className="form-control mt-3 col-6"
+                    placeholder="Busqueda"
+                    onChange={(e) => {
+                      filtrarElementos(e.target.value);
+                    }}
+                  />
+                  </div>
+                </div>
+              </div>
                   <div class="card-body">
                     <div class="table-responsive">
                       <table className="table  card-table ">

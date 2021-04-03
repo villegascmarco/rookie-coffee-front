@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import getIngredientes from "../../Peticiones/api_ingredientes";
 import ingredientesData from "../../sample/ingredientes.json";
 import TituloPagina from "../TituloPagina/TituloPagina.jsx";
 import AgregarIngrediente from "../Ingredientes/AgregarIngrediente.jsx";
@@ -9,7 +10,7 @@ import "../estilos/ContenedorIngrediente.css";
 
 import CardDetalle from "./CardDetalle.jsx";
 
-const ContenedorCards = () => {
+const ContenedorCards = ({ tokenP }) => {
   const [ingredientes, setIngredientes] = useState([]);
   const [ingrediente, setIngrediente] = useState({});
   const [display, setDisplay] = useState(false);
@@ -53,7 +54,6 @@ const ContenedorCards = () => {
         ingrediente.unidad.toLowerCase().includes(texto)
     );
 
-    console.log(texto);
     if (texto == "") {
       consultarInactivos();
     } else {
@@ -61,11 +61,17 @@ const ContenedorCards = () => {
     }
   };
 
+  const obtenerIngrediente = async (token) => {
+    let response = await getIngredientes.mostrarIngredientes(token);
+    console.log(response);
+  };
+
   useEffect(() => {
     obtenerIngredientes();
   }, []);
 
   useEffect(() => {
+    obtenerIngrediente(tokenP);
     consultarInactivos();
   }, [display, state.estado]);
 

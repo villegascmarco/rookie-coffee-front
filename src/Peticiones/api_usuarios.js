@@ -83,6 +83,7 @@ export default class getUsuarios {
     // LOGIN DE LOS USUARIOS
 
     static async hacerLogin(usuario, contraseña) {
+        debugger;
         let response = await fetch(
             "http://moimorua.pythonanywhere.com/security/login", {
                 method: "POST",
@@ -98,6 +99,7 @@ export default class getUsuarios {
 
                 }),
             }
+
         ).then((response) => {
             if (response.ok) {
                 return response.json();
