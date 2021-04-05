@@ -75,6 +75,7 @@ function App() {
           <Route exact path="/Permiso">
             <Permiso />
           </Route>
+
         </Switch>
       </Router>
     </div>

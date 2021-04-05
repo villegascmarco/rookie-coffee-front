@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import ingredientes from "../../Peticiones/api_ingredientes";
 
-const AgregarIngrediente = () => {
+const AgregarIngrediente = ({token}) => {
 
   //States del ingrediente
   const [nombre, setNombre] = useState("");
@@ -9,24 +10,21 @@ const AgregarIngrediente = () => {
   const [descripcion, setDescripcion] = useState("")
   
 
-  const agregar = (e) => {
-    e.preventDefault();
-  };
 
-  const agregarIngrediente = (e) => {
-      let ingrediente = {
-        nombre: nombre,
-        cantidad: cantidad,
-        unidad_medida: unidad,
-        descripcion: descripcion,
-        fecha_registro: ""
-      }
-      console.log(ingrediente)
+  const agregarIngrediente = async() => {
+      let ingre = {
+          nombre:nombre,
+          descripcion: descripcion,
+          cantidad_disponible: cantidad,
+          unidad_medida: unidad,
+          usuario: 1,
+          fecha_registro: ""
+      };
+      let response = await ingredientes.agregarIngrediente(ingre, token);
   };
 
   return (
-    <div class="modal-dialog">
-      <form onSubmit={agregar}>
+    <div class="modal-dialog"> 
         <div class="modal-content">
           <div class="modal-header">
             <h4>Agregar Ingrediente</h4>
@@ -51,7 +49,7 @@ const AgregarIngrediente = () => {
                 }}
               />
             </div>
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-10">
               <label>Cantidad a agregar</label>
               <input
                 type="number"
@@ -90,6 +88,8 @@ const AgregarIngrediente = () => {
               >
                 <option selected>Elegir...</option>
                 <option value="g">Gramos</option>
+                <option value="kg">Kilogramos</option>
+                <option value="l">Litros</option>
               </select>
             </div>
           </div>
@@ -108,7 +108,6 @@ const AgregarIngrediente = () => {
             </button>
           </div>
         </div>
-      </form>
     </div>
   );
 };

@@ -1,40 +1,52 @@
 import React, { useState, useEffect } from "react";
+import ingredientes from "../../Peticiones/api_ingredientes";
 import '../estilos/CardDetalle.css'
 
-const CardDetalle = ({ingrediente, setDisplay}) => {
+const CardDetalle = ({ingrediente, setDisplay, token}) => {
   const [modoEdicion, setModoedicion] = useState(false);
   const [id, setId] = useState(0);
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState(0);
+  const [unidad, setUnidad] = useState("");
+  const [descripcion, setDescripcion] = useState("")
   const [estatus, setEstatus] = useState("");
 
   useEffect(() => {
-    if (ingrediente.id != null || ingrediente.id != undefined) {
-      setId(ingrediente.id);
+    if (ingrediente._id != null || ingrediente._id != undefined) {
+      setId(ingrediente._id);
       setNombre(ingrediente.nombre);
-      setCantidad(ingrediente.cantidad);
-      setEstatus(ingrediente.estatus)
+      setCantidad(ingrediente.cantidad_disponible);
+      setUnidad(ingrediente.unidad_medida);
+      setEstatus(ingrediente.estatus);
+      setDescripcion(ingrediente.descripcion);
     } else {
       console.log("No hay datos en el ingrediente");
     }
   }, [ingrediente]);
 
-  const eliminarIngrediente = (id) => {
-    // Llamar a la api de eliminar
-    setDisplay(false)
-  };
-
-  const modificarIngrediente = () => {
-    let ingrediente = {
-      id: id,
-      nombre: nombre,
-      cantidad: cantidad,
+  const eliminarIngrediente = async() => {
+    let ingre = {
+        id:id
     };
+    let response = await ingredientes.eliminarIngrediente(ingre, token);
+    setDisplay(false);
+};
 
-    console.log(ingrediente)
-
-    setDisplay(false)
+const modificarIngrediente = async() => {
+  let ingre = {
+      id:id,
+      nombre:nombre,
+      descripcion: descripcion,
+      cantidad_disponible: cantidad,
+      unidad_medida: unidad,
+      usuario: 1,
+      fecha_registro: ""
   };
+  let response = await ingredientes.modificarIngrediente(ingre, token);
+  setDisplay(false);
+};
+
+ 
 
   return (
     <div>
@@ -43,17 +55,7 @@ const CardDetalle = ({ingrediente, setDisplay}) => {
         <div class="card-body ">
           {/*  INICIA INPUT DE CLAVE  */}
 
-          <div className="form-group">
-            <label>Clave Ingrediente</label>
-            <input
-              id="clave"
-              type="number"
-              class="form-control "
-              placeholder="Clave Ingrediente"
-              value={id}
-              readOnly
-            />
-          </div>
+         
 
           {/*  INICIA INPUT DE NOMBRE  */}
 
@@ -73,9 +75,25 @@ const CardDetalle = ({ingrediente, setDisplay}) => {
             />
           </div>
 
+          <div className="form-group ">
+            <label>Descripcion</label>
+
+            <input
+              type="text"
+              onChange={(e) => {
+                setDescripcion(e.target.value);
+              }}
+              id="descripcion"
+              class="form-control "
+              placeholder="Descripcion"
+              min="0"
+              value={descripcion}
+            />
+          </div>
+
           {/*  INICIA INPUT DE CANTIDAD  */}
 
-          <div className="form-group">
+          <div className="form-group col-11">
             <label>Cantidad</label>
 
             <input
@@ -91,9 +109,25 @@ const CardDetalle = ({ingrediente, setDisplay}) => {
             />
           </div>
 
+          <div className="form-group col-11">
+            <label>Unidad</label>
+            <select
+              name="estado"
+              class="form-control"
+              value={unidad}
+              onChange={(e) => {
+                setUnidad(e.target.value);
+              }}
+            >
+                <option value="g">Gramos</option>
+                <option value="kg">Kilogramos</option>
+                <option value="l">Litros</option>
+            </select>
+          </div>
+
                     {/*  INICIA INPUT DE ESTATUS  */}
 
-                    <div className="form-group">
+           <div className="form-group col-11">
             <label>Estado</label>
 
             <select
@@ -169,7 +203,7 @@ const CardDetalle = ({ingrediente, setDisplay}) => {
                   <button
                     type="button"
                     onClick={() => {
-                      eliminarIngrediente(id);
+                      eliminarIngrediente();
                     }}
                     data-dismiss="modal"
                     className="btn btn-danger"
