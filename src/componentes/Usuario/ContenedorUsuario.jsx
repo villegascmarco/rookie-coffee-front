@@ -136,9 +136,7 @@ const ContenedorCardsUsuario = ({ tokenP }) => {
                           <tr
                             key={item.id}
                             className={
-                              item.estatus == "Inactivo"
-                                ? "text-black-50"
-                                : null
+                              item.estatus == "Inactivo" ? "text-black-50" : null
                             }
                           >
                             <td>{item.nombre}</td>

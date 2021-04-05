@@ -8,7 +8,7 @@ export default class getUsuarios {
 
     static mostrarUsuarios(token) {
         let response = fetch(
-            "http://moimorua.pythonanywhere.com/usuario/consultar", {
+            "http://glassware.pythonanywhere.com/usuario/consultar", {
                 method: "POST",
                 headers: new Headers({
                     //Cabecera para autenticación, usuario = 'Candecandelario', contraseña = '123'
@@ -85,7 +85,7 @@ export default class getUsuarios {
     static async hacerLogin(usuario, contraseña) {
         debugger;
         let response = await fetch(
-            "http://moimorua.pythonanywhere.com/security/login", {
+            "http://glassware.pythonanywhere.com/security/login", {
                 method: "POST",
                 headers: new Headers({
                     //Cabecera para autenticación, usuario = 'Candecandelario', contraseña = '123'
@@ -113,7 +113,7 @@ export default class getUsuarios {
 
     static cerrarSesion(token) {
         let response = fetch(
-            "http://moimorua.pythonanywhere.com/security/logout", {
+            "http://glassware.pythonanywhere.com/security/logout", {
                 method: "POST",
                 headers: new Headers({
                     "x-access-tokens": token,
@@ -133,7 +133,7 @@ export default class getUsuarios {
 
     static eliminarUsuario(id, token) {
         let response = fetch(
-            "http://moimorua.pythonanywhere.com/usuario/desactivar", {
+            "http://glassware.pythonanywhere.com/usuario/desactivar", {
                 method: "POST",
                 headers: new Headers({
                     "x-access-tokens": token,
@@ -155,7 +155,7 @@ export default class getUsuarios {
 
     static activarUsuario(id, token) {
         let response = fetch(
-            "http://moimorua.pythonanywhere.com/usuario/reactivar", {
+            "http://glassware.pythonanywhere.com/usuario/reactivar", {
                 method: "POST",
                 headers: new Headers({
                     "x-access-tokens": token,
@@ -177,7 +177,7 @@ export default class getUsuarios {
 
     static agregarUsuario(usuario, token) {
         let response = fetch(
-            "http://moimorua.pythonanywhere.com/usuario/agregar", {
+            "http://glassware.pythonanywhere.com/usuario/agregar", {
                 method: "POST",
                 headers: new Headers({
                     "x-access-tokens": token,
@@ -206,7 +206,7 @@ export default class getUsuarios {
 
     static modificarUsuario(usuario, token) {
         let response = fetch(
-            "http://moimorua.pythonanywhere.com/usuario/modificar", {
+            "http://glassware.pythonanywhere.com/usuario/modificar", {
                 method: "POST",
                 headers: new Headers({
                     "x-access-tokens": token,

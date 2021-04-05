@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import getIngredientes from "../../Peticiones/api_ingredientes";
-import ingredientesData from "../../sample/ingredientes.json";
+import Ingredientes from "../../Peticiones/api_ingredientes";
 import TituloPagina from "../TituloPagina/TituloPagina.jsx";
 import AgregarIngrediente from "../Ingredientes/AgregarIngrediente.jsx";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -14,6 +13,8 @@ const ContenedorCards = ({ tokenP }) => {
   const [ingredientes, setIngredientes] = useState([]);
   const [ingrediente, setIngrediente] = useState({});
   const [display, setDisplay] = useState(false);
+  const [bkup , setBkup] = useState([]);
+  const [agregado, setAgregado] = useState(false);
 
   const [state, setState] = useState({
     estado: false,
@@ -23,57 +24,43 @@ const ContenedorCards = ({ tokenP }) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-  const obtenerIngredientes = () => {
-    setIngredientes(ingredientesData);
+  
+  const obtenerIngredientes = async (token) => {
+    let response = await Ingredientes.mostrarIngredientes(token);
+    setIngredientes(response);
+    setBkup(response)
   };
 
   const seleccionarIngrediente = (ingrediente) => {
     setIngrediente(ingrediente);
   };
-
-  const consultarInactivos = () => {
-    if (state.estado) {
-      let ingredienteFiltrados = ingredientesData.filter((ingrediente) =>
-        ingrediente.estatus.includes("Inactivo")
-      );
-      setIngredientes(ingredienteFiltrados);
-    } else {
-      let ingredienteFiltradosAC = ingredientesData.filter((ingrediente) =>
-        ingrediente.estatus.includes("Activo")
-      );
-      setIngredientes(ingredienteFiltradosAC);
-    }
-  };
-
+  
   const filtrarElementos = (texto) => {
     texto= texto.toLowerCase()
     let search = ingredientes.filter(
       (ingrediente) =>
         ingrediente.nombre.toLowerCase().includes(texto) ||
-        ingrediente.cantidad.toString().includes(texto) ||
-        ingrediente.unidad.toLowerCase().includes(texto)
+        ingrediente.cantidad_disponible.toString().includes(texto) ||
+        ingrediente.unidad_medida.toLowerCase().includes(texto)
     );
 
     if (texto == "") {
-      consultarInactivos();
+      setIngredientes(bkup);
     } else {
       setIngredientes(search);
     }
   };
 
-  const obtenerIngrediente = async (token) => {
-    let response = await getIngredientes.mostrarIngredientes(token);
-    console.log(response);
-  };
+  
 
   useEffect(() => {
-    obtenerIngredientes();
+    obtenerIngredientes(tokenP);
   }, []);
 
   useEffect(() => {
-    obtenerIngrediente(tokenP);
-    consultarInactivos();
-  }, [display, state.estado]);
+    obtenerIngredientes(tokenP);
+    setAgregado(false);
+  }, [state.estado, display, agregado]);
 
   return (
     <div className="container mt-5 scroll">
@@ -146,7 +133,11 @@ const ContenedorCards = ({ tokenP }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {ingredientes.map((item) => (
+                      {ingredientes.filter((item) =>
+                          state.estado == true
+                            ? item.estatus == "Inactivo"
+                            : item.estatus == "Activo"
+                        ).map((item) => (
                         <tr
                           key={item.id}
                           className={
@@ -154,8 +145,8 @@ const ContenedorCards = ({ tokenP }) => {
                           }
                         >
                           <td>{item.nombre}</td>
-                          <td>{item.cantidad}</td>
-                          <td>{item.unidad}</td>
+                          <td>{item.cantidad_disponible}</td>
+                          <td>{item.unidad_medida}</td>
                           <td>{item.estatus}</td>
                           <td>
                             <button
@@ -183,6 +174,7 @@ const ContenedorCards = ({ tokenP }) => {
             ingrediente={ingrediente}
             display={display}
             setDisplay={setDisplay}
+            token={tokenP} 
           />
         </div>
       </div>
@@ -194,7 +186,7 @@ const ContenedorCards = ({ tokenP }) => {
         role="dialog"
         aria-hidden="true"
       >
-        <AgregarIngrediente />
+        <AgregarIngrediente  token={tokenP} />
       </div>
     </div>
   );
