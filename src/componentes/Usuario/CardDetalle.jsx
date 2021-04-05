@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Usuario from "../../Peticiones/api_usuarios";
 import "../estilos/CardDetalle.css";
+import getRoles from "../../Peticiones/api_roles";
 
 const CardDetalle = ({ usuario, setDisplay, token }) => {
   const [id, setId] = useState(0);
@@ -12,6 +13,8 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
   const [constraseña, setContraseña] = useState("");
   const [estatus, setEstatus] = useState("");
   const [rolUsuario, setRolUsuario] = useState("");
+
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     if (usuario._id != null || usuario._id != undefined) {
@@ -29,7 +32,16 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
     }
   }, [usuario]);
 
-  const eliminarUsuario = async (id) => {
+  useEffect(() => {
+    obtenerRoles(token);
+  }, []);
+
+  const obtenerRoles = async (token) => {
+    let response = await getRoles.mostrarRoles(token);
+    setRoles(response);
+  };
+
+  const desactivarUsuario = async (id) => {
     let response = await Usuario.eliminarUsuario(id, token);
     setDisplay(false);
   };
@@ -39,8 +51,8 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
     setDisplay(false);
   };
 
-  const modificarUsuario = async() => {
-    debugger
+  const modificarUsuario = async () => {
+    debugger;
     let usuario = {
       id: id,
       nombre: nombre,
@@ -49,10 +61,10 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
       rfc: rfc,
       nombre_acceso: nombreAcceso,
       contrasena: constraseña,
-      rol_usuario: rolUsuario
+      rol_usuario: rolUsuario,
     };
 
-    let response = await Usuario.modificarUsuario(usuario, token)
+    let response = await Usuario.modificarUsuario(usuario, token);
     setDisplay(false);
   };
 
@@ -165,24 +177,6 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
             />
           </div>
 
-          {/*  INICIA INPUT DE CONTRASEÑA  */}
-
-          <div className="form-group">
-            <label>Contraseña</label>
-
-            <input
-              type="text"
-              onChange={(e) => {
-                setContraseña(e.target.value);
-              }}
-              id="constraseña"
-              class="form-control "
-              placeholder="constraseña"
-              min="0"
-              value={constraseña}
-            />
-          </div>
-
           {/*  INICIA INPUT DE ROL USUARIO  */}
 
           <div className="form-group">
@@ -197,8 +191,11 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
               }}
             >
               <option>Elegir...</option>
-              <option value="1">Administrador</option>
-              <option value="2">Empleado</option>
+              {roles
+                .filter((item) => item.estatus == "Activo")
+                .map((item) => (
+                  <option value={item._id}>{item.nombre}</option>
+                ))}
             </select>
           </div>
 
@@ -217,15 +214,21 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
             </div>
             <div className="col-md-6 col-sm-12">
               <button
-                className={estatus == "Activo" ? "btn btn-danger" : "btn btn-success"}
+                className={
+                  estatus == "Activo" ? "btn btn-danger" : "btn btn-success"
+                }
                 data-toggle="modal"
                 data-target={
                   estatus == "Activo" ? "#eliminarModal" : "#activarModal"
                 }
                 value="true"
               >
-                {estatus == "Activo" ? "Eliminar" : "Activar"}
-                <i class="fa fa-minus-circle ml-2"></i>
+                {estatus == "Activo" ? "Desactivar" : "Activar"}
+                {estatus == "Activo" ? (
+                  <i class="fa fa-minus-circle ml-2"></i>
+                ) : (
+                  <i class="fa fa-check-circle ml-2"></i>
+                )}
               </button>
             </div>
           </div>
@@ -241,7 +244,7 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4> ¿Desea confirmar la eliminación?</h4>
+                  <h4> ¿Desea confirmar la desactivación?</h4>
                   <button
                     type="button"
                     class="close"
@@ -262,12 +265,12 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
                   <button
                     type="button"
                     onClick={() => {
-                      eliminarUsuario(id);
+                      desactivarUsuario(id);
                     }}
                     data-dismiss="modal"
                     className="btn btn-danger"
                   >
-                    Eliminar
+                    Desactivar
                     <i class="fa fa-minus-circle ml-2"></i>
                   </button>
                 </div>
@@ -312,7 +315,7 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
                     className="btn btn-success"
                   >
                     Activar
-                    <i class="fa fa-minus-circle ml-2"></i>
+                    <i class="fa fa-check-circle ml-2"></i>
                   </button>
                 </div>
               </div>

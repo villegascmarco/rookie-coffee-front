@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import getRoles from "../../Peticiones/api_roles";
 import TituloPagina from "../TituloPagina/TituloPagina.jsx";
 import AgregarRol from "./AgregarRol.jsx";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import "../estilos/ContenedorUsuario.css";
+import CargaPeticion from '../Carga/CargaPeticion.jsx'
 
 import CardDetalle from "./CardDetalle.jsx";
 
@@ -14,7 +16,10 @@ const ContenedorCardsRoles = ({ tokenP }) => {
   const [display, setDisplay] = useState(false);
   const [agregado, setAgregado] = useState(false);
 
-  
+  const history = useHistory();
+
+  const [cargando, setCargando] = useState(false);
+
   const [state, setState] = useState({
     estado: false,
   });
@@ -24,8 +29,19 @@ const ContenedorCardsRoles = ({ tokenP }) => {
   };
 
   const obtenerRoles = async (token) => {
-    let response = await getRoles.mostrarRoles(token);
-    setRoles(response);
+    let response = await getRoles.mostrarRoles(token).then(setCargando(true));
+    if (
+      response.mensaje === "El token enviado es invalido"
+    ) {
+      setCargando(false)
+      history.push(`/Login`);
+      localStorage.clear();
+      window.location.reload();
+    } else {
+      setCargando(false)
+      setRoles(response);
+    }
+    
   };
 
   const filtrarElementos = (texto) => {
@@ -33,8 +49,7 @@ const ContenedorCardsRoles = ({ tokenP }) => {
     let search = roles.filter(
       (rol) =>
         rol.nombre.toLowerCase().includes(texto) ||
-        rol.apellido_1.toLowerCase().includes(texto) ||
-        rol.nombre_acceso.toLowerCase().includes(texto)
+        rol.descripcion.toLowerCase().includes(texto)
     );
 
     if (texto == "") {
@@ -50,7 +65,7 @@ const ContenedorCardsRoles = ({ tokenP }) => {
 
   useEffect(() => {
     obtenerRoles(tokenP);
-    setAgregado(false)
+    setAgregado(false);
   }, [state.estado, display, agregado]);
 
   return (
@@ -181,11 +196,9 @@ const ContenedorCardsRoles = ({ tokenP }) => {
         role="dialog"
         aria-hidden="true"
       >
-        <AgregarRol 
-          token={tokenP} 
-          setAgregado={setAgregado}
-        />
+        <AgregarRol token={tokenP} setAgregado={setAgregado} />
       </div>
+      <CargaPeticion cargando={cargando} />
     </div>
   );
 };

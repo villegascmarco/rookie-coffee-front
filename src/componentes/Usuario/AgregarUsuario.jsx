@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Usuario from '../../Peticiones/api_usuarios'
+import Usuario from "../../Peticiones/api_usuarios";
+import getRoles from "../../Peticiones/api_roles";
 
-const AgregarUsuario = ({token, setAgregado}) => {
+const AgregarUsuario = ({ token, setAgregado }) => {
   //States del usuario
   const [nombre, setNombre] = useState("");
   const [apellido1, setApellido1] = useState("");
@@ -11,11 +12,13 @@ const AgregarUsuario = ({token, setAgregado}) => {
   const [constraseña, setContraseña] = useState("");
   const [rolUsuario, setRolUsuario] = useState("");
 
+  const [roles, setRoles] = useState([]);
+
   const agregar = (e) => {
     e.preventDefault();
   };
 
-  const agregarUsuario = async() => {
+  const agregarUsuario = async () => {
     let usuario = {
       nombre: nombre,
       apellido_1: apellido1,
@@ -23,12 +26,20 @@ const AgregarUsuario = ({token, setAgregado}) => {
       rfc: rfc,
       nombre_acceso: nombreAcceso,
       contrasena: constraseña,
-      estatus:"Activo",
-      rol_usuario: rolUsuario
+      estatus: "Activo",
+      rol_usuario: rolUsuario,
     };
-    let response = await Usuario.agregarUsuario(usuario, token)
-    setAgregado(true)
-   
+    let response = await Usuario.agregarUsuario(usuario, token);
+    setAgregado(true);
+  };
+
+  useEffect(() => {
+    obtenerRoles(token);
+  }, []);
+
+  const obtenerRoles = async (token) => {
+    let response = await getRoles.mostrarRoles(token);
+    setRoles(response);
   };
 
   return (
@@ -47,7 +58,6 @@ const AgregarUsuario = ({token, setAgregado}) => {
             </button>
           </div>
           <div className="modal-body">
-
             <div class="form-group col-md-12">
               <label>Nombre</label>
 
@@ -148,8 +158,11 @@ const AgregarUsuario = ({token, setAgregado}) => {
                 }}
               >
                 <option>Elegir...</option>
-                <option value="1">Administrador</option>
-                <option value="2">Empleado</option>
+                {roles
+                  .filter((item) => item.estatus == "Activo")
+                  .map((item) => (
+                    <option value={item._id}>{item.nombre}</option>
+                  ))}
               </select>
             </div>
           </div>

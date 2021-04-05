@@ -1,18 +1,16 @@
 import React from "react";
 import { elastic as Menu } from "react-burger-menu";
-import Usuario from '../../Peticiones/api_usuarios'
-import { Link } from "react-router-dom";
+import Usuario from "../../Peticiones/api_usuarios";
+import { useHistory } from "react-router-dom";
 
-export default (props) => {
-  
-  const cerrarSesion = async() => {
-    let response = await Usuario.cerrarSesion(props.token)
-    props.setToken("")
-    localStorage.clear()
-  }
+const Sidebar = (props) => {
+  const history = useHistory();
 
-
-
+  const cerrarSesion = async () => {
+    let response = await Usuario.cerrarSesion(props.token);
+    props.setToken("");
+    localStorage.clear();
+  };
 
   return (
     // Pass on our props
@@ -21,25 +19,82 @@ export default (props) => {
         Inicio
       </a>
 
-      <a className="menu-item" style={{ display: props.token ? "block" : "none" }} href="/Venta">
+      <a
+        className="menu-item"
+        style={{
+          display:
+            props.token && (props.rol == "Admin" || props.rol == "Emp")
+              ? "block"
+              : "none",
+        }}
+        href="/Venta"
+      >
         Venta
       </a>
 
-      <a className="menu-item" style={{ display: props.token ? "block" : "none" }} href="/Productos">
+      <a
+        className="menu-item"
+        style={{
+          display:
+            props.token && (props.rol == "Admin" || props.rol == "Emp")
+              ? "block"
+              : "none",
+        }}
+        href="/Productos"
+      >
         Producto
       </a>
 
-      <a className="menu-item" style={{ display: props.token ? "block" : "none" }} href="/Ingredientes">
+      <a
+        className="menu-item"
+        style={{
+          display:
+            props.token && (props.rol == "Admin" || props.rol == "Emp")
+              ? "block"
+              : "none",
+        }}
+        href="/Ingredientes"
+      >
         Ingrediente
       </a>
 
-      <a className="menu-item" style={{ display: props.token ? "block" : "none" }} href="/Empleados">
+
+      <a
+        className="menu-item"
+        style={{
+          display:
+            props.token && (props.rol == "Admin" || props.rol == "Emp")
+              ? "block"
+              : "none",
+        }}
+        href="/Ventas"
+      >
+        Ventas
+      </a>
+
+      <a
+        className="menu-item"
+        style={{
+          display: props.token && props.rol == "Admin" ? "block" : "none",
+        }}
+        href="/Empleados"
+      >
         Empleados
+      </a>
+
+      <a
+        className="menu-item"
+        style={{
+          display: props.token && props.rol == "Admin" ? "block" : "none",
+        }}
+        href="/Roles"
+      >
+        Roles
       </a>
       <button
         type="button"
         onClick={() => {
-          cerrarSesion()
+          cerrarSesion();
         }}
         className="btn btn-danger"
         style={{ display: props.token ? "block" : "none" }}
@@ -50,3 +105,5 @@ export default (props) => {
     </Menu>
   );
 };
+
+export default Sidebar;

@@ -1,0 +1,141 @@
+{
+  "contenido": [{
+      "_id": 1,
+      "detalle_venta": [{
+          "_id": 58,
+          "cantidad": 3,
+          "estatus": "Activo",
+          "precio_historico": 30.0,
+          "producto": 1,
+          "venta": 1
+        },
+        {
+          "_id": 59,
+          "cantidad": 2,
+          "estatus": "Activo",
+          "precio_historico": 20.0,
+          "producto": 2,
+          "venta": 1
+        }
+      ],
+      "estatus": "Activo",
+      "fecha": "2021-03-18T12:21:04",
+      "total_venta": 130.0,
+      "usuario": 2
+    },
+    {
+      "_id": 2,
+      "detalle_venta": [{
+        "_id": 58,
+        "cantidad": 3,
+        "estatus": "Activo",
+        "precio_historico": 30.0,
+        "producto": 1,
+        "venta": 1
+      }],
+      "estatus": "Activo",
+      "fecha": "2021-03-19T12:21:04",
+      "total_venta": 45.0,
+      "usuario": 1
+    },
+    {
+      "_id": 5,
+      "detalle_venta": [{
+          "_id": 9,
+          "cantidad": 3,
+          "estatus": "Activo",
+          "precio_historico": 30.0,
+          "producto": 1,
+          "venta": 5
+        },
+        {
+          "_id": 10,
+          "cantidad": 2,
+          "estatus": "Activo",
+          "precio_historico": 20.0,
+          "producto": 2,
+          "venta": 5
+        }
+      ],
+      "estatus": "Activo",
+      "fecha": "2021-03-22T18:20:46",
+      "total_venta": 130.0,
+      "usuario": 1
+    },
+    {
+      "_id": 6,
+      "detalle_venta": [{
+          "_id": 11,
+          "cantidad": 3,
+          "estatus": "Activo",
+          "precio_historico": 30.0,
+          "producto": 1,
+          "venta": 6
+        },
+        {
+          "_id": 12,
+          "cantidad": 2,
+          "estatus": "Activo",
+          "precio_historico": 20.0,
+          "producto": 2,
+          "venta": 6
+        }
+      ],
+      "estatus": "Activo",
+      "fecha": "2021-03-22T18:20:51",
+      "total_venta": 130.0,
+      "usuario": 1
+    },
+    {
+      "_id": 7,
+      "detalle_venta": [{
+          "_id": 13,
+          "cantidad": 3,
+          "estatus": "Activo",
+          "precio_historico": 30.0,
+          "producto": 1,
+          "venta": 7
+        },
+        {
+          "_id": 14,
+          "cantidad": 2,
+          "estatus": "Activo",
+          "precio_historico": 20.0,
+          "producto": 2,
+          "venta": 7
+        }
+      ],
+      "estatus": "Activo",
+      "fecha": "2021-03-22T18:29:23",
+      "total_venta": 130.0,
+      "usuario": 1
+    },
+    {
+      "_id": 8,
+      "detalle_venta": [{
+          "_id": 15,
+          "cantidad": 3,
+          "estatus": "Activo",
+          "precio_historico": 30.0,
+          "producto": 1,
+          "venta": 8
+        },
+        {
+          "_id": 16,
+          "cantidad": 2,
+          "estatus": "Activo",
+          "precio_historico": 20.0,
+          "producto": 2,
+          "venta": 8
+        }
+      ],
+      "estatus": "Activo",
+      "fecha": "2021-03-22T18:31:34",
+      "total_venta": 130.0,
+      "usuario": 3
+    }
+  ],
+  "estado": "OK",
+  "mensaje": "Informaci\u00f3n consultada correctamente",
+  "registros": 6
+}

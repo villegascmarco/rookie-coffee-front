@@ -1,13 +1,13 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-const PrivateRouteAdmin = ({ tokenP, component: Component, ...rest }) => {
+const PrivateRouteEmp = ({ tokenP, component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
       component={(props) =>
         localStorage.getItem("token") 
-        && localStorage.getItem("rol") == "Admin" ? (
+        && localStorage.getItem("rol") == "Emp" || localStorage.getItem("rol") == "Admin" ? (
           <Component tokenP={tokenP} />
         ) : (
           <Redirect
@@ -22,4 +22,4 @@ const PrivateRouteAdmin = ({ tokenP, component: Component, ...rest }) => {
   );
 };
 
-export default PrivateRouteAdmin;
+export default PrivateRouteEmp;

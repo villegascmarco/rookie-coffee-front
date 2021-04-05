@@ -5,6 +5,7 @@ import Login from './componentes/Login/Login.jsx'
 import ContenedorProducto from './componentes/Productos/ContenedorProducto.jsx'
 import ContenedorIngrediente from './componentes/Ingredientes/ContenedorIngrediente.jsx'
 import ContenedorCardsUsuario from './componentes/Usuario/ContenedorUsuario.jsx'
+import ContenedorVentas from './componentes/Ventas/ContenedorVenta.jsx'
 import Venta from './componentes/Venta/Venta.jsx'
 import ContenedorRoles from './componentes/RolesUsuarios/ContenedorRoles.jsx'
 import Permiso from './componentes/Errores/Permiso.jsx'
@@ -14,6 +15,7 @@ import Permiso from './componentes/Errores/Permiso.jsx'
 import PrivateRoute from './componentes/RutasPrivadas/PrivateRoute.jsx'
 import PrivateRouteLogin from './componentes/RutasPrivadas/PrivateRouteLogin.jsx'
 import PrivateRouteAdmin from './componentes/RutasPrivadas/PrivateRouteAdmin.jsx'
+import PrivateRouteEmp from './componentes/RutasPrivadas/PrivateRouteEmp.jsx'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/js/dist/modal'
@@ -31,9 +33,13 @@ import {
 function App() {
 
   const [token, setToken] = useState("")
+  const [rol, setRol] = useState("")
+
   const obtenerToken = () => {
     let tokenlocal = localStorage.getItem("token")
+    let rolLocal = localStorage.getItem("rol")
     setToken(tokenlocal)
+    setRol(rolLocal)
   }
 
   useEffect(() => {
@@ -43,21 +49,24 @@ function App() {
   return (
 
     <div className="App">
-      <SideBar pageWrapId={"container"} outerContainerId={"App"} token={token} setToken={setToken} />
+      <SideBar pageWrapId={"container"} outerContainerId={"App"} token={token} rol={rol} setToken={setToken} />
     <div className="container">
       <Router>
       <Switch>
-          <PrivateRoute path="/Venta" component={Venta} />
+          <PrivateRoute path="/Venta" component={Venta} tokenP={token} />
 
           <PrivateRouteLogin path="/Login" component={Login} />
 
-          <PrivateRouteAdmin path="/Productos" component={ContenedorProducto} />
+          <PrivateRouteEmp path="/Productos" component={ContenedorProducto} />
           
-          <PrivateRouteAdmin path="/Ingredientes" component={ContenedorIngrediente} />
-          
+          <PrivateRouteEmp path="/Ingredientes" component={ContenedorIngrediente} />
+
+          <PrivateRouteEmp path="/Ventas" component={ContenedorVentas} tokenP={token} />
+
           <PrivateRouteAdmin path="/Roles" component={ContenedorRoles} tokenP={token} />
 
           <PrivateRouteAdmin path="/Empleados" component={ContenedorCardsUsuario} tokenP={token} />
+          
 
           <Route exact path="/">
             <Index />

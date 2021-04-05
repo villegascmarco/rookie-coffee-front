@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import getUsuarios from "../../Peticiones/api_usuarios";
 import TituloPagina from "../TituloPagina/TituloPagina.jsx";
 import AgregarUsuario from "./AgregarUsuario.jsx";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import "../estilos/ContenedorUsuario.css";
+import CargaPeticion from '../Carga/CargaPeticion.jsx'
 
 import CardDetalle from "./CardDetalle.jsx";
 
@@ -14,7 +16,10 @@ const ContenedorCardsUsuario = ({ tokenP }) => {
   const [display, setDisplay] = useState(false);
   const [agregado, setAgregado] = useState(false);
 
-  
+  const history = useHistory();
+
+  const [cargando, setCargando] = useState(false);
+
   const [state, setState] = useState({
     estado: false,
   });
@@ -24,8 +29,16 @@ const ContenedorCardsUsuario = ({ tokenP }) => {
   };
 
   const obtenerUsuarios = async (token) => {
-    let response = await getUsuarios.mostrarUsuarios(token);
-    setUsuarios(response);
+    let response = await getUsuarios.mostrarUsuarios(token).then(setCargando(true));
+    if (response.mensaje === "El token enviado es invalido") {
+      setCargando(false);
+      history.push(`/Login`);
+      localStorage.clear();
+      window.location.reload();
+    } else {
+      setCargando(false);
+      setUsuarios(response);
+    }
   };
 
   const filtrarElementos = (texto) => {
@@ -50,7 +63,7 @@ const ContenedorCardsUsuario = ({ tokenP }) => {
 
   useEffect(() => {
     obtenerUsuarios(tokenP);
-    setAgregado(false)
+    setAgregado(false);
   }, [state.estado, display, agregado]);
 
   return (
@@ -183,11 +196,9 @@ const ContenedorCardsUsuario = ({ tokenP }) => {
         role="dialog"
         aria-hidden="true"
       >
-        <AgregarUsuario 
-          token={tokenP} 
-          setAgregado={setAgregado}
-        />
+        <AgregarUsuario token={tokenP} setAgregado={setAgregado} />
       </div>
+      <CargaPeticion cargando={cargando} />
     </div>
   );
 };

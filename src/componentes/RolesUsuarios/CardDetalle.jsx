@@ -8,20 +8,18 @@ const CardDetalle = ({ rol, setDisplay, token }) => {
   const [descripcion, setDescripcion] = useState("");
   const [estatus, setEstatus] = useState("");
 
-
   useEffect(() => {
     if (rol._id != null || rol._id != undefined) {
       setId(rol._id);
       setNombre(rol.nombre);
       setDescripcion(rol.descripcion);
       setEstatus(rol.estatus);
-      
     } else {
       console.log("No hay datos en el rol");
     }
   }, [rol]);
 
-  const eliminarRol = async (id) => {
+  const desactivarRol = async (id) => {
     let response = await Rol.eliminarRol(id, token);
     setDisplay(false);
   };
@@ -31,17 +29,16 @@ const CardDetalle = ({ rol, setDisplay, token }) => {
     setDisplay(false);
   };
 
-  const modificarRol = async() => {
-    debugger
+  const modificarRol = async () => {
+    debugger;
     let rol = {
       id: id,
       nombre: nombre,
       descripcion: descripcion,
       estatus: estatus,
-
     };
 
-    let response = await Rol.modificarRol(rol, token)
+    let response = await Rol.modificarRol(rol, token);
     setDisplay(false);
   };
 
@@ -115,15 +112,21 @@ const CardDetalle = ({ rol, setDisplay, token }) => {
             </div>
             <div className="col-md-6 col-sm-12">
               <button
-                className={estatus == "Activo" ? "btn btn-danger" : "btn btn-success"}
+                className={
+                  estatus == "Activo" ? "btn btn-danger" : "btn btn-success"
+                }
                 data-toggle="modal"
                 data-target={
                   estatus == "Activo" ? "#eliminarModal" : "#activarModal"
                 }
                 value="true"
               >
-                {estatus == "Activo" ? "Eliminar" : "Activar"}
-                <i class="fa fa-minus-circle ml-2"></i>
+                {estatus == "Activo" ? "Desactivar" : "Activar"}
+                {estatus == "Activo" ? (
+                  <i class="fa fa-minus-circle ml-2"></i>
+                ) : (
+                  <i class="fa fa-check-circle ml-2"></i>
+                )}
               </button>
             </div>
           </div>
@@ -139,7 +142,7 @@ const CardDetalle = ({ rol, setDisplay, token }) => {
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4> ¿Desea confirmar la eliminación?</h4>
+                  <h4> ¿Desea confirmar la desactivación?</h4>
                   <button
                     type="button"
                     class="close"
@@ -160,12 +163,12 @@ const CardDetalle = ({ rol, setDisplay, token }) => {
                   <button
                     type="button"
                     onClick={() => {
-                      eliminarRol(id);
+                      desactivarRol(id);
                     }}
                     data-dismiss="modal"
                     className="btn btn-danger"
                   >
-                    Eliminar
+                    Desactivar
                     <i class="fa fa-minus-circle ml-2"></i>
                   </button>
                 </div>
@@ -210,7 +213,7 @@ const CardDetalle = ({ rol, setDisplay, token }) => {
                     className="btn btn-success"
                   >
                     Activar
-                    <i class="fa fa-minus-circle ml-2"></i>
+                    <i class="fa fa-check-circle ml-2"></i>
                   </button>
                 </div>
               </div>

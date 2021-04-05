@@ -1,13 +1,13 @@
-export default class getUsuarios {
+export default class getRoles {
     constructor() {
 
     }
 
     // CONSULTAR ROLES
 
-    static mostrarRoles(token) {
-        let response = fetch(
-            "http://moimorua.pythonanywhere.com/rol-usuario/consultar", {
+    static async mostrarRoles(token) {
+        let response = await fetch(
+            "http://glassware.pythonanywhere.com/rol-usuario/consultar", {
                 method: "POST",
                 headers: new Headers({
                     //Cabecera para autenticación, usuario = 'Candecandelario', contraseña = '123'
@@ -32,7 +32,7 @@ export default class getUsuarios {
 
     static eliminarRol(id, token) {
         let response = fetch(
-            "http://moimorua.pythonanywhere.com/rol-usuario/desactivar", {
+            "http://glassware.pythonanywhere.com/rol-usuario/desactivar", {
                 method: "POST",
                 headers: new Headers({
                     "x-access-tokens": token,
@@ -54,7 +54,7 @@ export default class getUsuarios {
 
     static activarRol(id, token) {
         let response = fetch(
-            "http://moimorua.pythonanywhere.com/rol-usuario/reactivar", {
+            "http://glassware.pythonanywhere.com/rol-usuario/reactivar", {
                 method: "POST",
                 headers: new Headers({
                     "x-access-tokens": token,
@@ -76,7 +76,7 @@ export default class getUsuarios {
 
     static modificarRol(rol, token) {
         let response = fetch(
-            "http://moimorua.pythonanywhere.com/rol-usuario/modificar", {
+            "http://glassware.pythonanywhere.com/rol-usuario/modificar", {
                 method: "POST",
                 headers: new Headers({
                     "x-access-tokens": token,
@@ -99,9 +99,9 @@ export default class getUsuarios {
 
     // AGREGAR ROL
 
-    static agregarRol(rol, token) {
+    static agregarVenta(rol, token) {
         let response = fetch(
-            "http://moimorua.pythonanywhere.com/rol-usuario/agregar", {
+            "http://glassware.pythonanywhere.com/venta/registrar", {
                 method: "POST",
                 headers: new Headers({
                     "x-access-tokens": token,

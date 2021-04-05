@@ -9,8 +9,22 @@
 .productos_container {
     display: grid;
     gap: 100px;
+    width: 100%;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
+}
+
+
+.todo_container {
+    display: inline-block;
+    width: 60%;
+    float: left;
+}
+
+.detalle-venta {
+    margin-top: 20px;
+    max-width: 38%;
+    float: right;
 }
 
 
