@@ -18,7 +18,6 @@ const Login = () => {
   const Login = async (e) => {
     e.preventDefault();
 
-    debugger
     let response = await Usuario.hacerLogin(user, password).then(setCargando(true));
 
     if (response == undefined) {

@@ -9,6 +9,7 @@ import ContenedorVentas from './componentes/Ventas/ContenedorVenta.jsx'
 import Venta from './componentes/Venta/Venta.jsx'
 import ContenedorRoles from './componentes/RolesUsuarios/ContenedorRoles.jsx'
 import Permiso from './componentes/Errores/Permiso.jsx'
+import Conocenos from './componentes/Index/Conocenos.jsx'
 
 
 //Rutas privadas
@@ -57,9 +58,9 @@ function App() {
 
           <PrivateRouteLogin path="/Login" component={Login} />
 
-          <PrivateRouteEmp path="/Productos" component={ContenedorProducto} />
+          <PrivateRouteEmp path="/Productos" component={ContenedorProducto} tokenP={token} />
           
-          <PrivateRouteEmp path="/Ingredientes" component={ContenedorIngrediente} />
+          <PrivateRouteEmp path="/Ingredientes" component={ContenedorIngrediente} tokenP={token} />
 
           <PrivateRouteEmp path="/Ventas" component={ContenedorVentas} tokenP={token} />
 
@@ -74,6 +75,10 @@ function App() {
 
           <Route exact path="/Permiso">
             <Permiso />
+          </Route>
+
+          <Route exact path="/Conocenos">
+            <Conocenos />
           </Route>
 
         </Switch>

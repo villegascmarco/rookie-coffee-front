@@ -7,7 +7,7 @@ const PrivateRouteEmp = ({ tokenP, component: Component, ...rest }) => {
       {...rest}
       component={(props) =>
         localStorage.getItem("token") 
-        && localStorage.getItem("rol") == "Emp" || localStorage.getItem("rol") == "Admin" ? (
+        && localStorage.getItem("rol") == "Usuario" || localStorage.getItem("rol") == "Admin" ? (
           <Component tokenP={tokenP} />
         ) : (
           <Redirect

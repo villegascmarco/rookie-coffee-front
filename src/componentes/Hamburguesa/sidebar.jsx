@@ -18,12 +18,15 @@ const Sidebar = (props) => {
       <a className="menu-item" href="/">
         Inicio
       </a>
+      <a className="menu-item" href="/Conocenos">
+        Conocenos
+      </a>
 
       <a
         className="menu-item"
         style={{
           display:
-            props.token && (props.rol == "Admin" || props.rol == "Emp")
+            props.token && (props.rol == "Admin" || props.rol == "Usuario")
               ? "block"
               : "none",
         }}
@@ -36,7 +39,7 @@ const Sidebar = (props) => {
         className="menu-item"
         style={{
           display:
-            props.token && (props.rol == "Admin" || props.rol == "Emp")
+            props.token && (props.rol == "Admin" || props.rol == "Usuario")
               ? "block"
               : "none",
         }}
@@ -49,7 +52,7 @@ const Sidebar = (props) => {
         className="menu-item"
         style={{
           display:
-            props.token && (props.rol == "Admin" || props.rol == "Emp")
+            props.token && (props.rol == "Admin" || props.rol == "Usuario")
               ? "block"
               : "none",
         }}
@@ -63,7 +66,7 @@ const Sidebar = (props) => {
         className="menu-item"
         style={{
           display:
-            props.token && (props.rol == "Admin" || props.rol == "Emp")
+            props.token && (props.rol == "Admin" || props.rol == "Usuario")
               ? "block"
               : "none",
         }}
