@@ -29,8 +29,8 @@ const AgregarUsuario = ({ token, setAgregado }) => {
       estatus: "Activo",
       rol_usuario: rolUsuario,
     };
-    let response = await Usuario.agregarUsuario(usuario, token);
-    setAgregado(true);
+    // let response = await Usuario.agregarUsuario(usuario, token);
+    // setAgregado(true);
   };
 
   useEffect(() => {

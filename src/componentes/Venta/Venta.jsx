@@ -8,28 +8,57 @@ import uniqid from "uniqid";
 
 import "../estilos/Venta.css";
 
-const Venta = ({tokenP}) => {
+const Venta = ({ tokenP }) => {
   const [productoSel, setProductoSel] = useState({});
   const [productos, setProductos] = useState([]);
   const [listaProductos, setListaProductos] = useState([]);
   const [total, setTotal] = useState(0);
 
   const agregarProductoVenta = (producto) => {
-    const nuevoProducto = {
-      id: uniqid(),
-      producto: producto.id,
-      nombre: producto.nombre,
-      precio_historico: producto.precio,
-      cantidad: 0,
-    };
-    setTotal(total + nuevoProducto.precio_historico);
-    setListaProductos([...listaProductos, nuevoProducto]);
+    let cantidad = 1;
+
+    let valProducto = listaProductos.filter(
+      (item) => item.nombre == producto.nombre
+    );
+    if (valProducto != "") {
+      cantidad = valProducto[0].cantidad + 1;
+      const nuevoProducto = {
+        producto: producto.id,
+        nombre: producto.nombre,
+        precio_historico: producto.precio,
+        cantidad: cantidad,
+      };
+
+      const newArrary = listaProductos.filter((item) => item.nombre !== producto.nombre);
+      setTotal(total + nuevoProducto.precio_historico);
+      setListaProductos([...newArrary, nuevoProducto]);
+
+    } else {
+      const nuevoProducto = {
+        producto: producto.id,
+        nombre: producto.nombre,
+        precio_historico: producto.precio,
+        cantidad: cantidad,
+      };
+
+      setTotal(total + nuevoProducto.precio_historico);
+      setListaProductos([...listaProductos, nuevoProducto]);
+    }
   };
 
   const borrarProductoVenta = (producto) => {
-    const newArrary = listaProductos.filter((item) => item.id !== producto.id);
-    setTotal(total - producto.precio_historico);
-    setListaProductos(newArrary);
+    debugger;
+    const newArray = listaProductos.filter((item) => item.producto !== producto.producto);
+    if (newArray == 0) {
+      setTotal(0);
+    } else {
+      if(producto.cantidad > 1){
+        setTotal(total - (producto.precio_historico * producto.cantidad))
+      } else {
+        setTotal(total - producto.precio_historico);
+      }
+    }
+    setListaProductos(newArray);
   };
 
   const obtenerProductos = () => {
@@ -65,7 +94,7 @@ const Venta = ({tokenP}) => {
           borrar={borrarProductoVenta}
           total={total}
           setTotal={setTotal}
-          setListaProductos = {setListaProductos}
+          setListaProductos={setListaProductos}
           token={tokenP}
         />
       </div>

@@ -3,47 +3,87 @@ import ventasData from "../../sample/venta.json";
 import TituloPagina from "../TituloPagina/TituloPagina.jsx";
 import CardDetalle from "./CardDetalle.jsx";
 import "../estilos/ContenedorIngrediente.css";
-import getVentas from '../../Peticiones/api_ventas'
-import CargaPeticion from '../Carga/CargaPeticion.jsx'
+import getVentas from "../../Peticiones/api_ventas";
+import CargaPeticion from "../Carga/CargaPeticion.jsx";
 import { useHistory } from "react-router-dom";
 
-const ContenedorVenta = ({tokenP}) => {
+const ContenedorVenta = ({ tokenP }) => {
   const [ventas, setVentas] = useState([]);
   const [venta, setVenta] = useState({});
   const [display, setDisplay] = useState(false);
   const [productoBackup, setProductoBackup] = useState([]);
   const [cargando, setCargando] = useState(false);
+  const [srchVentas, setSrchVentas] = useState("general");
+  const [fechaIni, setFechaIni] = useState("");
+  const [fechaFin, setFechaFin] = useState("");
 
   const history = useHistory();
 
   const obtenerVentas = async (token) => {
     debugger
-    let response = await getVentas.mostrarVentas(token).then(setCargando(true));
-    if (response.mensaje === "El token enviado es invalido") {
+    let response
+    if(fechaIni){
+     response = await getVentas
+      .mostrarVentas(token, "especifico", fechaIni, fechaFin)
+      .then(setCargando(true));
+    } else {
+       response = await getVentas
+      .mostrarVentas(token, srchVentas)
+      .then(setCargando(true));
+      document.getElementById('fechaIn').value = ''
+      document.getElementById('fechaFin').value = ''
+    }
+    if (response.mensaje === "El token enviado es invalido" || response.mensaje === "El token enviado ha caducado") {
       setCargando(false);
       history.push(`/Login`);
       localStorage.clear();
       window.location.reload();
     } else {
       setCargando(false);
-      setVentas(response);
+      setVentas(response.contenido);
     }
   };
+
   const seleccionarVenta = (venta) => {
+    debugger
     setVenta(venta);
   };
 
   useEffect(() => {
     obtenerVentas(tokenP);
-  }, [display]);
+  }, [display, srchVentas, fechaFin]);
+
+
 
   return (
     <div className="container mt-5 scroll">
       <TituloPagina titulo="Ventas realizadas" />
 
       <div className="row">
-        <div className="col-5">{/* INPUT DE BUSQUEDA */}</div>
-        <div className="col-5"></div>
+        <div className="col-6">
+          <label>Filtrar por:</label>
+
+          <select
+            name="ventas-busqueda"
+            className="form-control col-3"
+            value={srchVentas}
+            onChange={(e) => {
+              setSrchVentas(e.target.value);
+            }}
+          >
+            <option value="general">Todas</option>
+            <option value="semanal">Semanal</option>
+            <option value="mensual">Mensual</option>
+            
+          </select>
+        </div>
+        <div className="col-6 mt-2">
+          <br/>
+          <label className="mr-2">Consultar de:</label>  
+          <input type="date" name="" className="mr-1" onChange={(e) => {setFechaIni(e.target.value)}} id="fechaIn"/> 
+          a 
+          <input type="date" name="" className="ml-1" onChange={(e) => {setFechaFin(e.target.value)}} id="fechaFin"/>
+        </div>
       </div>
       <br />
 
@@ -53,7 +93,7 @@ const ContenedorVenta = ({tokenP}) => {
             <div className="card">
               <div className="card-header">Tabla de Ventas</div>
               <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive table_chiquita">
                   <table className="table  card-table ">
                     <thead className="table_ingredientes">
                       <tr>
@@ -65,26 +105,28 @@ const ContenedorVenta = ({tokenP}) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {ventas.map((item) => (
-                        <tr key={item._id}>
-                          <td>{item.usuario}</td>
-                          <td>{item.fecha}</td>
-                          <td>{item.detalle_venta.length}</td>
-                          <td>${item.total_venta} MXN</td>
-                          <td>
-                            <button
-                              className="btn btn-light"
-                              onClick={() => {
-                                seleccionarVenta(item);
-                                setDisplay(true);
-                              }}
-                            >
-                              Detalle
-                              <i class="fa fa-eye ml-2"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
+                      {ventas
+                        .filter((item) => item.estatus === "Activo")
+                        .map((item) => (
+                          <tr key={item._id}>
+                            <td>{item.usuario}</td>
+                            <td>{item.fecha}</td>
+                            <td>{item.detalle_venta.length}</td>
+                            <td>${item.total_venta} MXN</td>
+                            <td>
+                              <button
+                                className="btn btn-light"
+                                onClick={() => {
+                                  seleccionarVenta(item);
+                                  setDisplay(true);
+                                }}
+                              >
+                                Detalle
+                                <i class="fa fa-eye ml-2"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>
@@ -97,6 +139,7 @@ const ContenedorVenta = ({tokenP}) => {
             venta={venta}
             display={display}
             setDisplay={setDisplay}
+            token={tokenP}
           />
         </div>
       </div>

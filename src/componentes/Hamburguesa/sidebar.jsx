@@ -14,7 +14,17 @@ const Sidebar = (props) => {
 
   return (
     // Pass on our props
+    
     <Menu {...props}>
+      {props.usuario ? 
+      (
+      <h6 className="usuario">
+        Bienvenido, {props.usuario}!
+      </h6>
+      ) : (
+      null
+      )}
+      
       <a className="menu-item" href="/">
         Inicio
       </a>
@@ -23,7 +33,7 @@ const Sidebar = (props) => {
         className="menu-item"
         style={{
           display:
-            props.token && (props.rol == "Admin" || props.rol == "Emp")
+            props.token && (props.rol == "Usuario" || props.rol == "Admin")
               ? "block"
               : "none",
         }}
@@ -36,7 +46,7 @@ const Sidebar = (props) => {
         className="menu-item"
         style={{
           display:
-            props.token && (props.rol == "Admin" || props.rol == "Emp")
+            props.token && (props.rol == "Usuario" || props.rol == "Admin")
               ? "block"
               : "none",
         }}
@@ -49,7 +59,7 @@ const Sidebar = (props) => {
         className="menu-item"
         style={{
           display:
-            props.token && (props.rol == "Admin" || props.rol == "Emp")
+            props.token && (props.rol == "Usuario" || props.rol == "Admin")
               ? "block"
               : "none",
         }}
@@ -63,7 +73,7 @@ const Sidebar = (props) => {
         className="menu-item"
         style={{
           display:
-            props.token && (props.rol == "Admin" || props.rol == "Emp")
+            props.token && (props.rol == "Usuario" || props.rol == "Admin")
               ? "block"
               : "none",
         }}

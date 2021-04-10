@@ -34,12 +34,15 @@ function App() {
 
   const [token, setToken] = useState("")
   const [rol, setRol] = useState("")
+  const [usuario, setUsuario] = useState("")
 
   const obtenerToken = () => {
     let tokenlocal = localStorage.getItem("token")
     let rolLocal = localStorage.getItem("rol")
+    let nombreLocal = localStorage.getItem("usuario")
     setToken(tokenlocal)
     setRol(rolLocal)
+    setUsuario(nombreLocal)
   }
 
   useEffect(() => {
@@ -49,12 +52,14 @@ function App() {
   return (
 
     <div className="App">
-      <SideBar pageWrapId={"container"} outerContainerId={"App"} token={token} rol={rol} setToken={setToken} />
+      <SideBar pageWrapId={"container"} outerContainerId={"App"} token={token} rol={rol} setToken={setToken} usuario = {usuario} />
     <div className="container">
       <Router>
       <Switch>
-          <PrivateRoute path="/Venta" component={Venta} tokenP={token} />
 
+
+          <PrivateRoute exact path="/Venta" component={Venta} tokenP={token} rol={rol} />
+          
           <PrivateRouteLogin path="/Login" component={Login} />
 
           <PrivateRouteEmp path="/Productos" component={ContenedorProducto} />

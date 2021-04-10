@@ -60,7 +60,6 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
       apellido_2: apellido2,
       rfc: rfc,
       nombre_acceso: nombreAcceso,
-      contrasena: constraseña,
       rol_usuario: rolUsuario,
     };
 

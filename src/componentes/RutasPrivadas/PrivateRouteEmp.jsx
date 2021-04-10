@@ -6,8 +6,9 @@ const PrivateRouteEmp = ({ tokenP, component: Component, ...rest }) => {
     <Route
       {...rest}
       component={(props) =>
-        localStorage.getItem("token") 
-        && localStorage.getItem("rol") == "Emp" || localStorage.getItem("rol") == "Admin" ? (
+        localStorage.getItem("token") &&
+        (localStorage.getItem("rol") == "Usuario" ||
+          localStorage.getItem("rol") == "Admin") ? (
           <Component tokenP={tokenP} />
         ) : (
           <Redirect
@@ -15,7 +16,7 @@ const PrivateRouteEmp = ({ tokenP, component: Component, ...rest }) => {
               pathname: "/Permiso",
               state: { from: props.location },
             }}
-            />
+          />
         )
       }
     />

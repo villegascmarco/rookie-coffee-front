@@ -18,7 +18,6 @@ const Login = () => {
   const Login = async (e) => {
     e.preventDefault();
 
-    debugger
     let response = await Usuario.hacerLogin(user, password).then(setCargando(true));
 
     if (response == undefined) {
@@ -40,6 +39,7 @@ const Login = () => {
       window.location.reload();
       localStorage.setItem("token", response.token);
       localStorage.setItem("rol", response.rol);
+      localStorage.setItem("usuario", response.nombre_acceso);
     }
   };
 

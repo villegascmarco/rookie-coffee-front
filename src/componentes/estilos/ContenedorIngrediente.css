@@ -6,3 +6,7 @@
 .tabla_ts {
     transition: 0.45s;
 }
+
+.table_chiquita {
+    max-height: 700px;
+}

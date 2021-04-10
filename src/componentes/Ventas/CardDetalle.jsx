@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import getVentas from '../../Peticiones/api_ventas'
 import "../estilos/CardDetalle.css";
 
-const CardDetalleP = ({ venta, setDisplay }) => {
+const CardDetalleP = ({ token, venta, setDisplay }) => {
   const [modoEdicion, setModoedicion] = useState(false);
   const [id, setId] = useState(0);
   const [usuario, setUsuario] = useState("");
@@ -9,6 +10,7 @@ const CardDetalleP = ({ venta, setDisplay }) => {
   const [fecha, setFecha] = useState("");
   const [totalVenta, setTotalVenta] = useState(0);
   const [detalleVenta, setDetalleVenta] = useState([]);
+  const [cargando, setCargando] = useState(false);
 
   useEffect(() => {
     if (venta.id !== null || venta.id !== undefined) {
@@ -34,18 +36,9 @@ const CardDetalleP = ({ venta, setDisplay }) => {
     }
   }, [venta]);
 
-  const eliminarVenta = (id) => {
-    // Llamar a la api de eliminar
-    setDisplay(false);
-  };
-
-  const modificarProducto = () => {
-    let producto = {
-      id: id,
-    };
-
-    console.log(producto);
-
+  const eliminarVenta = async () => {
+    debugger
+    let response = await getVentas.eliminarVenta(venta, token).then(setCargando(true)) 
     setDisplay(false);
   };
 
@@ -54,6 +47,7 @@ const CardDetalleP = ({ venta, setDisplay }) => {
       <div className="card card_ts">
         <div className="card-header">Detalle</div>
         <div class="card-body ">
+
           {/*  INICIA INPUT DE USUARIO  */}
 
           <div className="form-group">
@@ -80,14 +74,14 @@ const CardDetalleP = ({ venta, setDisplay }) => {
             <table className="table">
               <thead className="table_ingredientes">
                 <th>Nombre</th>
-                <th>Cant. Uso</th>
+                <th>Num. comprados</th>
               </thead>
               <tbody>
                 {
                 detalleVenta ? 
                 detalleVenta.map((item) => (
                   <tr>
-                    <td>{item.producto}</td>
+                    <td>{item.producto_nombre}</td>
                     <td>{item.cantidad}</td>
                   </tr>
                 ))
@@ -124,7 +118,7 @@ const CardDetalleP = ({ venta, setDisplay }) => {
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4> ¿Desea confirmar la eliminación?</h4>
+                  <h4> ¿Desea confirmar la desactivación?</h4>
                   <button
                     type="button"
                     class="close"
@@ -150,7 +144,7 @@ const CardDetalleP = ({ venta, setDisplay }) => {
                     data-dismiss="modal"
                     className="btn btn-danger"
                   >
-                    Eliminar
+                    Desactivar
                     <i class="fa fa-minus-circle ml-2"></i>
                   </button>
                 </div>
@@ -192,7 +186,7 @@ const CardDetalleP = ({ venta, setDisplay }) => {
                     type="button"
                     data-dismiss="modal"
                     onClick={() => {
-                      modificarProducto();
+                      eliminarVenta()
                     }}
                     class="btn btn-warning"
                   >

@@ -8,6 +8,7 @@ import Switch from "@material-ui/core/Switch";
 import "../estilos/ContenedorUsuario.css";
 import CargaPeticion from '../Carga/CargaPeticion.jsx'
 
+
 import CardDetalle from "./CardDetalle.jsx";
 
 const ContenedorCardsUsuario = ({ tokenP }) => {
@@ -30,7 +31,7 @@ const ContenedorCardsUsuario = ({ tokenP }) => {
 
   const obtenerUsuarios = async (token) => {
     let response = await getUsuarios.mostrarUsuarios(token).then(setCargando(true));
-    if (response.mensaje === "El token enviado es invalido") {
+    if (response.mensaje === "El token enviado es invalido" || response.mensaje === "El token enviado ha caducado" ) {
       setCargando(false);
       history.push(`/Login`);
       localStorage.clear();
@@ -127,7 +128,7 @@ const ContenedorCardsUsuario = ({ tokenP }) => {
                 </div>
               </div>
               <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive table_chiquita">
                   <table className="table  card-table ">
                     <thead className="table_usuario">
                       <tr>
