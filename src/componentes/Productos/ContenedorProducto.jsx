@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import productosData from "../../sample/productos.json";
+import { useHistory } from "react-router-dom";
+import Ingredientes from "../../Peticiones/api_ingredientes";
+import Productos from "../../Peticiones/api_productos";
 import TituloPagina from '../TituloPagina/TituloPagina.jsx'
 import CardDetalleP from './CardDetalleP.jsx'
 import AgregarProducto from './AgregarProducto.jsx'
@@ -8,26 +10,48 @@ import Switch from "@material-ui/core/Switch";
 import '../estilos/ContenedorIngrediente.css'
 
 
-const ContenedorProducto = () => {
+const ContenedorProducto = ({tokenP}) => {
     const [productos, setProductos] = useState([]);
     const [producto, setProducto] = useState({});
     const [display, setDisplay] = useState(false);
     const [productoBackup, setProductoBackup] = useState([]);
+    const [ingredientes, setIngredientes] = useState([]);
+
+    const [agregado, setAgregado] = useState(false);
 
     const [state, setState] = useState({
       estado: false,
     });
+    const history = useHistory();
 
     const handleChange = (event) => {
       setState({ ...state, [event.target.name]: event.target.checked });
     };
     
-
-
-    const obtenerProductos = () => {
-        setProductos(productosData);
-        setProductoBackup(productosData)
+      const obtenerProductos = async (token) => {
+        let response = await Productos.mostrarProductos(token);
+        if (response.mensaje === "El token enviado es invalido") {
+      
+          history.push(`/Login`);
+          localStorage.clear();
+          window.location.reload();
+          
+          
+        } else {
+          setProductoBackup(response);
+          setProductos(response);
+          
+        }
+        
       };
+
+      const obtenerIngredientes = async (token) => {
+        let response = await Ingredientes.mostrarIngredientes(token);
+
+        setIngredientes(response);
+        
+      };
+
     const seleccionaProducto = (producto) => {
         setProducto(producto);
       };
@@ -35,38 +59,23 @@ const ContenedorProducto = () => {
       
 
       const filtrarElementos=(texto)=>{
-        let search=productos.filter(producto => producto.nombre.toLowerCase().includes(texto)  ||  
-        producto.precio.toString().includes(texto) ||   producto.fecha_registro.includes(texto));
+        texto= texto.toLowerCase()
+        let search=productos.filter(producto =>
+          producto.nombre.toLowerCase().includes(texto)  ||  
+          producto.precio.toString().includes(texto) ||   
+          producto.fecha_registro.toString().includes(texto));
         
         if (texto == "") {
-          consultarInactivos();
+          setProductos(productoBackup);
         } else {
           setProductos(search);
         }
       };
 
-      const consultarInactivos = () => {
-        if (state.estado) {
-          let productosFiltrados = productosData.filter((producto) =>
-          producto.estatus.includes("Inactivo")
-          );
-          setProductos(productosFiltrados);
-        } else {
-          let productoFiltradosAC = productosData.filter((producto) =>
-          producto.estatus.includes("Activo")
-          );
-          setProductos(productoFiltradosAC);
-        }
-      };
-    
       useEffect(() => {
-        obtenerProductos();
-      }, []);
-    
-       
-
-      useEffect(() => {
-        consultarInactivos();
+        obtenerIngredientes(tokenP);
+        obtenerProductos(tokenP);
+        setAgregado(false);
       }, [display, state.estado]);
 
 
@@ -107,7 +116,7 @@ const ContenedorProducto = () => {
                           name="estado"
                         />
                       }
-                      label="Mostar inactivos"
+                      label="Mostrar inactivos"
                       labelPlacement="start"
                     />
                   </div>
@@ -133,20 +142,25 @@ const ContenedorProducto = () => {
                           <tr>
                             <th scope="col">Nombre</th>
                             <th scope="col">Precio</th>
-                            <th scope="col">Descripcion</th>
+                            <th scope="col">Descripción</th>
                             <th scope="col">Fecha registro</th>
-                            <th scope="col">Estatus</th>
                             <th scope="col"></th>
                           </tr>
                         </thead>
                         <tbody>
-                          {productos.map((item) => (
-                            <tr key={item.id}>
+                          {productos.filter((item) =>
+                          state.estado == true
+                            ? item.estatus == "Inactivo"
+                            : item.estatus == "Activo"
+                        ).map((item) => (
+                            <tr key={item.id}
+                          className={
+                            item.estatus == "Inactivo" ? "text-black-50" : null
+                          }>
                               <td>{item.nombre}</td>
                               <td>{item.precio}</td>
                               <td>{item.descripcion}</td>
                               <td>{item.fecha_registro}</td>
-                              <td>{item.estatus}</td>
                               <td>
                               <button
                                   className="btn btn-light"
@@ -172,13 +186,18 @@ const ContenedorProducto = () => {
             <CardDetalleP 
               producto={producto} 
               display={display}
-              setDisplay={setDisplay}/>
+              setDisplay={setDisplay} 
+              ingredientes={ingredientes}
+              tokenP={tokenP}
+
+              />
                                   
             </div>
+            
           </div>
     
           <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-hidden="true">
-          <AgregarProducto/>     
+          <AgregarProducto ingredientes={ingredientes} tokenP={tokenP}/>     
              </div>
         </div>
         

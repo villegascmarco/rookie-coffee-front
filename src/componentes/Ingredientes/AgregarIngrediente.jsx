@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ingredientes from "../../Peticiones/api_ingredientes";
 
-const AgregarIngrediente = ({token}) => {
+const AgregarIngrediente = ({token, setAgregado}) => {
 
   //States del ingrediente
   const [nombre, setNombre] = useState("");
@@ -21,7 +21,13 @@ const AgregarIngrediente = ({token}) => {
           fecha_registro: ""
       };
       let response = await ingredientes.agregarIngrediente(ingre, token);
+      
+
+      setAgregado(true);
+      
   };
+
+ 
 
   return (
     <div class="modal-dialog"> 
@@ -95,15 +101,16 @@ const AgregarIngrediente = ({token}) => {
           </div>
           <div class="modal-footer">
             <button
+            id="btnCerrar"
               type="button"
               class="btn btn-secondary"
               data-dismiss="modal"
             >
               Cancelar
             </button>
-            <button type="submit" class="btn btn-success" onClick={() => {
+            <button type="button" class="btn btn-success" onClick={() => {
                       agregarIngrediente();
-                    }}>
+                    }}  data-dismiss="modal">
               Agregar <i class="fa fa-plus-square ml-2"></i>
             </button>
           </div>

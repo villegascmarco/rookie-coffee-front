@@ -1,32 +1,66 @@
 import React, { useEffect, useState } from "react";
 
-const AgregarProducto = () => {
+import Productos from "../../Peticiones/api_productos";
+
+const AgregarProducto = ({ingredientes , tokenP}) => {
 
   //States del ingrediente
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [precio, setPrecio] = useState(0);
   const [cantidad, setCantidad] = useState(0);
-  const [ingrediente, setIngrediente] = useState([]);
+  const [id, setId] = useState(0);
+  const [addingredientes, setAddIngredientes] = useState([]);
+  const [emailCE, setEmailCE] = useState(null);
   
 
-  const agregar = (e) => {
-    e.preventDefault();
+
+  
+  
+
+  const agregarIngrediente = (e) => {
+    const encontrar = addingredientes.filter((item) => item.ingrediente == id);
+    if(encontrar == ""){
+      var yourElement = document.getElementById("ingredientes");
+      var nombre = yourElement.options[yourElement.selectedIndex].text;
+
+      let ingre1={
+        cantidad_requerida:cantidad,
+        nombre: nombre,
+        ingrediente:id
+      };
+      setEmailCE(null);
+    setAddIngredientes([...addingredientes, ingre1]);
+    }else{
+      setEmailCE("Ya existe este ingrediente en este producto");
+    }
+    
+    
   };
 
-  const agrearProducto = (e) => {
-      let producto = {
-        nombre: nombre,
-        descripcion: descripcion,
-        precio: precio,
-        fecha_registro: ""
-      }
-      console.log(producto)
+  const borrarIngredienteProducto = (id) => {
+    const newArrary = addingredientes.filter((item) => item.ingrediente !== id);
+    setAddIngredientes(newArrary);
   };
+
+
+  
+  const agrearProducto = async() =>{
+    let producto={
+        nombre: nombre,
+        descripcion:descripcion ,
+        precio: precio,
+        fecha_registro: "",
+        ingrediente_producto: addingredientes
+    
+    };
+    
+    let response = await Productos.agregarProducto(producto, tokenP);
+  };
+
 
   return (
     <div class="modal-dialog">
-      <form onSubmit={agregar}>
         <div class="modal-content">
           <div class="modal-header">
             <h4>Agregar Producto</h4>
@@ -55,20 +89,6 @@ const AgregarProducto = () => {
             </div>
             <div className="row">
             <div class="form-group col-md-12">
-              <label>Precio</label>
-              <input
-                type="number"
-                name="precio"
-                class="form-control "
-                onChange={(e) => {
-                  setPrecio(e.target.value)
-                }}
-                min="0"
-              />
-            </div>
-            </div>
-            <div className="row">
-            <div class="form-group col-md-12">
               <label>Pequeña descripción del nuevo producto</label>
               <input
                 type="text"
@@ -82,26 +102,49 @@ const AgregarProducto = () => {
             </div>
             </div>
             <div className="row">
+            <div class="form-group col-md-10">
+            <label>Precio</label>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+           <span class="input-group-text" id="basic-addon1">$</span>
+          </div>
+          <input type="number" class="form-control" placeholder="Precio" onChange={(e) => {
+                  setPrecio(e.target.value)
+                }}
+                min="0"/>
+            </div>
+            </div>
+            </div>
+            
+            <div className="row">
             <div class="form-group col-md-6">
               <label>Ingrediente</label>
               <select
-                name="unidades"
+                name="ingredientes"
+                id="ingredientes"
                 className="form-control"
                 data-id="ingrediente"
                 data-nested="nested"
                 onChange={(e) => {
-                  setIngrediente(e.target.value);
+                  setId(e.target.value); 
+                  
+                 
                 }}
               >
                 <option selected>Elegir...</option>
-                <option value="g">Crema</option>
+                 {ingredientes.filter((item) => 
+                  item.estatus == "Activo").map((item) => (
+                   <option value={item._id}>{item.nombre} - {item.unidad_medida}</option>
+
+                          ))}
               </select>
               
             </div>
             </div>
             
-            <label >Cantidad</label>
+            <label >Cantidad <span class="badge badge-success"></span></label>
             <div class="form-inline">
+            <small id="emailHelp" class="form-text text-muted">Se registrará  en gramos  g o mililitros ml</small>
             <input
                 type="number"
                 name="cantidad"
@@ -111,17 +154,35 @@ const AgregarProducto = () => {
                 }}
                 min="0"
               />
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-plus"></i></button>
+              
+            <button class="btn btn-outline-success my-2 my-sm-0" onClick={() => {
+                      agregarIngrediente();
+                    }}  ><i class="fa fa-plus"></i></button>
            </div>
+           <br />
+           {emailCE != null ? (
+            <div className="alert alert-danger">{emailCE}</div>
+          ) : (
+            <span></span>
+          )}
             <br />
            <div className="table-responsive">
            <table className="table">
              <thead className="table_ingredientes">
                <th>Nombre</th>
                <th>Cant. Uso</th>
+               <th></th>
              </thead>
              <tbody>
-               <td></td>
+             {addingredientes.map((item) => (
+                   <tr>
+                     <td>{item.nombre}</td>
+                     <td>{item.cantidad_requerida}</td>
+                     <td><button className="btn btn-danger" onClick={() => {
+                        borrarIngredienteProducto(item.ingrediente);
+                      }}><i class="fa fa-minus-circle"></i></button></td>
+                   </tr>
+                          ))}
 
              </tbody>
           </table>
@@ -136,15 +197,16 @@ const AgregarProducto = () => {
             >
               Cancelar
             </button>
-            <button type="submit" className="btn btn-success" onClick={() => {
+            <button type="" className="btn btn-success" onClick={() => {
                       agrearProducto();
-                    }}>
+                    }}  data-dismiss="modal">
               Agregar <i class="fa fa-plus-square ml-2"></i>
             </button>
           </div>
         </div>
-      </form>
+       
     </div>
+    
   );
 };
 export default AgregarProducto;

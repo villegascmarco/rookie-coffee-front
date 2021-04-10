@@ -1,13 +1,13 @@
 import axios from 'axios';
-export default class Ingredientes {
+export default class Productos {
     constructor() {
 
     }
- static mostrarIngredientes(token) {
-     console.log("toke",token);
+ static mostrarProductos(token) {
+    
     
     let response = fetch(
-        "http://glassware.pythonanywhere.com/ingrediente/consultar", {
+        "http://glassware.pythonanywhere.com/producto/consultar", {
             method: "GET",
             headers: new Headers({
                 "x-access-tokens": token,
@@ -22,67 +22,67 @@ export default class Ingredientes {
     });
     return response
 }
-static agregarIngrediente(ingrediente, token) { 
+static agregarProducto(producto, token) { 
+    
     let response = fetch(
-        "http://glassware.pythonanywhere.com/ingrediente/agregar", {
+        "http://glassware.pythonanywhere.com/producto/agregar", {
             method: "POST",
             headers: new Headers({
                 "x-access-tokens": token,
                 "Content-Type": "application/json",
             }),
             body: JSON.stringify({
-                nombre: ingrediente.nombre,
-                descripcion: ingrediente.descripcion,
-                cantidad_disponible: parseFloat(ingrediente.cantidad_disponible),
-                unidad_medida: ingrediente.unidad_medida,
-                usuario: ingrediente.usuario,
-                fecha_registro: ingrediente.fecha_registro
+                    nombre: producto.nombre,
+                    descripcion: producto.descripcion,
+                    precio:parseFloat(producto.precio) ,
+                    fecha_registro: producto.fecha_registro,
+                    ingrediente_producto: producto.ingrediente_producto
 
             })
         }
     ).then((response) => {
         if (response.ok) {
+            console.log(response)
             return response.json();
         }
     });
     return response
 }
-static modificarIngrediente(ingrediente, token) { 
+static modificarProducto(producto, token) { 
     let response = fetch(
-        "http://glassware.pythonanywhere.com/ingrediente/modificar", {
+        "http://glassware.pythonanywhere.com/producto/modificar", {
             method: "POST",
             headers: new Headers({
                 "x-access-tokens": token,
                 "Content-Type": "application/json",
             }),
             body: JSON.stringify({
-                _id:ingrediente.id,
-                nombre: ingrediente.nombre,
-                descripcion: ingrediente.descripcion,
-                cantidad_disponible: parseInt(ingrediente.cantidad_disponible),
-                unidad_medida: ingrediente.unidad_medida,
-                usuario: ingrediente.usuario,
-                fecha_registro: ingrediente.fecha_registro
-
+                _id:producto.id,
+                nombre: producto.nombre,
+                descripcion: producto.descripcion,
+                precio:parseFloat(producto.precio) ,
+                fecha_registro: producto.fecha_registro,
+                ingrediente_producto: producto.ingrediente_producto
             })
         }
     ).then((response) => {
         if (response.ok) {
+            console.log(response)
             return response.json();
         }
     });
     return response
 }
-static eliminarIngrediente(ingrediente, token) { 
+static eliminarProducto(producto, token) { 
     let response = fetch(
-        "http://glassware.pythonanywhere.com/ingrediente/desactivar", {
+        "http://glassware.pythonanywhere.com/producto/desactivar", {
             method: "POST",
             headers: new Headers({
                 "x-access-tokens": token,
                 "Content-Type": "application/json",
             }),
             body: JSON.stringify({
-                _id: ingrediente.id
+                _id: producto.id
             })
         }
     ).then((response) => {

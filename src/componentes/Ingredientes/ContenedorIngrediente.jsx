@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Ingredientes from "../../Peticiones/api_ingredientes";
 import TituloPagina from "../TituloPagina/TituloPagina.jsx";
 import AgregarIngrediente from "../Ingredientes/AgregarIngrediente.jsx";
@@ -20,6 +21,8 @@ const ContenedorCards = ({ tokenP }) => {
     estado: false,
   });
 
+  const history = useHistory();
+
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
@@ -27,8 +30,19 @@ const ContenedorCards = ({ tokenP }) => {
   
   const obtenerIngredientes = async (token) => {
     let response = await Ingredientes.mostrarIngredientes(token);
-    setIngredientes(response);
-    setBkup(response)
+    if (response.mensaje === "El token enviado es invalido") {
+      
+      history.push(`/Login`);
+      localStorage.clear();
+      window.location.reload();
+      
+      
+    } else {
+      setIngredientes(response);
+      setBkup(response)
+      
+    }
+    
   };
 
   const seleccionarIngrediente = (ingrediente) => {
@@ -50,6 +64,7 @@ const ContenedorCards = ({ tokenP }) => {
       setIngredientes(search);
     }
   };
+  
 
   
 
@@ -128,7 +143,6 @@ const ContenedorCards = ({ tokenP }) => {
                         <th scope="col">Nombre</th>
                         <th scope="col">Cantidad</th>
                         <th scope="col">Unidad</th>
-                        <th scope="col">Estado</th>
                         <th scope="col"></th>
                       </tr>
                     </thead>
@@ -147,7 +161,6 @@ const ContenedorCards = ({ tokenP }) => {
                           <td>{item.nombre}</td>
                           <td>{item.cantidad_disponible}</td>
                           <td>{item.unidad_medida}</td>
-                          <td>{item.estatus}</td>
                           <td>
                             <button
                               className="btn btn-light"
@@ -186,7 +199,7 @@ const ContenedorCards = ({ tokenP }) => {
         role="dialog"
         aria-hidden="true"
       >
-        <AgregarIngrediente  token={tokenP} />
+        <AgregarIngrediente  token={tokenP} setAgregado={setAgregado}/>
       </div>
     </div>
   );
