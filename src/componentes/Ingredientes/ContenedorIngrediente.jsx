@@ -160,7 +160,7 @@ const ContenedorCards = ({ tokenP }) => {
                         >
                           <td>{item.nombre}</td>
                           <td>{item.cantidad_disponible}</td>
-                          <td>{item.unidad_medida}</td>
+                          <td>{item.unidad_medida.toUpperCase()}</td>
                           <td>
                             <button
                               className="btn btn-light"

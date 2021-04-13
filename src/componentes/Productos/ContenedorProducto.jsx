@@ -47,8 +47,19 @@ const ContenedorProducto = ({tokenP}) => {
 
       const obtenerIngredientes = async (token) => {
         let response = await Ingredientes.mostrarIngredientes(token);
+        if (response.mensaje === "El token enviado es invalido") {
+      
+          history.push(`/Login`);
+          localStorage.clear();
+          window.location.reload();
+          
+          
+        } else {
+          setIngredientes(response);
+          
+        }
 
-        setIngredientes(response);
+        
         
       };
 
