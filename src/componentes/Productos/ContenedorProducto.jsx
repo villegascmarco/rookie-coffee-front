@@ -87,7 +87,7 @@ const ContenedorProducto = ({tokenP}) => {
         obtenerIngredientes(tokenP);
         obtenerProductos(tokenP);
         setAgregado(false);
-      }, [display, state.estado]);
+      }, [display, state.estado, agregado]);
 
 
     
@@ -169,7 +169,7 @@ const ContenedorProducto = ({tokenP}) => {
                             item.estatus == "Inactivo" ? "text-black-50" : null
                           }>
                               <td>{item.nombre}</td>
-                              <td>{item.precio}</td>
+                              <td>${item.precio} MXN</td>
                               <td>{item.descripcion}</td>
                               <td>{item.fecha_registro}</td>
                               <td>
@@ -208,7 +208,7 @@ const ContenedorProducto = ({tokenP}) => {
           </div>
     
           <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-hidden="true">
-          <AgregarProducto ingredientes={ingredientes} tokenP={tokenP}/>     
+          <AgregarProducto ingredientes={ingredientes} tokenP={tokenP} setAgregado={setAgregado}/>     
              </div>
         </div>
         

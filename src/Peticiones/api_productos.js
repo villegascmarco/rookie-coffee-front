@@ -49,6 +49,7 @@ static agregarProducto(producto, token) {
     return response
 }
 static modificarProducto(producto, token) { 
+    console.log(JSON.stringify(producto));
     let response = fetch(
         "http://glassware.pythonanywhere.com/producto/modificar", {
             method: "POST",
@@ -57,7 +58,7 @@ static modificarProducto(producto, token) {
                 "Content-Type": "application/json",
             }),
             body: JSON.stringify({
-                _id:producto.id,
+                _id:producto._id,
                 nombre: producto.nombre,
                 descripcion: producto.descripcion,
                 precio:parseFloat(producto.precio) ,
