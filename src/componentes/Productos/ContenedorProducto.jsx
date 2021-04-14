@@ -47,8 +47,19 @@ const ContenedorProducto = ({tokenP}) => {
 
       const obtenerIngredientes = async (token) => {
         let response = await Ingredientes.mostrarIngredientes(token);
+        if (response.mensaje === "El token enviado es invalido") {
+      
+          history.push(`/Login`);
+          localStorage.clear();
+          window.location.reload();
+          
+          
+        } else {
+          setIngredientes(response);
+          
+        }
 
-        setIngredientes(response);
+        
         
       };
 
@@ -76,7 +87,7 @@ const ContenedorProducto = ({tokenP}) => {
         obtenerIngredientes(tokenP);
         obtenerProductos(tokenP);
         setAgregado(false);
-      }, [display, state.estado]);
+      }, [display, state.estado, agregado]);
 
 
     
@@ -197,7 +208,7 @@ const ContenedorProducto = ({tokenP}) => {
           </div>
     
           <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-hidden="true">
-          <AgregarProducto ingredientes={ingredientes} tokenP={tokenP}/>     
+          <AgregarProducto ingredientes={ingredientes} tokenP={tokenP} setAgregado={setAgregado}/>     
              </div>
         </div>
         

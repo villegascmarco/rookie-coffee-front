@@ -20,20 +20,41 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
 
   const [ingrePro, setIngrePro] = useState({});
   const [cantIngre, setCantIngrediente] = useState(0);
+  const [nombrei, setNombreI] = useState("");
+  
   
 
   useEffect(() => {
-    if (producto._id !== null || producto._id !==undefined) {
+    if (producto._id != null || producto._id != undefined) {
       setId(producto._id);
       setNombre(producto.nombre);
       setDescripcion(producto.descripcion);
       setEstatus(producto.estatus);
       setPrecio(producto.precio);
-      setIngredientesP(producto.ingrediente_producto);
+      let ingrs = [];
+      producto.ingrediente_producto.forEach(element => {
+        let ing={
+          _id: element._id,
+          cantidad_requerida: element.cantidad_requerida,
+          estatus:element.estatus,
+          fecha_registro: element.fecha_registro,
+          ingrediente: element.ingrediente[0]._id,
+          nombre:element.ingrediente[0].ingrediente,
+          producto: element.producto,
+          usuario: element.usuario
+              };
+              ingrs.push(ing);  
+        
+      });
+      setIngredientesP(ingrs);
+      setEmailCE(null);
     } else {
       console.log("No hay datos en el producto");
     }
   }, [producto]);
+
+
+  
 
   const eliminarProducto =  async(id) => {
     // Llamar a la api de eliminar
@@ -51,7 +72,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
         _id : ingrePro._id,//id de detalle
         cantidad_requerida : ingrePro.cantidad_requerida,
         estatus : "Inactivo",
-        fecha_registro: "08/04/2021  22:14:51",
+        fecha_registro: "",
         id_ingrediente : ingrePro.id_ingrediente, //id del ingrediente
         producto: ingrePro.producto
       };
@@ -67,7 +88,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
   };
   const modificarProducto = async() => {
     let produ={
-      id:id,
+      _id:id,
       nombre: nombre,
       descripcion:descripcion ,
       precio: precio,
@@ -85,8 +106,9 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
       _id : ingrePro._id,//id de detalle
       cantidad_requerida : cantIngre,
       estatus : "Activo",
-      fecha_registro: "08/04/2021  22:14:51",
-      id_ingrediente : ingrePro.id_ingrediente, //id del ingrediente
+      fecha_registro: "",
+      ingrediente : ingrePro.id_ingrediente,
+      nombre: ingrePro.nombre, //id del ingrediente
       producto: ingrePro.producto
     };
     const encontrar = ingredientesP.filter((item) => item._id !== ingrePro._id );
@@ -98,7 +120,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
 
   
   const agregarIngrediente = (e) => {
-    const encontrar = ingredientesP.filter((item) => item.id_ingrediente== idIngrediente);
+    const encontrar = ingredientesP.filter((item) => item.ingrediente == idIngrediente);
     if(encontrar == ""){
       var yourElement = document.getElementById("ingredientesc");
     var nombre = yourElement.options[yourElement.selectedIndex].text;
@@ -107,7 +129,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
       cantidad_requerida: Number.parseFloat(cantidad),
       estatus : "Activo",
       nombre: nombre,
-      id_ingrediente: parseInt(idIngrediente, 10),
+      ingrediente: parseInt(idIngrediente, 10),
       producto: id
      };
      setIngredientesP([...ingredientesP, ingre1]);
@@ -117,6 +139,11 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
     }
     
     
+  };
+  const asignarDTI = (item) =>{
+    setNombreI(item.nombre);
+    setCantIngrediente(item.cantidad_requerida);
+    setIngrePro(item);
   };
 
   
@@ -143,7 +170,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
               name="nombre"
               class="form-control "
               placeholder="Nombre"
-              value={nombre}
+              value={nombre} required
             />
           </div>
 
@@ -199,11 +226,12 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
                 }}
               >
                 <option selected>Elegir...</option>
-                {ingredientes.filter((item) => 
+                {ingredientes != null ?(
+                ingredientes.filter((item) => 
                   item.estatus == "Activo").map((item) => (
                    <option value={item._id}>{item.nombre} - {item.unidad_medida}</option>
 
-                          ))}
+                          ))) : (<span></span>)} 
               </select>
               
             </div>
@@ -249,18 +277,18 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
                      <td>{item.nombre}</td>
                      <td>{item.cantidad_requerida}</td>
                      <td><button className="btn btn-light" onClick={() => {
-                      setIngrePro(item); 
-                      setCantIngrediente(ingrePro.cantidad_requerida);
+                       asignarDTI(item);
+                     
                     }}>
                      <i class="fa fa-eye "></i></button></td>
                    </tr>
                           ))) : (<span></span>)
-                          } 
+                          }  
              </tbody>
           </table>
            </div>
 
-          {/* INICIA BOTONES  */}
+        
 
           <div className="row text-center">
             <div className="col-md-6 col-sm-12">
@@ -387,14 +415,12 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
 
             <input
               id="nombre"
-              onChange={(e) => {
-                //setNombre(e.target.value);
-              }}
               type="text"
               name="nombre"
               class="form-control "
               placeholder="Nombre"
-              value={ingrePro.nombre}
+              value={nombrei}
+              disabled
             />
           </div>
           <div className="form-group">

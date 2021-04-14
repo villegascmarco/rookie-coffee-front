@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Productos from "../../Peticiones/api_productos";
 
-const AgregarProducto = ({ingredientes , tokenP}) => {
+const AgregarProducto = ({ingredientes , tokenP, setAgregado}) => {
 
   //States del ingrediente
   const [nombre, setNombre] = useState("");
@@ -56,6 +56,7 @@ const AgregarProducto = ({ingredientes , tokenP}) => {
     };
     
     let response = await Productos.agregarProducto(producto, tokenP);
+    setAgregado(true);
   };
 
 
