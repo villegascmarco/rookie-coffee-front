@@ -1,14 +1,14 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-const PrivateRouteAdmin = ({ tokenP, component: Component, ...rest }) => {
+const PrivateRouteAdmin = ({ tokenP, rol, component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
       component={(props) =>
         localStorage.getItem("token") 
         && localStorage.getItem("rol") == "Admin" ? (
-          <Component tokenP={tokenP} />
+          <Component tokenP={tokenP} rol={rol} />
         ) : (
           <Redirect
             to={{

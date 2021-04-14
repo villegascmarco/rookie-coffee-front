@@ -41,7 +41,7 @@ export default class getVentas {
                     body: JSON.stringify({
                         metodo_busqueda: metodo_busqueda,
                         fecha_inicial: fecha_inicial+"T00:00:00",
-                        fecha_final: fecha_final+"T00:00:00"
+                        fecha_final: fecha_final+"T23:59:59"
                     }),
                 }
             ).then((response) => {

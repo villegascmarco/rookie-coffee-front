@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Rol from "../../Peticiones/api_roles";
 import "../estilos/CardDetalle.css";
 
-const CardDetalle = ({ rol, setDisplay, token }) => {
+const CardDetalle = ({ rol, setDisplay, token, roluser }) => {
   const [id, setId] = useState(0);
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -98,7 +98,7 @@ const CardDetalle = ({ rol, setDisplay, token }) => {
           </div>
 
           {/* INICIA BOTONES  */}
-
+          
           <div className="row text-center">
             <div className="col-md-6 col-sm-12">
               <button

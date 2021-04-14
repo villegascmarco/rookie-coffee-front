@@ -4,7 +4,6 @@ export default class Ingredientes {
 
     }
  static mostrarIngredientes(token) {
-     console.log("toke",token);
     
     let response = fetch(
         "http://glassware.pythonanywhere.com/ingrediente/consultar", {

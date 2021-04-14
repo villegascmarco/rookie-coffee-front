@@ -158,7 +158,7 @@ const ContenedorProducto = ({tokenP}) => {
                             item.estatus == "Inactivo" ? "text-black-50" : null
                           }>
                               <td>{item.nombre}</td>
-                              <td>{item.precio}</td>
+                              <td>${item.precio} MXN</td>
                               <td>{item.descripcion}</td>
                               <td>{item.fecha_registro}</td>
                               <td>

@@ -10,9 +10,9 @@ import CargaPeticion from '../Carga/CargaPeticion.jsx'
 
 import CardDetalle from "./CardDetalle.jsx";
 
-const ContenedorCardsRoles = ({ tokenP }) => {
+const ContenedorCardsRoles = ({ tokenP, rol }) => {
   const [roles, setRoles] = useState([]);
-  const [rol, setRol] = useState({});
+  const [nombreRol, setNombreRol] = useState({});
   const [display, setDisplay] = useState(false);
   const [agregado, setAgregado] = useState(false);
 
@@ -31,7 +31,7 @@ const ContenedorCardsRoles = ({ tokenP }) => {
   const obtenerRoles = async (token) => {
     let response = await getRoles.mostrarRoles(token).then(setCargando(true));
     if (
-      response.mensaje === "El token enviado es invalido"
+      response.mensaje === "El token enviado es invalido" || response.mensaje === "El token enviado ha caducado"
     ) {
       setCargando(false)
       history.push(`/Login`);
@@ -60,7 +60,7 @@ const ContenedorCardsRoles = ({ tokenP }) => {
   };
 
   const seleccionarRol = (rol) => {
-    setRol(rol);
+    setNombreRol(rol);
   };
 
   useEffect(() => {
@@ -182,7 +182,8 @@ const ContenedorCardsRoles = ({ tokenP }) => {
         <div className="col-4 " style={{ display: display ? "block" : "none" }}>
           <CardDetalle
             token={tokenP}
-            rol={rol}
+            rol={nombreRol}
+            roluser = {rol}
             display={display}
             setDisplay={setDisplay}
           />

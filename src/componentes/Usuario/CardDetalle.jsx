@@ -17,6 +17,7 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
   const [roles, setRoles] = useState([]);
 
   useEffect(() => {
+    debugger
     if (usuario._id != null || usuario._id != undefined) {
       setId(usuario._id);
       setNombre(usuario.nombre);

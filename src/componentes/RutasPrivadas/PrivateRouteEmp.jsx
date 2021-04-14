@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-const PrivateRouteEmp = ({ tokenP, component: Component, ...rest }) => {
+const PrivateRouteEmp = ({ tokenP, rol, component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -9,7 +9,7 @@ const PrivateRouteEmp = ({ tokenP, component: Component, ...rest }) => {
         localStorage.getItem("token") &&
         (localStorage.getItem("rol") == "Usuario" ||
           localStorage.getItem("rol") == "Admin") ? (
-          <Component tokenP={tokenP} />
+          <Component tokenP={tokenP} rol = {rol} />
         ) : (
           <Redirect
             to={{

@@ -4,8 +4,6 @@ export default class Productos {
 
     }
  static mostrarProductos(token) {
-    
-    
     let response = fetch(
         "http://glassware.pythonanywhere.com/producto/consultar", {
             method: "GET",
@@ -22,6 +20,7 @@ export default class Productos {
     });
     return response
 }
+
 static agregarProducto(producto, token) { 
     
     let response = fetch(

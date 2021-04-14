@@ -35,11 +35,11 @@ const Login = () => {
       setCargando(false)
 
     } else if (response.token) {
-      history.push(`/Venta`);
-      window.location.reload();
+      history.push(`/`);
       localStorage.setItem("token", response.token);
       localStorage.setItem("rol", response.rol);
       localStorage.setItem("usuario", response.nombre_acceso);
+      window.location.reload();
     }
   };
 

@@ -59,7 +59,7 @@ function App() {
       <Switch>
 
 
-          <PrivateRoute exact path="/Venta" component={Venta} tokenP={token} rol={rol} />
+          <PrivateRouteEmp exact path="/Venta" component={Venta} tokenP={token} rol={rol} />
           
           <PrivateRouteLogin path="/Login" component={Login} />
 
@@ -67,9 +67,9 @@ function App() {
           
           <PrivateRouteEmp path="/Ingredientes" component={ContenedorIngrediente} tokenP={token} />
 
-          <PrivateRouteEmp path="/Ventas" component={ContenedorVentas} tokenP={token} />
+          <PrivateRouteEmp path="/Ventas" component={ContenedorVentas} tokenP={token} rol={rol} />
 
-          <PrivateRouteAdmin path="/Roles" component={ContenedorRoles} tokenP={token} />
+          <PrivateRouteAdmin path="/Roles" component={ContenedorRoles} tokenP={token} rol={rol} />
 
           <PrivateRouteAdmin path="/Empleados" component={ContenedorCardsUsuario} tokenP={token} />
           

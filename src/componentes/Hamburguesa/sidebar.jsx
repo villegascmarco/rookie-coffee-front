@@ -28,15 +28,13 @@ const Sidebar = (props) => {
       <a className="menu-item" href="/">
         Inicio
       </a>
-      <a className="menu-item" href="/Conocenos">
-        Conocenos
-      </a>
+      
 
       <a
         className="menu-item"
         style={{
           display:
-            props.token && (props.rol == "Usuario" || props.rol == "Admin")
+            props.token && (props.rol == "Usuario")
 
               ? "block"
               : "none",
@@ -107,6 +105,12 @@ const Sidebar = (props) => {
       >
         Roles
       </a>
+
+      <a className="menu-item" href="/Conocenos">
+        Conocenos
+      </a>
+
+
       <button
         type="button"
         onClick={() => {

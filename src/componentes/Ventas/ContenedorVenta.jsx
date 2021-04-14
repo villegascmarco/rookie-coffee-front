@@ -7,11 +7,10 @@ import getVentas from "../../Peticiones/api_ventas";
 import CargaPeticion from "../Carga/CargaPeticion.jsx";
 import { useHistory } from "react-router-dom";
 
-const ContenedorVenta = ({ tokenP }) => {
+const ContenedorVenta = ({ tokenP, rol }) => {
   const [ventas, setVentas] = useState([]);
   const [venta, setVenta] = useState({});
   const [display, setDisplay] = useState(false);
-  const [productoBackup, setProductoBackup] = useState([]);
   const [cargando, setCargando] = useState(false);
   const [srchVentas, setSrchVentas] = useState("general");
   const [fechaIni, setFechaIni] = useState("");
@@ -20,20 +19,31 @@ const ContenedorVenta = ({ tokenP }) => {
   const history = useHistory();
 
   const obtenerVentas = async (token) => {
-    debugger
-    let response
-    if(fechaIni){
-     response = await getVentas
-      .mostrarVentas(token, "especifico", fechaIni, fechaFin)
-      .then(setCargando(true));
+    
+    let response;
+    if (fechaIni && srchVentas === "especifico") {
+      response = await getVentas
+        .mostrarVentas(token, "especifico", fechaIni, fechaFin)
+        .then(setCargando(true));
     } else {
-       response = await getVentas
-      .mostrarVentas(token, srchVentas)
-      .then(setCargando(true));
-      document.getElementById('fechaIn').value = ''
-      document.getElementById('fechaFin').value = ''
+
+      if (srchVentas === "especifico" && fechaIni == "") {
+        response = await getVentas
+          .mostrarVentas(token, "general")
+          .then(setCargando(true));
+
+      }  else {
+        response = await getVentas
+        .mostrarVentas(token, srchVentas)
+        .then(setCargando(true));
+        setFechaIni("")
+        setFechaFin("")
+      }
     }
-    if (response.mensaje === "El token enviado es invalido" || response.mensaje === "El token enviado ha caducado") {
+    if (
+      response.mensaje === "El token enviado es invalido" ||
+      response.mensaje === "El token enviado ha caducado"
+    ) {
       setCargando(false);
       history.push(`/Login`);
       localStorage.clear();
@@ -45,15 +55,13 @@ const ContenedorVenta = ({ tokenP }) => {
   };
 
   const seleccionarVenta = (venta) => {
-    debugger
+    debugger;
     setVenta(venta);
   };
 
   useEffect(() => {
     obtenerVentas(tokenP);
   }, [display, srchVentas, fechaFin]);
-
-
 
   return (
     <div className="container mt-5 scroll">
@@ -74,16 +82,34 @@ const ContenedorVenta = ({ tokenP }) => {
             <option value="general">Todas</option>
             <option value="semanal">Semanal</option>
             <option value="mensual">Mensual</option>
-            
+            <option value="especifico">Fecha especifica</option>
           </select>
         </div>
-        <div className="col-6 mt-2">
-          <br/>
-          <label className="mr-2">Consultar de:</label>  
-          <input type="date" name="" className="mr-1" onChange={(e) => {setFechaIni(e.target.value)}} id="fechaIn"/> 
-          a 
-          <input type="date" name="" className="ml-1" onChange={(e) => {setFechaFin(e.target.value)}} id="fechaFin"/>
-        </div>
+        {srchVentas === "especifico" ? (
+          <div className="col-6 mt-2">
+            <br />
+            <label className="mr-2">Consultar de:</label>
+            <input
+              type="date"
+              name=""
+              className="mr-1"
+              onChange={(e) => {
+                setFechaIni(e.target.value);
+              }}
+              id="fechaIn"
+            />
+            a
+            <input
+              type="date"
+              name=""
+              className="ml-1"
+              onChange={(e) => {
+                setFechaFin(e.target.value);
+              }}
+              id="fechaFin"
+            />
+          </div>
+        ) : null}
       </div>
       <br />
 
@@ -140,6 +166,7 @@ const ContenedorVenta = ({ tokenP }) => {
             display={display}
             setDisplay={setDisplay}
             token={tokenP}
+            rol = {rol}
           />
         </div>
       </div>

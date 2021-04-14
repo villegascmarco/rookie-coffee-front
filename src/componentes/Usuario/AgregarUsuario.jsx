@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Usuario from "../../Peticiones/api_usuarios";
+import $ from "jquery";
 import getRoles from "../../Peticiones/api_roles";
 
-const AgregarUsuario = ({ token, setAgregado }) => {
+const AgregarUsuario = ({ token, setAgregado, usuarios }) => {
   //States del usuario
   const [nombre, setNombre] = useState("");
   const [apellido1, setApellido1] = useState("");
@@ -12,6 +13,8 @@ const AgregarUsuario = ({ token, setAgregado }) => {
   const [constraseña, setContraseña] = useState("");
   const [rolUsuario, setRolUsuario] = useState("");
 
+  const [error, setError] = useState("");
+
   const [roles, setRoles] = useState([]);
 
   const agregar = (e) => {
@@ -19,18 +22,28 @@ const AgregarUsuario = ({ token, setAgregado }) => {
   };
 
   const agregarUsuario = async () => {
-    let usuario = {
-      nombre: nombre,
-      apellido_1: apellido1,
-      apellido_2: apellido2,
-      rfc: rfc,
-      nombre_acceso: nombreAcceso,
-      contrasena: constraseña,
-      estatus: "Activo",
-      rol_usuario: rolUsuario,
-    };
-    // let response = await Usuario.agregarUsuario(usuario, token);
-    // setAgregado(true);
+    let usuarioEx = usuarios.filter(
+      (item) => item.nombre_acceso == nombreAcceso
+    );
+
+    if (usuarioEx.length > 0) {
+      setError("El usuario que intentas ingresar ya existe.");
+    } else {
+      let usuario = {
+        nombre: nombre,
+        apellido_1: apellido1,
+        apellido_2: apellido2,
+        rfc: rfc,
+        nombre_acceso: nombreAcceso,
+        contrasena: constraseña,
+        estatus: "Activo",
+        rol_usuario: rolUsuario,
+      };
+      let response = await Usuario.agregarUsuario(usuario, token);
+      setAgregado(true);
+      setError("")
+      $("#agregar").modal("hide");
+    }
   };
 
   useEffect(() => {
@@ -51,7 +64,7 @@ const AgregarUsuario = ({ token, setAgregado }) => {
             <button
               type="button"
               class="close"
-              data-dismiss="modal"
+              // data-dismiss="modal"
               aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
@@ -165,6 +178,11 @@ const AgregarUsuario = ({ token, setAgregado }) => {
                   ))}
               </select>
             </div>
+            {error != "" ? (
+              <div className="alert alert-danger">{error}</div>
+            ) : (
+              <span></span>
+            )}
           </div>
           <div class="modal-footer">
             <button
@@ -177,7 +195,7 @@ const AgregarUsuario = ({ token, setAgregado }) => {
             <button
               type="submit"
               class="btn btn-success"
-              data-dismiss="modal"
+              // data-dismiss="modal"
               onClick={() => {
                 agregarUsuario();
               }}

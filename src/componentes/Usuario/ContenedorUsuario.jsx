@@ -9,6 +9,7 @@ import "../estilos/ContenedorUsuario.css";
 import CargaPeticion from '../Carga/CargaPeticion.jsx'
 
 
+
 import CardDetalle from "./CardDetalle.jsx";
 
 const ContenedorCardsUsuario = ({ tokenP }) => {
@@ -191,11 +192,12 @@ const ContenedorCardsUsuario = ({ tokenP }) => {
       <div
         class="modal fade"
         id="agregar"
+        name="agregar"
         tabindex="-1"
         role="dialog"
         aria-hidden="true"
       >
-        <AgregarUsuario token={tokenP} setAgregado={setAgregado} />
+        <AgregarUsuario token={tokenP} setAgregado={setAgregado} usuarios = {usuarios} />
       </div>
       <CargaPeticion cargando={cargando} />
     </div>
