@@ -5,11 +5,16 @@ import { Wave } from "react-animated-text";
 import IMG1 from "../../res/baguette.jpg"
 import IMG2 from "../../res/cafe.jpg"
 import IMG3 from "../../res/bisquet.png"
+import IMG4 from "../../res/sandwitch.jpg"
+import IMG5 from "../../res/people.jpg"
+import IMG6 from "../../res/cafeteria.jpg"
+import IMG7 from "../../res/cafeteria2.jpg"
+import BackgroundSlideshow from 'react-background-slideshow'
 
 const Index = () => {
   return (
     <div className="index_container">
-      {/* <div className="image_first"> <img src={IMG1} alt="inside"/></div> */}
+      
       <div className="title_company">
         <h2 className="welcome">Bienvenido a</h2>
         <Wave
@@ -28,9 +33,10 @@ const Index = () => {
         </Link>
       </div>
 
-      <div className="image_first"><img src={IMG1} className="img2" alt="people"/></div>
-      <div className="image_second"><img src={IMG2} className="img2" alt="people"/></div>
-      <div className="image_third"><img src={IMG3} className="img2" alt="people"/></div>
+      
+      <div className="backgrond_images">
+      <BackgroundSlideshow images={[ IMG1, IMG2, IMG3, IMG4, IMG5, IMG6, IMG7 ]} animationDelay = {5000} />
+      </div>
     </div>
   );
 };

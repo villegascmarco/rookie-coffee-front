@@ -105,7 +105,7 @@ const Venta = ({ tokenP }) => {
           <input
             type="text"
             name="busqueda"
-            className="form-control mt-3 col-6"
+            className="form-control mt-3 col-9"
             placeholder="Busqueda"
             onChange={(e) => {
               filtrarElementos(e.target.value);

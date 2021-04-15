@@ -12,7 +12,7 @@ const ContenedorVenta = ({ tokenP, rol }) => {
   const [venta, setVenta] = useState({});
   const [display, setDisplay] = useState(false);
   const [cargando, setCargando] = useState(false);
-  const [srchVentas, setSrchVentas] = useState("general");
+  const [srchVentas, setSrchVentas] = useState("dia");
   const [fechaIni, setFechaIni] = useState("");
   const [fechaFin, setFechaFin] = useState("");
 
@@ -80,6 +80,7 @@ const ContenedorVenta = ({ tokenP, rol }) => {
             }}
           >
             <option value="general">Todas</option>
+            <option value="dia">Día</option>
             <option value="semanal">Semanal</option>
             <option value="mensual">Mensual</option>
             <option value="especifico">Fecha especifica</option>

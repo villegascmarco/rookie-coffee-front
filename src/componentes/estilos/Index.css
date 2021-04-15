@@ -2,26 +2,32 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    margin-top: 230px;
+    margin-top: 300px;
     gap: 20px;
+    z-index: 3;
 }
 
 .welcome {
-    font-weight: 300;
-    font-size: 35px;
+    font-weight: 600;
+    font-size: 45px;
+    z-index: 3;
 }
 
 .title_company {
     text-align: center;
-    font-size: 65px;
+    font-size: 70px;
     grid-column: 2;
     grid-row: 1;
+    z-index: 3;
+    -webkit-text-stroke: 1.3px #ffffff;
+    font-weight: 700;
 }
 
 .cta_container {
     grid-column: 2;
     grid-row: 1;
     margin-top: 200px;
+    z-index: 3;
 }
 
 .cta_store {
@@ -36,11 +42,13 @@
     -webkit-box-shadow: 3px 2px 65px -6px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 3px 2px 65px -6px rgba(0, 0, 0, 0.75);
     box-shadow: 3px 2px 65px -6px rgba(0, 0, 0, 0.75);
+    z-index: 3;
 
 }
 
 .cta_store:hover {
     opacity: 0.7;
+    z-index: 3;
 }
 
 /* IMAGENES */
@@ -49,12 +57,14 @@
     clip-path: ellipse(30% 45% at 50% 50%);
     grid-row: 2;
     grid-column: 1;
+    z-index: 3;
 }
 
 .image_second {
     clip-path: ellipse(30% 45% at 50% 50%);
     grid-row: 2;
     grid-column: 2;
+    z-index: 3;
     
 } 
 
@@ -62,6 +72,7 @@
     clip-path: ellipse(30% 45% at 50% 50%);
     grid-row: 2;
     grid-column: 3;
+    z-index: 3;
 }
 
 .img2 {
@@ -70,3 +81,45 @@
     max-width: 500px;
 }
 
+.valor_i {
+    position: absolute;
+    margin: 6.5% 6.5%;
+    padding: 5px;
+    border-radius: 10px;
+    color: white;
+    background-color: #225143d7;
+}
+
+.valor_a {
+    position: absolute;
+    margin: 6.5% 9%;
+    padding: 5px;
+    border-radius: 10px;
+    color: white;
+    background-color: #225143d7;
+}
+
+.valor_e {
+    position: absolute;
+    margin: 6.5% 7%;
+    padding: 5px;
+    border-radius: 10px;
+    color: white;
+    background-color: #225143d7;
+    font-size: 30px;
+    
+}
+
+.valor_e, .valor_i, .valor_a {
+    opacity: 40%;
+    transition: all 0.5s ease-in-out;
+}
+
+.valor_e:hover, .valor_i:hover, .valor_a:hover {
+    opacity: 100%;
+}
+
+.backgrond_images {
+    z-index: 1;
+    opacity: 85%;
+}
