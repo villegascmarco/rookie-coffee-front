@@ -12,6 +12,10 @@ const AgregarProducto = ({ingredientes , tokenP, setAgregado}) => {
   const [id, setId] = useState(0);
   const [addingredientes, setAddIngredientes] = useState([]);
   const [emailCE, setEmailCE] = useState(null);
+
+  const [foto , setFoto] = useState("");
+
+
   
 
 
@@ -43,14 +47,30 @@ const AgregarProducto = ({ingredientes , tokenP, setAgregado}) => {
     setAddIngredientes(newArrary);
   };
 
+  const base64 = (e) =>{
+    if(e.target.files.length){
+      if(e.target.files[0].type == "image/png"  ){
+        let reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = () => {
+           let bs64= reader.result;
+           setFoto(bs64);
+           
+         }
+      }
+    }
+}
+
 
   
   const agrearProducto = async() =>{
+    
     let producto={
         nombre: nombre,
         descripcion:descripcion ,
         precio: precio,
         fecha_registro: "",
+        fot: foto,
         ingrediente_producto: addingredientes
     
     };
@@ -84,10 +104,15 @@ const AgregarProducto = ({ingredientes , tokenP, setAgregado}) => {
                 class="form-control "
                 onChange={(e) => {
                   setNombre(e.target.value);
+                 
                 }}
               />
             </div>
-            </div>
+            </div> 
+
+
+          
+
             <div className="row">
             <div class="form-group col-md-12">
               <label>Pequeña descripción del nuevo producto</label>
@@ -102,6 +127,35 @@ const AgregarProducto = ({ingredientes , tokenP, setAgregado}) => {
               />
             </div>
             </div>
+
+            <div className="row">
+            <div class="form-group col-md-5">
+            <label>Visualización  de foto</label>
+            <img src={foto} class="rounded float-start img-fluid"></img>
+            </div>
+            </div>
+            {emailCE != null ? (
+            <div className="alert alert-danger">{emailCE}</div>
+          ) : (
+            <span></span>
+          )}
+            <div className="row">
+            <div class="form-group col-md-12">
+              <label>Foto</label>
+              <input
+                type="file"
+                accept="image/png"
+                name="Foto"
+                class="form-group  "
+                onChange={(e) => {
+                  base64(e);
+                }}
+              />
+            </div>
+            </div>
+
+           
+
             <div className="row">
             <div class="form-group col-md-10">
             <label>Precio</label>

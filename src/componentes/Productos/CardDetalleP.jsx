@@ -3,11 +3,9 @@ import apiProducto from "../../Peticiones/api_productos";
 import '../estilos/CardDetalle.css'
 
 const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
-  const [modoEdicion, setModoedicion] = useState(false);
   const [id, setId] = useState(0);
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [estatus, setEstatus] = useState("");
   const [precio, setPrecio] = useState(0);
   const [idIngrediente, setIdIngrediente] = useState(0);
 
@@ -21,6 +19,8 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
   const [ingrePro, setIngrePro] = useState({});
   const [cantIngre, setCantIngrediente] = useState(0);
   const [nombrei, setNombreI] = useState("");
+
+  const [estatus, setEstatus] = useState("");
   
   
 
@@ -73,6 +73,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
         cantidad_requerida : ingrePro.cantidad_requerida,
         estatus : "Inactivo",
         fecha_registro: "",
+        nombre: ingrePro.nombre,
         id_ingrediente : ingrePro.id_ingrediente, //id del ingrediente
         producto: ingrePro.producto
       };
@@ -116,6 +117,11 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
     setIngredientesP([...encontrar, ingrem]);
     
     
+  };
+
+  const activarProducto = async (id) => {
+    let response = await ingredientesP.activarProducto(id, tokenP);
+    setDisplay(false);
   };
 
   
@@ -208,7 +214,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
             </div>
             </div>
             </div>
-           {/*  INICIA select  DE ESTATUS  */}
+          
           
 
           {/*  INICIA select  DE ingredientes  */}
@@ -237,7 +243,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
             </div>
             </div>
             
-
+          {/*  INICIA select  DE CANTIDAD  */}
           <label >Cantidad</label>
             <div class="form-inline">
             <small id="emailHelp" class="form-text text-muted">Se registrará  en gramos  g o mililitros ml</small>
@@ -255,12 +261,15 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
                     }} ><i class="fa fa-plus"></i></button>
            </div>
            <br />
+            {/*  INICIA ALERTA  */}
            {emailCE != null ? (
             <div className="alert alert-danger">{emailCE}</div>
           ) : (
             <span></span>
           )}
             <br />
+
+             {/*  INICIA TABLA INGREDINETE PRODUCTO  */}
            <div className="table-responsive">
            <table className="table">
              <thead className="table_ingredientes">
@@ -287,9 +296,9 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
              </tbody>
           </table>
            </div>
-
+               {/*  TERMINA TABLA INGREDIENTE PRODUCTO */}            
         
-
+            {/*  BOTONES DE DESACTIVAR O MODIFICAR */} 
           <div className="row text-center">
             <div className="col-md-6 col-sm-12">
               <button
@@ -302,13 +311,31 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
               </button>
             </div>
             <div className="col-md-6 col-sm-12">
+            <button
+                className={
+                  estatus == "Activo" ? "btn btn-danger" : "btn btn-success"
+                }
+                data-toggle="modal"
+                data-target={
+                  estatus == "Activo" ? "#eliminarModal" : "#activarModal"
+                }
+                value="true"
+              >
+                {estatus == "Activo" ? "Desactivar" : "Activar"}
+                {estatus == "Activo" ? (
+                  <i class="fa fa-minus-circle ml-2"></i>
+                ) : (
+                  <i class="fa fa-check-circle ml-2"></i>
+                )}
+              </button>
+              
               <button
                 className="btn btn-danger"
                 data-toggle="modal"
                 data-target="#eliminarModal"
                 value="true"
               >
-                Eliminar
+                Desactivar
                 <i class="fa fa-minus-circle ml-2"></i>
               </button>
             </div>
@@ -351,13 +378,58 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
                     data-dismiss="modal"
                     className="btn btn-danger"
                   >
-                    Eliminar
+                    Desactivar
                     <i class="fa fa-minus-circle ml-2"></i>
                   </button>
                 </div>
               </div>
             </div>
           </div>
+
+          <div
+            class="modal fade"
+            id="activarModal"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4> ¿Desea confirmar la Activacion?</h4>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      activarProducto(id);
+                    }}
+                    data-dismiss="modal"
+                    className="btn btn-success"
+                  >
+                    Activar
+                    <i class="fa fa-check-circle ml-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
 
           {/* INICIA MODAL MODIFICAR */}
 
@@ -407,167 +479,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
         </div>{" "}
       </div>
       <br></br>
-      <div class="card">
-      <div className="card-header">Detalle ingrediente del producto</div>
-        <div class="card-body">
-        <div className="form-group">
-            <label>Nombre</label>
-
-            <input
-              id="nombre"
-              type="text"
-              name="nombre"
-              class="form-control "
-              placeholder="Nombre"
-              value={nombrei}
-              disabled
-            />
-          </div>
-          <div className="form-group">
-            <label>Cantidad</label>
-            <small id="emailHelp" class="form-text text-muted">Se registrará  en gramos  g o mililitros ml</small>
-            <input
-              id="Cantidad"
-              onChange={(e) => {
-                setCantIngrediente(e.target.value);
-              }}
-              type="number"
-              name="nombre"
-              class="form-control "
-              placeholder="Cantidad"
-              value={cantIngre}
-              min="0"
-            />
-          </div>
-          <div className="row text-center">
-            <div className="col-md-6 col-sm-12">
-              <button
-                data-toggle="modal"
-                data-target="#modificarModalIP"
-                className="btn btn-warning text-light"
-              >
-                Modificar
-                <i class="fa fa-edit ml-2"></i>
-              </button>
-            </div>
-            <div className="col-md-6 col-sm-12">
-              <button
-                className="btn btn-danger"
-                data-toggle="modal"
-                data-target="#eliminarModalIP"
-                value="true"
-              >
-                Eliminar
-                <i class="fa fa-minus-circle ml-2"></i>
-              </button>
-            </div>
-          </div>
-          </div>
-
-          
-          
-        </div>
-
-
-        <div
-            class="modal fade"
-            id="eliminarModalIP"
-            tabindex="-1"
-            role="dialog"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4> ¿Desea confirmar la eliminación?</h4>
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                <div class="alert alert-danger" role="alert">
-                Esta accion no se podra reevertir!
-                </div>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-dismiss="modal"
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                     eliminarIngreProd();
-                    }}
-                    data-dismiss="modal"
-                    className="btn btn-danger"
-                  >
-                    Eliminar
-                    <i class="fa fa-minus-circle ml-2"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="modal fade"
-            id="modificarModalIP"
-            tabindex="-1"
-            role="dialog"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4> ¿Desea confirmar la modificación?</h4>
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                <div className="modal-body">
-                <div class="alert alert-danger" role="alert">
-                Esta accion no se podra reevertir!
-                </div>
-                </div>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-dismiss="modal"
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    type="button"
-                    data-dismiss="modal"
-                    onClick={() => {
-                      modificarIngreProd();
-                    }}
-                    class="btn btn-warning"
-                  >
-                    Modificar
-                    <i class="fa fa-edit ml-2"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+      
       
     </div>
 
