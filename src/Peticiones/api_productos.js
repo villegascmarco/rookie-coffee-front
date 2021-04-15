@@ -41,14 +41,12 @@ static agregarProducto(producto, token) {
         }
     ).then((response) => {
         if (response.ok) {
-            console.log(response)
             return response.json();
         }
     });
     return response
 }
 static modificarProducto(producto, token) { 
-    console.log(JSON.stringify(producto));
     let response = fetch(
         "http://glassware.pythonanywhere.com/producto/modificar", {
             method: "POST",
@@ -61,13 +59,13 @@ static modificarProducto(producto, token) {
                 nombre: producto.nombre,
                 descripcion: producto.descripcion,
                 precio:parseFloat(producto.precio) ,
+                foto:producto.fot,
                 fecha_registro: producto.fecha_registro,
                 ingrediente_producto: producto.ingrediente_producto
             })
         }
     ).then((response) => {
         if (response.ok) {
-            console.log(response)
             return response.json();
         }
     });
@@ -87,7 +85,25 @@ static eliminarProducto(producto, token) {
         }
     ).then((response) => {
         if (response.ok) {
-            console.log(response)
+            return response.json();
+        }
+    });
+    return response
+}
+static activarProducto(id, token) { 
+    let response = fetch(
+        "http://glassware.pythonanywhere.com/producto/activar", {
+            method: "POST",
+            headers: new Headers({
+                "x-access-tokens": token,
+                "Content-Type": "application/json",
+            }),
+            body: JSON.stringify({
+                _id: id
+            })
+        }
+    ).then((response) => {
+        if (response.ok) {
             return response.json();
         }
     });

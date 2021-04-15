@@ -8,6 +8,7 @@ import AgregarProducto from './AgregarProducto.jsx'
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import '../estilos/ContenedorIngrediente.css'
+import CargaPeticion from '../Carga/CargaPeticion.jsx'
 
 
 const ContenedorProducto = ({tokenP}) => {
@@ -27,11 +28,14 @@ const ContenedorProducto = ({tokenP}) => {
     const handleChange = (event) => {
       setState({ ...state, [event.target.name]: event.target.checked });
     };
+
+    const [cargando, setCargando] = useState(false);
     
       const obtenerProductos = async (token) => {
-        let response = await Productos.mostrarProductos(token);
-        if (response.mensaje === "El token enviado es invalido") {
-      
+        let response = await Productos.mostrarProductos(token).then(setCargando(true));
+        if (response.mensaje === "El token enviado es invalido" ||
+            response.mensaje === "El token enviado ha caducado") {
+          setCargando(false);
           history.push(`/Login`);
           localStorage.clear();
           window.location.reload();
@@ -40,15 +44,17 @@ const ContenedorProducto = ({tokenP}) => {
         } else {
           setProductoBackup(response);
           setProductos(response);
+          setCargando(false);
           
         }
         
       };
 
       const obtenerIngredientes = async (token) => {
-        let response = await Ingredientes.mostrarIngredientes(token);
-        if (response.mensaje === "El token enviado es invalido") {
-      
+        let response = await Ingredientes.mostrarIngredientes(token).then(setCargando(true));
+        if (response.mensaje === "El token enviado es invalido" ||
+            response.mensaje === "El token enviado ha caducado")  {
+          setCargando(false);
           history.push(`/Login`);
           localStorage.clear();
           window.location.reload();
@@ -56,6 +62,7 @@ const ContenedorProducto = ({tokenP}) => {
           
         } else {
           setIngredientes(response);
+          setCargando(false);
           
         }
 
@@ -92,7 +99,9 @@ const ContenedorProducto = ({tokenP}) => {
 
     
     return (
+      
         <div className="container mt-5 scroll">
+          
           <TituloPagina titulo="Productos" />
           
             <div className="row">
@@ -210,6 +219,7 @@ const ContenedorProducto = ({tokenP}) => {
           <div class="modal fade" id="agregar" tabindex="-1" role="dialog" aria-hidden="true">
           <AgregarProducto ingredientes={ingredientes} tokenP={tokenP} setAgregado={setAgregado}/>     
              </div>
+             <CargaPeticion cargando={cargando} />
         </div>
         
         

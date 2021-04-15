@@ -5,6 +5,7 @@ import TituloPagina from "../TituloPagina/TituloPagina.jsx";
 import AgregarIngrediente from "../Ingredientes/AgregarIngrediente.jsx";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+import CargaPeticion from '../Carga/CargaPeticion.jsx'
 
 import "../estilos/ContenedorIngrediente.css";
 
@@ -23,15 +24,18 @@ const ContenedorCards = ({ tokenP }) => {
 
   const history = useHistory();
 
+  const [cargando, setCargando] = useState(false);
+
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
   
   const obtenerIngredientes = async (token) => {
-    let response = await Ingredientes.mostrarIngredientes(token);
-    if (response.mensaje === "El token enviado es invalido") {
-      
+    let response = await Ingredientes.mostrarIngredientes(token).then(setCargando(true));
+    if (response.mensaje === "El token enviado es invalido" ||
+        response.mensaje === "El token enviado ha caducado") {
+      setCargando(false);
       history.push(`/Login`);
       localStorage.clear();
       window.location.reload();
@@ -40,6 +44,7 @@ const ContenedorCards = ({ tokenP }) => {
     } else {
       setIngredientes(response);
       setBkup(response)
+      setCargando(false);
       
     }
     
@@ -201,6 +206,7 @@ const ContenedorCards = ({ tokenP }) => {
       >
         <AgregarIngrediente  token={tokenP} setAgregado={setAgregado}/>
       </div>
+      <CargaPeticion cargando={cargando} />
     </div>
   );
 };
