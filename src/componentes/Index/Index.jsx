@@ -34,7 +34,7 @@ const Index = () => {
       </div>
 
       
-      <div className="backgrond_images">
+      <div className="backgrond_images opacity-0">
       <BackgroundSlideshow images={[ IMG1, IMG2, IMG3, IMG4, IMG5, IMG6, IMG7 ]} animationDelay = {5000} />
       </div>
     </div>

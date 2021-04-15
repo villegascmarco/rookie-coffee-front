@@ -12,7 +12,7 @@ const ContenedorVenta = ({ tokenP, rol }) => {
   const [venta, setVenta] = useState({});
   const [display, setDisplay] = useState(false);
   const [cargando, setCargando] = useState(false);
-  const [srchVentas, setSrchVentas] = useState("dia");
+  const [srchVentas, setSrchVentas] = useState("general");
   const [fechaIni, setFechaIni] = useState("");
   const [fechaFin, setFechaFin] = useState("");
 
