@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "/rookie-coffe-front/static/css/main.3bc0ce2b.chunk.css",
+    "main.js": "/rookie-coffe-front/static/js/main.8b0f354a.chunk.js",
+    "main.js.map": "/rookie-coffe-front/static/js/main.8b0f354a.chunk.js.map",
+    "runtime-main.js": "/rookie-coffe-front/static/js/runtime-main.f2966b0d.js",
+    "runtime-main.js.map": "/rookie-coffe-front/static/js/runtime-main.f2966b0d.js.map",
+    "static/css/2.554fb36a.chunk.css": "/rookie-coffe-front/static/css/2.554fb36a.chunk.css",
+    "static/js/2.66ed4ce6.chunk.js": "/rookie-coffe-front/static/js/2.66ed4ce6.chunk.js",
+    "static/js/2.66ed4ce6.chunk.js.map": "/rookie-coffe-front/static/js/2.66ed4ce6.chunk.js.map",
+    "index.html": "/rookie-coffe-front/index.html",
+    "static/css/2.554fb36a.chunk.css.map": "/rookie-coffe-front/static/css/2.554fb36a.chunk.css.map",
+    "static/css/main.3bc0ce2b.chunk.css.map": "/rookie-coffe-front/static/css/main.3bc0ce2b.chunk.css.map",
+    "static/js/2.66ed4ce6.chunk.js.LICENSE.txt": "/rookie-coffe-front/static/js/2.66ed4ce6.chunk.js.LICENSE.txt",
+    "static/media/baguette.67a36986.jpg": "/rookie-coffe-front/static/media/baguette.67a36986.jpg",
+    "static/media/bisquet.b1b028d3.png": "/rookie-coffe-front/static/media/bisquet.b1b028d3.png",
+    "static/media/cafe.73aa9f0d.jpg": "/rookie-coffe-front/static/media/cafe.73aa9f0d.jpg",
+    "static/media/cafeteria.9297f9e5.jpg": "/rookie-coffe-front/static/media/cafeteria.9297f9e5.jpg",
+    "static/media/cafeteria2.4de8e4be.jpg": "/rookie-coffe-front/static/media/cafeteria2.4de8e4be.jpg",
+    "static/media/m.b2ff1fd7.png": "/rookie-coffe-front/static/media/m.b2ff1fd7.png",
+    "static/media/people.3a212af2.jpg": "/rookie-coffe-front/static/media/people.3a212af2.jpg",
+    "static/media/sandwitch.31fa3c3e.jpg": "/rookie-coffe-front/static/media/sandwitch.31fa3c3e.jpg",
+    "static/media/server.532ea75d.svg": "/rookie-coffe-front/static/media/server.532ea75d.svg",
+    "static/media/v.6a50cffe.png": "/rookie-coffe-front/static/media/v.6a50cffe.png",
+    "static/media/va.c0cc0ddd.png": "/rookie-coffe-front/static/media/va.c0cc0ddd.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f2966b0d.js",
+    "static/css/2.554fb36a.chunk.css",
+    "static/js/2.66ed4ce6.chunk.js",
+    "static/css/main.3bc0ce2b.chunk.css",
+    "static/js/main.8b0f354a.chunk.js"
+  ]
+}
