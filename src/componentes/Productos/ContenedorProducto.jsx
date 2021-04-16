@@ -155,9 +155,9 @@ const ContenedorProducto = ({tokenP}) => {
                   </div>
                 </div>
               </div>
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table className="table  card-table ">
+                  <div class="card-body ">
+                    <div class="table-responsive  table_chiquita">
+                      <table className="table  card-table  ">
                         <thead className="table_ingredientes">
                           <tr>
                             <th scope="col">Nombre</th>

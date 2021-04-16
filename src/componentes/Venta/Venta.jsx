@@ -67,7 +67,7 @@ const Venta = ({ tokenP }) => {
 
   const obtenerProductos = async (token) => {
     let response = await Productos.mostrarProductos(token);
-    if (response.mensaje === "El token enviado es invalido") {
+    if (response.mensaje === "El token enviado es invalido" || response.mensaje === "El token enviado ha caducado") {
       history.push(`/Login`);
       localStorage.clear();
       window.location.reload();

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import ingredientes from "../../Peticiones/api_ingredientes";
-import '../estilos/CardDetalle.css'
+import "../estilos/CardDetalle.css";
 
-const CardDetalle = ({ingrediente, setDisplay, token}) => {
+const CardDetalle = ({ ingrediente, setDisplay, token }) => {
   const [modoEdicion, setModoedicion] = useState(false);
   const [id, setId] = useState(0);
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState(0);
   const [unidad, setUnidad] = useState("");
-  const [descripcion, setDescripcion] = useState("")
+  const [descripcion, setDescripcion] = useState("");
   const [estatus, setEstatus] = useState("");
 
   useEffect(() => {
@@ -24,25 +24,33 @@ const CardDetalle = ({ingrediente, setDisplay, token}) => {
     }
   }, [ingrediente]);
 
-  const eliminarIngrediente = async() => {
+  const eliminarIngrediente = async () => {
     let ingre = {
-        id:id
+      id: id,
     };
     let response = await ingredientes.eliminarIngrediente(ingre, token);
     setDisplay(false);
-};
+  };
 
-const modificarIngrediente = async() => {
-  let ingre = {
-      id:id,
-      nombre:nombre,
+  const modificarIngrediente = async () => {
+    let ingre = {
+      id: id,
+      nombre: nombre,
       descripcion: descripcion,
       cantidad_disponible: cantidad,
       unidad_medida: unidad,
       usuario: 1,
-      fecha_registro: ""
+      fecha_registro: "",
+    };
+    let response = await ingredientes.modificarIngrediente(ingre, token);
+    setDisplay(false);
   };
-  let response = await ingredientes.modificarIngrediente(ingre, token);
+
+
+
+
+const activarIngrediente = async (id) => {
+  let response = await ingredientes.activarIngrediente(id, token);
   setDisplay(false);
 };
 
@@ -51,11 +59,14 @@ const modificarIngrediente = async() => {
   return (
     <div>
       <div className="card card_ts">
-        <div className="card-header">Detalle</div>
+        <div className="card-header">
+          Detalle
+          <button class="close" onClick={() => setDisplay(false)}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div class="card-body ">
           {/*  INICIA INPUT DE CLAVE  */}
-
-         
 
           {/*  INICIA INPUT DE NOMBRE  */}
 
@@ -119,31 +130,13 @@ const modificarIngrediente = async() => {
                 setUnidad(e.target.value);
               }}
             >
-                <option value="g">Gramos</option>
-                <option value="kg">Kilogramos</option>
-                <option value="l">Litros</option>
+              <option value="g">Gramos</option>
+              <option value="kg">Kilogramos</option>
+              <option value="l">Litros</option>
             </select>
           </div>
 
-                    {/*  INICIA INPUT DE ESTATUS  */}
-
-           <div className="form-group col-11">
-            <label>Estado</label>
-
-            <select
-              name="estado"
-              class="form-control"
-              value={estatus}
-              onChange={(e) => {
-                setEstatus(e.target.value);
-              }}
-            >
-              <option>Elegir...</option>
-              <option value="Activo">Activo</option>
-              <option value="Inactivo">Inactivo</option>
-            </select>
-          </div>
-
+           
 
           {/* INICIA BOTONES  */}
 
@@ -160,14 +153,22 @@ const modificarIngrediente = async() => {
             </div>
             <div className="col-md-6 col-sm-12">
               <button
-                className="btn btn-danger"
+                 className={
+                  estatus == "Activo" ? "btn btn-danger" : "btn btn-success"
+                }
                 data-toggle="modal"
-                data-target="#eliminarModal"
+                data-target={
+                  estatus == "Activo" ? "#eliminarModal" : "#activarModal"
+                }
                 value="true"
               >
-                Eliminar
-                <i class="fa fa-minus-circle ml-2"></i>
-              </button>
+                {estatus == "Activo" ? "Desactivar" : "Activar"}
+                {estatus == "Activo" ? (
+                  <i class="fa fa-minus-circle ml-2"></i>
+                ) : (
+                  <i class="fa fa-check-circle ml-2"></i>
+                )}
+                 </button>
             </div>
           </div>
 
@@ -210,6 +211,51 @@ const modificarIngrediente = async() => {
                   >
                     Eliminar
                     <i class="fa fa-minus-circle ml-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div
+            class="modal fade"
+            id="activarModal"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4> ¿Desea confirmar la Activacion?</h4>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      activarIngrediente(id);
+                    }}
+                    data-dismiss="modal"
+                    className="btn btn-success"
+                  >
+                    Activar
+                    <i class="fa fa-check-circle ml-2"></i>
                   </button>
                 </div>
               </div>

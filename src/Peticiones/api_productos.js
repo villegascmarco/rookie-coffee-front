@@ -1,8 +1,6 @@
-import axios from 'axios';
-export default class Productos {
-    constructor() {
 
-    }
+export default class Productos {
+   
  static mostrarProductos(token) {
     let response = fetch(
         "http://glassware.pythonanywhere.com/producto/consultar", {
@@ -22,7 +20,6 @@ export default class Productos {
 }
 
 static agregarProducto(producto, token) { 
-    
     let response = fetch(
         "http://glassware.pythonanywhere.com/producto/agregar", {
             method: "POST",
@@ -33,8 +30,9 @@ static agregarProducto(producto, token) {
             body: JSON.stringify({
                     nombre: producto.nombre,
                     descripcion: producto.descripcion,
-                    precio:parseFloat(producto.precio) ,
+                    precio: parseFloat(producto.precio) ,
                     fecha_registro: producto.fecha_registro,
+                    foto:producto.foto,
                     ingrediente_producto: producto.ingrediente_producto
 
             })
@@ -59,7 +57,7 @@ static modificarProducto(producto, token) {
                 nombre: producto.nombre,
                 descripcion: producto.descripcion,
                 precio:parseFloat(producto.precio) ,
-                foto:producto.fot,
+                foto:producto.foto,
                 fecha_registro: producto.fecha_registro,
                 ingrediente_producto: producto.ingrediente_producto
             })
@@ -92,7 +90,7 @@ static eliminarProducto(producto, token) {
 }
 static activarProducto(id, token) { 
     let response = fetch(
-        "http://glassware.pythonanywhere.com/producto/activar", {
+        "http://glassware.pythonanywhere.com/producto/reactivar", {
             method: "POST",
             headers: new Headers({
                 "x-access-tokens": token,
@@ -109,5 +107,21 @@ static activarProducto(id, token) {
     });
     return response
 }
+
+static upload(formData) { 
+    let response = fetch(
+        "https://api.cloudinary.com/v1_1/dg8xjgxd0/image/upload", {
+            method: "POST",
+            body: formData
+        }
+    ).then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+    });
+    return response
+}
+
+
 
 }

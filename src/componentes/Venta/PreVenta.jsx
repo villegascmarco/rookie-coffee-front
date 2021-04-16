@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import getVentas from '../../Peticiones/api_ventas'
+import getVentas from "../../Peticiones/api_ventas";
 import { useHistory } from "react-router-dom";
-import CargaPeticion from '../Carga/CargaPeticion.jsx'
+import CargaPeticion from "../Carga/CargaPeticion.jsx";
 
 const PreVenta = ({
   listaProductos,
@@ -9,10 +9,11 @@ const PreVenta = ({
   total,
   setListaProductos,
   setTotal,
-  token
+  token,
 }) => {
-
   const [cargando, setCargando] = useState(false);
+
+  const [ticket, setTicket] = useState(null);
 
   const history = useHistory();
 
@@ -21,19 +22,40 @@ const PreVenta = ({
       total: String(total),
       detalles: listaProductos,
     };
-    console.log(venta)
-    let response = await getVentas.agregarVenta(venta, token).then(setCargando(true))
+    console.log(venta);
+    let response = await getVentas
+      .agregarVenta(venta, token)
+      .then(setCargando(true));
     if (response.mensaje === "El token enviado es invalido") {
       setCargando(false);
       history.push(`/Login`);
       localStorage.clear();
       window.location.reload();
     } else {
-      setListaProductos([])
-      setTotal(0)
+      setListaProductos([]);
+      setTotal(0);
       setCargando(false);
+      setTicket(response.contenido);
     }
     // window.location.reload();
+  };
+
+  const printDiv = () => {
+    var divToPrint = document.getElementById("ticketVenta");
+
+    var newWin = window.open("", "Print-Window");
+
+    newWin.document.open();
+
+    newWin.document.write(
+      '<body onload="window.print()">' + divToPrint.innerHTML + "</body>"
+    );
+
+    newWin.document.close();
+
+    setTimeout(function () {
+      newWin.close();
+    }, 10);
   };
 
   return (
@@ -129,12 +151,94 @@ const PreVenta = ({
                   onClick={() => {
                     terminarVenta();
                   }}
+                  data-toggle="modal"
+                  data-target="#ticketVenta"
                   class="btn btn-success"
                 >
                   Confirmar
                   <i class="fa fa-check ml-2"></i>
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="modal fade"
+          id="ticketVenta"
+          tabindex="-1"
+          role="dialog"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3>Ticket de compra</h3>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div>
+                ¡Gracias por tu compra! ☕
+                <div className="table-responsive mb-5 mt-5">
+                  <table className="table">
+                    <thead>
+                      <th>Producto</th>
+                      <th>total</th>
+                    </thead>
+                    <tbody>
+                      {ticket == null ? (
+                        <span></span>
+                      ) : (
+                        ticket.detalle_venta.map((item) => (
+                          <tr>
+                            <td>{item.producto_nombre}</td>
+                            <td>
+                              ${item.cantidad * item.precio_historico} MXN
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+                {ticket == null ? (
+                  <span></span>
+                ) : (
+                  <div>
+                    <strong>TOTAL: </strong>
+                    ${ticket.total_venta} MXN
+                    <br />
+                    <strong>FECHA: </strong> {ticket.fecha} <br />
+                    <strong>VENTA REALIZADA POR: </strong> {ticket.usuario}
+                  </div>
+                )}
+              </div>
+              <div class="modal-footer">
+              <button
+                  type="button"
+                  class="btn btn-info"
+                  data-dismiss="modal"
+                  onClick={printDiv}
+                >
+                 <i class="fa fa-print"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                  onClick={() => setTicket(null)}
+                >
+                  Continuar
+                </button>
+                
+              </div>
+                
             </div>
           </div>
         </div>

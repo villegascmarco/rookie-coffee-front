@@ -45,22 +45,13 @@ const CardDetalle = ({ rol, setDisplay, token, roluser }) => {
   return (
     <div>
       <div className="card card_ts">
-        <div className="card-header">Detalle</div>
+        <div className="card-header">
+          Detalle
+          <button class="close" onClick={() => setDisplay(false)}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div class="card-body ">
-          {/*  INICIA INPUT DE ID  */}
-
-          <div className="form-group">
-            <label>ID ROL</label>
-            <input
-              id="clave"
-              type="number"
-              class="form-control "
-              placeholder="Clave Ingrediente"
-              value={id}
-              readOnly
-            />
-          </div>
-
           {/*  INICIA INPUT DE NOMBRE  */}
 
           <div className="form-group">
@@ -98,7 +89,7 @@ const CardDetalle = ({ rol, setDisplay, token, roluser }) => {
           </div>
 
           {/* INICIA BOTONES  */}
-          
+
           <div className="row text-center">
             <div className="col-md-6 col-sm-12">
               <button

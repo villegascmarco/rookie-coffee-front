@@ -13,6 +13,7 @@
     "animate.css": "^4.1.1",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "cloudinary-core": "^2.11.3",
     "font-awesome": "^4.7.0",
     "jquery": "^3.6.0",
     "react": "^17.0.1",
