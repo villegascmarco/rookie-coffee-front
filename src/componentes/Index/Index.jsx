@@ -18,7 +18,7 @@ const Index = () => {
       <div className="title_company">
         <h2 className="welcome">Bienvenido a</h2>
         <Wave
-          text="Rookie Coffe"
+          text="Rookie Coffee"
           effect="verticalFadeIn"
           effectChange={1}
           effectDirection="up"

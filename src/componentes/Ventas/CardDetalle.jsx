@@ -47,7 +47,12 @@ const CardDetalleP = ({ token, venta, setDisplay, rol }) => {
   return (
     <div>
       <div className="card card_ts">
-        <div className="card-header">Detalle</div>
+        <div className="card-header">
+          Detalle
+          <button class="close" onClick={() => setDisplay(false)}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div class="card-body ">
           {/*  INICIA INPUT DE USUARIO  */}
 

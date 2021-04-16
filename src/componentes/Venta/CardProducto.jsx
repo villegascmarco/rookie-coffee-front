@@ -10,7 +10,7 @@ const CardProducto = ({ producto, agregar }) => {
       <div class="wsk-cp-product">
         <div class="wsk-cp-img">
           <img
-            src="https://lh3.googleusercontent.com/proxy/IwIAFtJzcT8WFJxaLu-PmNE94IlIMGz6QkctTlpXQAoaukDCM33KymgJnPITiNUzWQnbAmKP4vFPm4U2igKAOgopIfAxsp09jn8RbLxLhn_qaA"
+            src={producto.foto}
             alt="Product"
             class="img-responsive"
           />

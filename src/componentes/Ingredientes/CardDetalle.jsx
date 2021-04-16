@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import ingredientes from "../../Peticiones/api_ingredientes";
-import '../estilos/CardDetalle.css'
+import "../estilos/CardDetalle.css";
 
-const CardDetalle = ({ingrediente, setDisplay, token}) => {
+const CardDetalle = ({ ingrediente, setDisplay, token }) => {
   const [modoEdicion, setModoedicion] = useState(false);
   const [id, setId] = useState(0);
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState(0);
   const [unidad, setUnidad] = useState("");
-  const [descripcion, setDescripcion] = useState("")
+  const [descripcion, setDescripcion] = useState("");
   const [estatus, setEstatus] = useState("");
 
   useEffect(() => {
@@ -24,38 +24,39 @@ const CardDetalle = ({ingrediente, setDisplay, token}) => {
     }
   }, [ingrediente]);
 
-  const eliminarIngrediente = async() => {
+  const eliminarIngrediente = async () => {
     let ingre = {
-        id:id
+      id: id,
     };
     let response = await ingredientes.eliminarIngrediente(ingre, token);
     setDisplay(false);
-};
+  };
 
-const modificarIngrediente = async() => {
-  let ingre = {
-      id:id,
-      nombre:nombre,
+  const modificarIngrediente = async () => {
+    let ingre = {
+      id: id,
+      nombre: nombre,
       descripcion: descripcion,
       cantidad_disponible: cantidad,
       unidad_medida: unidad,
       usuario: 1,
-      fecha_registro: ""
+      fecha_registro: "",
+    };
+    let response = await ingredientes.modificarIngrediente(ingre, token);
+    setDisplay(false);
   };
-  let response = await ingredientes.modificarIngrediente(ingre, token);
-  setDisplay(false);
-};
-
- 
 
   return (
     <div>
       <div className="card card_ts">
-        <div className="card-header">Detalle</div>
+        <div className="card-header">
+          Detalle
+          <button class="close" onClick={() => setDisplay(false)}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div class="card-body ">
           {/*  INICIA INPUT DE CLAVE  */}
-
-         
 
           {/*  INICIA INPUT DE NOMBRE  */}
 
@@ -119,15 +120,15 @@ const modificarIngrediente = async() => {
                 setUnidad(e.target.value);
               }}
             >
-                <option value="g">Gramos</option>
-                <option value="kg">Kilogramos</option>
-                <option value="l">Litros</option>
+              <option value="g">Gramos</option>
+              <option value="kg">Kilogramos</option>
+              <option value="l">Litros</option>
             </select>
           </div>
 
-                    {/*  INICIA INPUT DE ESTATUS  */}
+          {/*  INICIA INPUT DE ESTATUS  */}
 
-           <div className="form-group col-11">
+          <div className="form-group col-11">
             <label>Estado</label>
 
             <select
@@ -143,7 +144,6 @@ const modificarIngrediente = async() => {
               <option value="Inactivo">Inactivo</option>
             </select>
           </div>
-
 
           {/* INICIA BOTONES  */}
 

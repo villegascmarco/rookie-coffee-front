@@ -13,10 +13,10 @@ import Conocenos from './componentes/Index/Conocenos.jsx'
 
 
 //Rutas privadas
-import PrivateRoute from './componentes/RutasPrivadas/PrivateRoute.jsx'
 import PrivateRouteLogin from './componentes/RutasPrivadas/PrivateRouteLogin.jsx'
 import PrivateRouteAdmin from './componentes/RutasPrivadas/PrivateRouteAdmin.jsx'
 import PrivateRouteEmp from './componentes/RutasPrivadas/PrivateRouteEmp.jsx'
+import PrivateRouteVenta from './componentes/RutasPrivadas/PrivateRouteVenta.jsx'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/js/dist/modal'
@@ -59,7 +59,7 @@ function App() {
       <Switch>
 
 
-          <PrivateRouteEmp exact path="/Venta" component={Venta} tokenP={token} rol={rol} />
+          <PrivateRouteVenta exact path="/Venta" component={Venta} tokenP={token} rol={rol} />
           
           <PrivateRouteLogin path="/Login" component={Login} />
 

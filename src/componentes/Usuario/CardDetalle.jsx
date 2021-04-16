@@ -17,7 +17,7 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
   const [roles, setRoles] = useState([]);
 
   useEffect(() => {
-    debugger
+    debugger;
     if (usuario._id != null || usuario._id != undefined) {
       setId(usuario._id);
       setNombre(usuario.nombre);
@@ -71,22 +71,14 @@ const CardDetalle = ({ usuario, setDisplay, token }) => {
   return (
     <div>
       <div className="card card_ts">
-        <div className="card-header">Detalle</div>
+        <div className="card-header">
+          Detalle
+          <button class="close" onClick={() => setDisplay(false)}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div class="card-body ">
-          {/*  INICIA INPUT DE ID  */}
-
-          <div className="form-group">
-            <label>ID Usuario</label>
-            <input
-              id="clave"
-              type="number"
-              class="form-control "
-              placeholder="Clave Ingrediente"
-              value={id}
-              readOnly
-            />
-          </div>
-
+         
           {/*  INICIA INPUT DE NOMBRE  */}
 
           <div className="form-group">
