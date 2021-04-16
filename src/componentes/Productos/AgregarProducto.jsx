@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import Productos from "../../Peticiones/api_productos";
 
 const AgregarProducto = ({ingredientes , tokenP, setAgregado}) => {
@@ -14,22 +13,28 @@ const AgregarProducto = ({ingredientes , tokenP, setAgregado}) => {
   const [emailCE, setEmailCE] = useState(null);
 
   const [foto , setFoto] = useState("");
-
-
-  
-
-
-  
-  
+  const [publicId, setPublicId] = useState("");
 
   const agregarIngrediente = (e) => {
     const encontrar = addingredientes.filter((item) => item.ingrediente == id);
     if(encontrar == ""){
       var yourElement = document.getElementById("ingredientes");
       var nombre = yourElement.options[yourElement.selectedIndex].text;
+      let uni="";
+      if(nombre.includes("- kg")){
+        uni ="g"
+      }else if(nombre.includes("- l")){
+        uni ="ml"
+      }else if(nombre.includes("- ml")){
+        uni ="ml"
+      }else if(nombre.includes("- g")){
+        uni ="g"
+      }
+      
 
       let ingre1={
         cantidad_requerida:cantidad,
+        unidad:uni,
         nombre: nombre,
         ingrediente:id
       };
@@ -47,18 +52,15 @@ const AgregarProducto = ({ingredientes , tokenP, setAgregado}) => {
     setAddIngredientes(newArrary);
   };
 
-  const base64 = (e) =>{
-    if(e.target.files.length){
-      if(e.target.files[0].type == "image/png"  ){
-        let reader = new FileReader();
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onload = () => {
-           let bs64= reader.result;
-           setFoto(bs64);
-           
-         }
-      }
-    }
+  const base64 = async(e) =>{
+    const formData = new FormData();
+    formData.append("file",e.target.files[0] );
+    formData.append("upload_preset", "shhk904s");
+
+    let response = await Productos.upload(formData);
+    setPublicId(response.public_id);
+    setFoto(response.url)
+
 }
 
 
@@ -70,7 +72,7 @@ const AgregarProducto = ({ingredientes , tokenP, setAgregado}) => {
         descripcion:descripcion ,
         precio: precio,
         fecha_registro: "",
-        fot: foto,
+        foto:publicId,
         ingrediente_producto: addingredientes
     
     };
@@ -134,11 +136,7 @@ const AgregarProducto = ({ingredientes , tokenP, setAgregado}) => {
             <img src={foto} class="rounded float-start img-fluid"></img>
             </div>
             </div>
-            {emailCE != null ? (
-            <div className="alert alert-danger">{emailCE}</div>
-          ) : (
-            <span></span>
-          )}
+            
             <div className="row">
             <div class="form-group col-md-12">
               <label>Foto</label>
@@ -226,6 +224,7 @@ const AgregarProducto = ({ingredientes , tokenP, setAgregado}) => {
              <thead className="table_ingredientes">
                <th>Nombre</th>
                <th>Cant. Uso</th>
+               <th>Unidad</th>
                <th></th>
              </thead>
              <tbody>
@@ -233,6 +232,7 @@ const AgregarProducto = ({ingredientes , tokenP, setAgregado}) => {
                    <tr>
                      <td>{item.nombre}</td>
                      <td>{item.cantidad_requerida}</td>
+                     <td>{item.unidad}</td>
                      <td><button className="btn btn-danger" onClick={() => {
                         borrarIngredienteProducto(item.ingrediente);
                       }}><i class="fa fa-minus-circle"></i></button></td>

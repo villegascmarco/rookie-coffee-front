@@ -46,6 +46,16 @@ const CardDetalle = ({ ingrediente, setDisplay, token }) => {
     setDisplay(false);
   };
 
+
+
+
+const activarIngrediente = async (id) => {
+  let response = await ingredientes.activarIngrediente(id, token);
+  setDisplay(false);
+};
+
+ 
+
   return (
     <div>
       <div className="card card_ts">
@@ -126,24 +136,7 @@ const CardDetalle = ({ ingrediente, setDisplay, token }) => {
             </select>
           </div>
 
-          {/*  INICIA INPUT DE ESTATUS  */}
-
-          <div className="form-group col-11">
-            <label>Estado</label>
-
-            <select
-              name="estado"
-              class="form-control"
-              value={estatus}
-              onChange={(e) => {
-                setEstatus(e.target.value);
-              }}
-            >
-              <option>Elegir...</option>
-              <option value="Activo">Activo</option>
-              <option value="Inactivo">Inactivo</option>
-            </select>
-          </div>
+           
 
           {/* INICIA BOTONES  */}
 
@@ -160,14 +153,22 @@ const CardDetalle = ({ ingrediente, setDisplay, token }) => {
             </div>
             <div className="col-md-6 col-sm-12">
               <button
-                className="btn btn-danger"
+                 className={
+                  estatus == "Activo" ? "btn btn-danger" : "btn btn-success"
+                }
                 data-toggle="modal"
-                data-target="#eliminarModal"
+                data-target={
+                  estatus == "Activo" ? "#eliminarModal" : "#activarModal"
+                }
                 value="true"
               >
-                Eliminar
-                <i class="fa fa-minus-circle ml-2"></i>
-              </button>
+                {estatus == "Activo" ? "Desactivar" : "Activar"}
+                {estatus == "Activo" ? (
+                  <i class="fa fa-minus-circle ml-2"></i>
+                ) : (
+                  <i class="fa fa-check-circle ml-2"></i>
+                )}
+                 </button>
             </div>
           </div>
 
@@ -210,6 +211,51 @@ const CardDetalle = ({ ingrediente, setDisplay, token }) => {
                   >
                     Eliminar
                     <i class="fa fa-minus-circle ml-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div
+            class="modal fade"
+            id="activarModal"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4> ¿Desea confirmar la Activacion?</h4>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      activarIngrediente(id);
+                    }}
+                    data-dismiss="modal"
+                    className="btn btn-success"
+                  >
+                    Activar
+                    <i class="fa fa-check-circle ml-2"></i>
                   </button>
                 </div>
               </div>
