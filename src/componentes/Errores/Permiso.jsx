@@ -1,16 +1,26 @@
 import React from "react";
-import Server from '../../res/server.svg'
+import Server from '../../res/permiso.svg'
 import "../estilos/Error.css";
 
 const Permiso = () => {
   return (
-    <div className="text-center error-msj">
-        <h1 className="title">Oops...</h1>
+    
+    <div className="text-center ">
+      <div className="error-msj">
+       <div className="title">
+       <section class="error-container">
+              <span>O</span>
+              <span><span class="screen-reader-text"></span></span>
+              <span>p</span>
+              <span className="rotar">s</span>
+              <span className="rotar">!</span>
+        </section> 
+         </div> 
       <img src={Server} alt="error" className = "error-img"/>
       <h2 className="msj">
-        Al parecer no cuentas con los permisos necesarios para acceder a esta
-        ubicación por favor ponte en contacto con el administrador
+      Intenta iniciar sesión, si persiste el error ponte en contacto con el administrador. 
       </h2>
+    </div>
     </div>
   );
 };

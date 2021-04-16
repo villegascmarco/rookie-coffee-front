@@ -14,13 +14,12 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
 
   const [emailCE, setEmailCE] = useState(null);
 
-  const [unidad, setUnidad] = useState("");
-
-  const [ingrePro, setIngrePro] = useState({});
-  const [cantIngre, setCantIngrediente] = useState(0);
-  const [nombrei, setNombreI] = useState("");
 
   const [estatus, setEstatus] = useState("");
+  const [foto, setFoto] = useState("");
+
+  const [publicId, setPublicId] = useState("");
+
   
   
 
@@ -31,6 +30,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
       setDescripcion(producto.descripcion);
       setEstatus(producto.estatus);
       setPrecio(producto.precio);
+      setFoto(producto.foto);
       let ingrs = [];
       producto.ingrediente_producto.forEach(element => {
         let ing={
@@ -66,27 +66,23 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
   };
   
   
-  const eliminarIngreProd =  () => {
-    if (ingrePro._id != null){
-      let ingrem={
-        _id : ingrePro._id,//id de detalle
-        cantidad_requerida : ingrePro.cantidad_requerida,
-        estatus : "Inactivo",
-        fecha_registro: "",
-        nombre: ingrePro.nombre,
-        id_ingrediente : ingrePro.id_ingrediente, //id del ingrediente
-        producto: ingrePro.producto
-      };
-      const encontrar = ingredientesP.filter((item) => item._id !== ingrePro._id );
-      setIngredientesP([...encontrar,ingrem]);
-    }else{
-      const encontrar = ingredientesP.filter((item) => item.id_ingrediente !== ingrePro.id_ingrediente );
+  const eliminarIngreProd =  (e) => {
+      const encontrar = ingredientesP.filter((item) => item.ingrediente !== e.ingrediente );
       setIngredientesP([...encontrar]);
-
-    };
-    // Llamar a la api de eliminar
+      
     
   };
+
+  const base64 = async(e) =>{
+    const formData = new FormData();
+    formData.append("file",e.target.files[0] );
+    formData.append("upload_preset", "shhk904s");
+
+    let response = await apiProducto.upload(formData);
+    setPublicId(response.public_id);
+
+}
+
   const modificarProducto = async() => {
     let produ={
       _id:id,
@@ -94,6 +90,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
       descripcion:descripcion ,
       precio: precio,
       fecha_registro:"",
+      foto:publicId,
       ingrediente_producto: ingredientesP
   
   };
@@ -102,25 +99,9 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
   };
 
   
-  const modificarIngreProd = () => {
-    let ingrem={
-      _id : ingrePro._id,//id de detalle
-      cantidad_requerida : cantIngre,
-      estatus : "Activo",
-      fecha_registro: "",
-      ingrediente : ingrePro.id_ingrediente,
-      nombre: ingrePro.nombre, //id del ingrediente
-      producto: ingrePro.producto
-    };
-    const encontrar = ingredientesP.filter((item) => item._id !== ingrePro._id );
-    
-    setIngredientesP([...encontrar, ingrem]);
-    
-    
-  };
 
   const activarProducto = async (id) => {
-    let response = await ingredientesP.activarProducto(id, tokenP);
+    let response = await apiProducto.activarProducto(id, tokenP);
     setDisplay(false);
   };
 
@@ -130,32 +111,38 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
     if(encontrar == ""){
       var yourElement = document.getElementById("ingredientesc");
     var nombre = yourElement.options[yourElement.selectedIndex].text;
+    let uni="";
+      if(nombre.includes("- kg")){
+        uni ="g"
+      }else if(nombre.includes("- l")){
+        uni ="ml"
+      }else if(nombre.includes("- ml")){
+        uni ="ml"
+      }else if(nombre.includes("- g")){
+        uni ="g"
+      }
 
     let ingre1={
       cantidad_requerida: Number.parseFloat(cantidad),
-      estatus : "Activo",
       nombre: nombre,
-      ingrediente: parseInt(idIngrediente, 10),
-      producto: id
+      ingrediente: parseInt(idIngrediente),
+      producto: id,
+      unidad:uni
      };
      setIngredientesP([...ingredientesP, ingre1]);
       setEmailCE(null);
     }else{
-      setEmailCE("Ya existe este ingrediente en este producto");
+      setEmailCE("Ya existe este ingrediente en este producto, si desea aumentar la cantidad elimine el ingrediente de la lista y vuelva agregar");
     }
     
     
   };
-  const asignarDTI = (item) =>{
-    setNombreI(item.nombre);
-    setCantIngrediente(item.cantidad_requerida);
-    setIngrePro(item);
-  };
+
 
   
 
   return (
-    <div>
+    <div id="detalleP">
       <div className="card card_ts">
         <div className="card-header">Detalle</div>
         <div class="card-body ">
@@ -214,12 +201,31 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
             </div>
             </div>
             </div>
-          
-          
 
+            <div className="row">
+            <div class="form-group col-md-5">
+            <label>Visualización  de foto</label>
+            <img src={foto} width="100px" class=""></img>
+            </div>
+            </div>
+
+            <div className="row">
+            <div class="form-group col-md-12">
+              <label>Foto</label>
+              <input
+                type="file"
+                accept="image/jpg"
+                name="Foto"
+                class="form-group  "
+                onChange={(e) => {
+                  base64(e);
+                }}
+              />
+            </div>
+            </div>
           {/*  INICIA select  DE ingredientes  */}
           <div className="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-7">
               <label>Ingrediente</label>
               <select
                 name="ingredientesc"
@@ -275,21 +281,22 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
              <thead className="table_ingredientes">
                <th>Nombre</th>
                <th>Cant. Uso</th>
+               <th>Unidad</th>
                <th></th>
              </thead>
              <tbody> 
              {ingredientesP != null ? (
              ingredientesP.map((item) => (
-                   <tr   className={
+                   <tr  key={item.ingrediente} className={
                     item.estatus == "Inactivo" ? "text-black-50" : null
                   }>
                      <td>{item.nombre}</td>
                      <td>{item.cantidad_requerida}</td>
-                     <td><button className="btn btn-light" onClick={() => {
-                       asignarDTI(item);
-                     
+                     <td>{item.unidad}</td>
+                     <td><button className="btn btn-danger" onClick={() => {
+                       eliminarIngreProd(item);
                     }}>
-                     <i class="fa fa-eye "></i></button></td>
+                     <i class="fa fa-minus-circle"></i></button></td>
                    </tr>
                           ))) : (<span></span>)
                           }  
@@ -327,16 +334,6 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
                 ) : (
                   <i class="fa fa-check-circle ml-2"></i>
                 )}
-              </button>
-              
-              <button
-                className="btn btn-danger"
-                data-toggle="modal"
-                data-target="#eliminarModal"
-                value="true"
-              >
-                Desactivar
-                <i class="fa fa-minus-circle ml-2"></i>
               </button>
             </div>
           </div>

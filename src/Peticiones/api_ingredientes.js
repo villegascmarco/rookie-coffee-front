@@ -1,8 +1,6 @@
-import axios from 'axios';
-export default class Ingredientes {
-    constructor() {
 
-    }
+export default class Ingredientes {
+    
  static mostrarIngredientes(token) {
     
     let response = fetch(
@@ -87,6 +85,25 @@ static eliminarIngrediente(ingrediente, token) {
     ).then((response) => {
         if (response.ok) {
             console.log(response)
+            return response.json();
+        }
+    });
+    return response
+}
+static activarIngrediente(id, token) { 
+    let response = fetch(
+        "http://glassware.pythonanywhere.com/ingrediente/reactivar", {
+            method: "POST",
+            headers: new Headers({
+                "x-access-tokens": token,
+                "Content-Type": "application/json",
+            }),
+            body: JSON.stringify({
+                _id: id
+            })
+        }
+    ).then((response) => {
+        if (response.ok) {
             return response.json();
         }
     });
