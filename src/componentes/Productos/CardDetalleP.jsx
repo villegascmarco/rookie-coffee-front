@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import apiProducto from "../../Peticiones/api_productos";
-import "../estilos/CardDetalle.css";
+import '../estilos/CardDetalle.css'
 
-const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP }) => {
+const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
   const [id, setId] = useState(0);
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -32,18 +32,19 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP }) => {
       setPrecio(producto.precio);
       setFoto(producto.foto);
       let ingrs = [];
-      producto.ingrediente_producto.forEach((element) => {
-        let ing = {
+      producto.ingrediente_producto.forEach(element => {
+        let ing={
           _id: element._id,
           cantidad_requerida: element.cantidad_requerida,
-          estatus: element.estatus,
+          estatus:element.estatus,
           fecha_registro: element.fecha_registro,
           ingrediente: element.ingrediente[0]._id,
-          nombre: element.ingrediente[0].ingrediente,
+          nombre:element.ingrediente[0].ingrediente,
           producto: element.producto,
-          usuario: element.usuario,
-        };
-        ingrs.push(ing);
+          usuario: element.usuario
+              };
+              ingrs.push(ing);  
+        
       });
       setIngredientesP(ingrs);
       setEmailCE(null);
@@ -52,12 +53,15 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP }) => {
     }
   }, [producto]);
 
-  const eliminarProducto = async (id) => {
+
+  
+
+  const eliminarProducto =  async(id) => {
     // Llamar a la api de eliminar
     let produ = {
-      id: id,
-    };
-    let response = await apiProducto.eliminarProducto(produ, tokenP);
+      id:id
+  };
+  let response = await apiProducto.eliminarProducto(produ, tokenP);
     setDisplay(false);
   };
   
@@ -83,7 +87,7 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP }) => {
     let produ={
       _id:id,
       nombre: nombre,
-      descripcion: descripcion,
+      descripcion:descripcion ,
       precio: precio,
       fecha_registro:"",
       foto:publicId,
@@ -101,11 +105,10 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP }) => {
     setDisplay(false);
   };
 
+  
   const agregarIngrediente = (e) => {
-    const encontrar = ingredientesP.filter(
-      (item) => item.ingrediente == idIngrediente
-    );
-    if (encontrar == "") {
+    const encontrar = ingredientesP.filter((item) => item.ingrediente == idIngrediente);
+    if(encontrar == ""){
       var yourElement = document.getElementById("ingredientesc");
     var nombre = yourElement.options[yourElement.selectedIndex].text;
     let uni="";
@@ -131,19 +134,20 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP }) => {
     }else{
       setEmailCE("Ya existe este ingrediente en este producto, si desea aumentar la cantidad elimine el ingrediente de la lista y vuelva agregar");
     }
+    
+    
   };
+
+
+  
 
   return (
     <div id="detalleP">
       <div className="card card_ts">
-        <div className="card-header">
-          Detalle
-          <button class="close" onClick={() => setDisplay(false)}>
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+        <div className="card-header">Detalle</div>
         <div class="card-body ">
           {/*  INICIA INPUT DE CLAVE  */}
+
 
           {/*  INICIA INPUT DE NOMBRE  */}
 
@@ -159,12 +163,13 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP }) => {
               name="nombre"
               class="form-control "
               placeholder="Nombre"
-              value={nombre}
-              required
+              value={nombre} required
             />
           </div>
 
-          {/*  INICIA INPUT DE DESCRIPCION  */}
+         
+
+               {/*  INICIA INPUT DE DESCRIPCION  */}
           <div className="form-group">
             <label>Descripción</label>
 
@@ -181,27 +186,20 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP }) => {
             />
           </div>
 
-          {/*  INICIA INPUT DE PRECIO  */}
-          <div className="row">
+           {/*  INICIA INPUT DE PRECIO  */}
+           <div className="row">
             <div class="form-group col-md-10">
-              <label>Precio</label>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1">
-                    $
-                  </span>
-                </div>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Precio"
-                  onChange={(e) => {
-                    setPrecio(e.target.value);
-                  }}
-                  min="0"
-                  value={precio}
-                />
-              </div>
+            <label>Precio</label>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+           <span class="input-group-text" id="basic-addon1">$</span>
+          </div>
+          <input type="number" class="form-control" placeholder="Precio" onChange={(e) => {
+                  setPrecio(e.target.value)
+                }}
+                min="0" value={precio}/>
+            </div>
+            </div>
             </div>
 
             <div className="row">
@@ -240,92 +238,42 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP }) => {
                 }}
               >
                 <option selected>Elegir...</option>
-                {ingredientes != null ? (
-                  ingredientes
-                    .filter((item) => item.estatus == "Activo")
-                    .map((item) => (
-                      <option value={item._id}>
-                        {item.nombre} - {item.unidad_medida}
-                      </option>
-                    ))
-                ) : (
-                  <span></span>
-                )}
-              </select>
-            </div>
-          </div>
+                {ingredientes != null ?(
+                ingredientes.filter((item) => 
+                  item.estatus == "Activo").map((item) => (
+                   <option value={item._id}>{item.nombre} - {item.unidad_medida}</option>
 
+                          ))) : (<span></span>)} 
+              </select>
+              
+            </div>
+            </div>
+            
           {/*  INICIA select  DE CANTIDAD  */}
-          <label>Cantidad</label>
-          <div class="form-inline">
-            <small id="emailHelp" class="form-text text-muted">
-              Se registrará en gramos g o mililitros ml
-            </small>
+          <label >Cantidad</label>
+            <div class="form-inline">
+            <small id="emailHelp" class="form-text text-muted">Se registrará  en gramos  g o mililitros ml</small>
             <input
-              type="number"
-              name="cantidad"
-              className="form-control  mr-sm-2"
-              onChange={(e) => {
-                setCantidad(e.target.value);
-              }}
-              min="0"
-            />
-            <button
-              class="btn btn-outline-success my-2 my-sm-0"
-              type=""
-              onClick={() => {
-                agregarIngrediente();
-              }}
-            >
-              <i class="fa fa-plus"></i>
-            </button>
-          </div>
-          <br />
-          {/*  INICIA ALERTA  */}
-          {emailCE != null ? (
+                type="number"
+                name="cantidad"
+                className="form-control  mr-sm-2"
+                onChange={(e) => {
+                  setCantidad(e.target.value);
+                }}
+                min="0"
+              />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="" onClick={() => {
+                      agregarIngrediente();
+                    }} ><i class="fa fa-plus"></i></button>
+           </div>
+           <br />
+            {/*  INICIA ALERTA  */}
+           {emailCE != null ? (
             <div className="alert alert-danger">{emailCE}</div>
           ) : (
             <span></span>
           )}
-          <br />
-
-          {/*  INICIA TABLA INGREDINETE PRODUCTO  */}
-          <div className="table-responsive">
-            <table className="table">
-              <thead className="table_ingredientes">
-                <th>Nombre</th>
-                <th>Cant. Uso</th>
-                <th></th>
-              </thead>
-              <tbody>
-                {ingredientesP != null ? (
-                  ingredientesP.map((item) => (
-                    <tr
-                      className={
-                        item.estatus == "Inactivo" ? "text-black-50" : null
-                      }
-                    >
-                      <td>{item.nombre}</td>
-                      <td>{item.cantidad_requerida}</td>
-                      <td>
-                        <button
-                          className="btn btn-light"
-                          onClick={() => {
-                            asignarDTI(item);
-                          }}
-                        >
-                          <i class="fa fa-eye "></i>
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <span></span>
-                )}
-              </tbody>
-            </table>
-          </div>
-          {/*  TERMINA TABLA INGREDIENTE PRODUCTO */}
+            <br />
 
              {/*  INICIA TABLA INGREDINETE PRODUCTO  */}
            <div className="table-responsive">
@@ -370,7 +318,7 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP }) => {
               </button>
             </div>
             <div className="col-md-6 col-sm-12">
-              <button
+            <button
                 className={
                   estatus == "Activo" ? "btn btn-danger" : "btn btn-success"
                 }
@@ -479,6 +427,7 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP }) => {
             </div>
           </div>
 
+
           {/* INICIA MODAL MODIFICAR */}
 
           <div
@@ -527,8 +476,14 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP }) => {
         </div>{" "}
       </div>
       <br></br>
+      
+      
     </div>
-    </div>
+
+    
+
+
+
   );
 };
 
