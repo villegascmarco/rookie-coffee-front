@@ -96,6 +96,7 @@ const AgregarIngrediente = ({token, setAgregado}) => {
                 <option value="g">Gramos</option>
                 <option value="kg">Kilogramos</option>
                 <option value="l">Litros</option>
+                <option value="ml">Mililitros</option>
               </select>
             </div>
           </div>

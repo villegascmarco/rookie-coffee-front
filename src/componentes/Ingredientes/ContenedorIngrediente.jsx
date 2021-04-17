@@ -5,17 +5,17 @@ import TituloPagina from "../TituloPagina/TituloPagina.jsx";
 import AgregarIngrediente from "../Ingredientes/AgregarIngrediente.jsx";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
-import CargaPeticion from '../Carga/CargaPeticion.jsx'
+import CargaPeticion from "../Carga/CargaPeticion.jsx";
 
 import "../estilos/ContenedorIngrediente.css";
 
 import CardDetalle from "./CardDetalle.jsx";
 
-const ContenedorCards = ({ tokenP }) => {
+const ContenedorCards = ({ tokenP, rol }) => {
   const [ingredientes, setIngredientes] = useState([]);
   const [ingrediente, setIngrediente] = useState({});
   const [display, setDisplay] = useState(false);
-  const [bkup , setBkup] = useState([]);
+  const [bkup, setBkup] = useState([]);
   const [agregado, setAgregado] = useState(false);
 
   const [state, setState] = useState({
@@ -30,32 +30,31 @@ const ContenedorCards = ({ tokenP }) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-  
   const obtenerIngredientes = async (token) => {
-    let response = await Ingredientes.mostrarIngredientes(token).then(setCargando(true));
-    if (response.mensaje === "El token enviado es invalido" ||
-        response.mensaje === "El token enviado ha caducado") {
+    let response = await Ingredientes.mostrarIngredientes(token).then(
+      setCargando(true)
+    );
+    if (
+      response.mensaje === "El token enviado es invalido" ||
+      response.mensaje === "El token enviado ha caducado"
+    ) {
       setCargando(false);
       history.push(`/Login`);
       localStorage.clear();
       window.location.reload();
-      
-      
     } else {
       setIngredientes(response);
-      setBkup(response)
+      setBkup(response);
       setCargando(false);
-      
     }
-    
   };
 
   const seleccionarIngrediente = (ingrediente) => {
     setIngrediente(ingrediente);
   };
-  
+
   const filtrarElementos = (texto) => {
-    texto= texto.toLowerCase()
+    texto = texto.toLowerCase();
     let search = ingredientes.filter(
       (ingrediente) =>
         ingrediente.nombre.toLowerCase().includes(texto) ||
@@ -69,9 +68,6 @@ const ContenedorCards = ({ tokenP }) => {
       setIngredientes(search);
     }
   };
-  
-
-  
 
   useEffect(() => {
     obtenerIngredientes(tokenP);
@@ -87,18 +83,20 @@ const ContenedorCards = ({ tokenP }) => {
       <TituloPagina titulo="Ingredientes" />
       <div className="row">
         <div className="col-10"></div>
-        <div className="col-2">
-          <button
-            type="button"
-            class="btn btn-success"
-            data-toggle="modal"
-            data-target="#agregar"
-            value="true"
-          >
-            Agregar
-            <i class="fa fa-plus-square ml-2"></i>
-          </button>
-        </div>
+        {rol == "Admin" ? null : (
+          <div className="col-2">
+            <button
+              type="button"
+              class="btn btn-success"
+              data-toggle="modal"
+              data-target="#agregar"
+              value="true"
+            >
+              Agregar
+              <i class="fa fa-plus-square ml-2"></i>
+            </button>
+          </div>
+        )}
       </div>
 
       <br />
@@ -128,15 +126,15 @@ const ContenedorCards = ({ tokenP }) => {
                 </div>
                 <div className="col-6">
                   <div className="d-flex flex-row-reverse mr-4">
-                  <input
-                    type="text"
-                    name="busqueda"
-                    className="form-control mt-3 col-6"
-                    placeholder="Busqueda"
-                    onChange={(e) => {
-                      filtrarElementos(e.target.value);
-                    }}
-                  />
+                    <input
+                      type="text"
+                      name="busqueda"
+                      className="form-control mt-3 col-6"
+                      placeholder="Busqueda"
+                      onChange={(e) => {
+                        filtrarElementos(e.target.value);
+                      }}
+                    />
                   </div>
                 </div>
               </div>
@@ -152,34 +150,38 @@ const ContenedorCards = ({ tokenP }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {ingredientes.filter((item) =>
+                      {ingredientes
+                        .filter((item) =>
                           state.estado == true
                             ? item.estatus == "Inactivo"
                             : item.estatus == "Activo"
-                        ).map((item) => (
-                        <tr
-                          key={item.id}
-                          className={
-                            item.estatus == "Inactivo" ? "text-black-50" : null
-                          }
-                        >
-                          <td>{item.nombre}</td>
-                          <td>{item.cantidad_disponible}</td>
-                          <td>{item.unidad_medida.toUpperCase()}</td>
-                          <td>
-                            <button
-                              className="btn btn-light"
-                              onClick={() => {
-                                seleccionarIngrediente(item);
-                                setDisplay(true);
-                              }}
-                            >
-                              Detalle
-                              <i class="fa fa-eye ml-2"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
+                        )
+                        .map((item) => (
+                          <tr
+                            key={item.id}
+                            className={
+                              item.estatus == "Inactivo"
+                                ? "text-black-50"
+                                : null
+                            }
+                          >
+                            <td>{item.nombre}</td>
+                            <td>{item.cantidad_disponible}</td>
+                            <td>{item.unidad_medida.toUpperCase()}</td>
+                            <td>
+                              <button
+                                className="btn btn-light"
+                                onClick={() => {
+                                  seleccionarIngrediente(item);
+                                  setDisplay(true);
+                                }}
+                              >
+                                Detalle
+                                <i class="fa fa-eye ml-2"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>
@@ -192,7 +194,8 @@ const ContenedorCards = ({ tokenP }) => {
             ingrediente={ingrediente}
             display={display}
             setDisplay={setDisplay}
-            token={tokenP} 
+            token={tokenP}
+            rol={rol}
           />
         </div>
       </div>
@@ -204,7 +207,7 @@ const ContenedorCards = ({ tokenP }) => {
         role="dialog"
         aria-hidden="true"
       >
-        <AgregarIngrediente  token={tokenP} setAgregado={setAgregado}/>
+        <AgregarIngrediente token={tokenP} setAgregado={setAgregado} />
       </div>
       <CargaPeticion cargando={cargando} />
     </div>

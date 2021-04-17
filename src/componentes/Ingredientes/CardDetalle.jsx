@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ingredientes from "../../Peticiones/api_ingredientes";
 import "../estilos/CardDetalle.css";
 
-const CardDetalle = ({ ingrediente, setDisplay, token }) => {
+const CardDetalle = ({ ingrediente, setDisplay, token, rol }) => {
   const [modoEdicion, setModoedicion] = useState(false);
   const [id, setId] = useState(0);
   const [nombre, setNombre] = useState("");
@@ -139,7 +139,10 @@ const activarIngrediente = async (id) => {
            
 
           {/* INICIA BOTONES  */}
-
+          
+          {
+            rol == "Admin" ? null :
+          
           <div className="row text-center">
             <div className="col-md-6 col-sm-12">
               <button
@@ -171,6 +174,8 @@ const activarIngrediente = async (id) => {
                  </button>
             </div>
           </div>
+
+          }
 
           {/* INICIAN MODALS  */}
           <div

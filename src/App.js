@@ -63,9 +63,9 @@ function App() {
           
           <PrivateRouteLogin path="/Login" component={Login} />
 
-          <PrivateRouteEmp path="/Productos" component={ContenedorProducto} tokenP={token} />
+          <PrivateRouteEmp path="/Productos" component={ContenedorProducto} tokenP={token} rol={rol} />
           
-          <PrivateRouteEmp path="/Ingredientes" component={ContenedorIngrediente} tokenP={token} />
+          <PrivateRouteEmp path="/Ingredientes" component={ContenedorIngrediente} tokenP={token} rol={rol} />
 
           <PrivateRouteEmp path="/Ventas" component={ContenedorVentas} tokenP={token} rol={rol} />
 
