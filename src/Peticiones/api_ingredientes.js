@@ -56,7 +56,7 @@ static modificarIngrediente(ingrediente, token) {
                 _id:ingrediente.id,
                 nombre: ingrediente.nombre,
                 descripcion: ingrediente.descripcion,
-                cantidad_disponible: parseInt(ingrediente.cantidad_disponible),
+                cantidad_disponible: parseFloat(ingrediente.cantidad_disponible),
                 unidad_medida: ingrediente.unidad_medida,
                 usuario: ingrediente.usuario,
                 fecha_registro: ingrediente.fecha_registro
