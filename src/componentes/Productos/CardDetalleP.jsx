@@ -31,6 +31,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
       setEstatus(producto.estatus);
       setPrecio(producto.precio);
       setFoto(producto.foto);
+      setPublicId(producto.foto.substring(61,81))
       let ingrs = [];
       producto.ingrediente_producto.forEach(element => {
         let ing={
