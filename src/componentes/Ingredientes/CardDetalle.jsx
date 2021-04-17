@@ -11,6 +11,8 @@ const CardDetalle = ({ingrediente, setDisplay, token}) => {
   const [descripcion, setDescripcion] = useState("")
   const [estatus, setEstatus] = useState("");
 
+  const [emailCE, setEmailCE] = useState(null);
+
   useEffect(() => {
     if (ingrediente._id != null || ingrediente._id != undefined) {
       setId(ingrediente._id);
@@ -104,7 +106,12 @@ const activarIngrediente = async (id) => {
             <input
               type="number"
               onChange={(e) => {
-                setCantidad(e.target.value);
+                if(e.target.value>0){
+                  setCantidad(e.target.value)
+                  setEmailCE(null);
+                }else{
+                  setEmailCE("Introduce una cantidad mayor");
+                }
               }}
               id="cantidad"
               class="form-control "
@@ -113,6 +120,11 @@ const activarIngrediente = async (id) => {
               value={cantidad}
             />
           </div>
+          {emailCE != null ? (
+            <div className="alert alert-danger">{emailCE}</div>
+          ) : (
+            <span></span>
+          )}
 
           <div className="form-group col-11">
             <label>Unidad</label>
@@ -123,7 +135,7 @@ const activarIngrediente = async (id) => {
               onChange={(e) => {
                 setUnidad(e.target.value);
               }}
-            >
+            >   <option value="ml">Mililitros</option>
                 <option value="g">Gramos</option>
                 <option value="kg">Kilogramos</option>
                 <option value="l">Litros</option>

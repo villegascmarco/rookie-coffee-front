@@ -18,6 +18,8 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
   const [estatus, setEstatus] = useState("");
   const [foto, setFoto] = useState("");
 
+
+
   const [publicId, setPublicId] = useState("");
 
   
@@ -31,6 +33,7 @@ const CardDetalleP = ({producto, setDisplay, ingredientes, tokenP}) => {
       setEstatus(producto.estatus);
       setPrecio(producto.precio);
       setFoto(producto.foto);
+      setPublicId(producto.foto.substring(61,81))
       let ingrs = [];
       producto.ingrediente_producto.forEach(element => {
         let ing={

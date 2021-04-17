@@ -8,6 +8,8 @@ const AgregarIngrediente = ({token, setAgregado}) => {
   const [cantidad, setCantidad] = useState(0);
   const [unidad, setUnidad] = useState("")
   const [descripcion, setDescripcion] = useState("")
+
+  const [emailCE, setEmailCE] = useState(null);
   
 
 
@@ -62,11 +64,21 @@ const AgregarIngrediente = ({token, setAgregado}) => {
                 name="cantidad"
                 class="form-control "
                 onChange={(e) => {
-                  setCantidad(e.target.value)
+                  if(e.target.value>0){
+                    setCantidad(e.target.value)
+                    setEmailCE(null);
+                  }else{
+                    setEmailCE("Introduce una cantidad mayor");
+                  }
                 }}
                 min="0"
               />
             </div>
+            {emailCE != null ? (
+            <div className="alert alert-danger">{emailCE}</div>
+          ) : (
+            <span></span>
+          )}
 
             <div class="form-group col-md-12">
               <label>Descripción del ingrediente</label>
@@ -93,6 +105,7 @@ const AgregarIngrediente = ({token, setAgregado}) => {
                 }}
               >
                 <option selected>Elegir...</option>
+                <option value="ml">Mililitros</option>
                 <option value="g">Gramos</option>
                 <option value="kg">Kilogramos</option>
                 <option value="l">Litros</option>
