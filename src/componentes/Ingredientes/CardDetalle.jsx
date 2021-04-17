@@ -113,10 +113,11 @@ const activarIngrediente = async (id) => {
               type="number"
               onChange={(e) => {
                 if(e.target.value>0){
-                  setCantidad(e.target.value)
+                  setCantidad(e.target.value);
                   setEmailCE(null);
                 }else{
                   setEmailCE("Introduce una cantidad mayor");
+                  setCantidad(1);
                 }
               }}
               id="cantidad"

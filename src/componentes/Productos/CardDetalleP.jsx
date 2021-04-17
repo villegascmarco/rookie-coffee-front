@@ -187,12 +187,19 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP, rol }) => {
                   class="form-control"
                   placeholder="Precio"
                   onChange={(e) => {
-                    setPrecio(e.target.value);
-                  }}
+                    if(e.target.value>0){
+                     setPrecio(e.target.value);
+                     setEmailCE(null);
+                   }else{
+                     setEmailCE("Introduce un precio mayor");
+                     setPrecio(1);
+                   }
+                 }}
                   min="0"
                   value={precio}
                 />
               </div>
+
             </div>
           </div>
 
@@ -258,7 +265,13 @@ const CardDetalleP = ({ producto, setDisplay, ingredientes, tokenP, rol }) => {
               name="cantidad"
               className="form-control  mr-sm-2"
               onChange={(e) => {
-                setCantidad(e.target.value);
+                if(e.target.value>0){
+                  setCantidad(e.target.value);
+                  setEmailCE(null);
+                }else{
+                  setEmailCE("Introduce una cantidad mayor");
+                  setCantidad(1);
+                }
               }}
               min="0"
             />
