@@ -116,12 +116,10 @@ const Venta = ({ tokenP }) => {
       <div className="todo_container">
         <div className="productos_container">
           {productos.filter((producto)=> producto.estatus == "Activo").map((producto) => (
-            <ScrollAnimation animateIn="fadeIn" animateOnce={true}>
               <CardProducto
                 producto={producto}
                 agregar={agregarProductoVenta}
               />
-            </ScrollAnimation>
           ))}
         </div>
       </div>
